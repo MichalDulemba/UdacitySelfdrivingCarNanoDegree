@@ -2,10 +2,13 @@
 
 **Finding Lane Lines on the Road**
 
-Yellow  
+Movies with working algorithms:
+
+Yellow  (without and with temporal smooting)
 https://vimeo.com/219801348  
 https://vimeo.com/219801360  
 
+White   (without and with temporal smooting)
 https://vimeo.com/219801499  
 https://vimeo.com/219801342  
 
@@ -21,7 +24,7 @@ My pipeline consisted of 5 steps.
 5) Finding lines with HoughLinesP function
 
 You can see it using   
-![jpg pipeline](single image pipeline.ipynb)
+![jpg pipeline](single_image_pipeline.ipynb)
 
 
 ### 2. Calculations
@@ -50,15 +53,18 @@ I calculated for x,y beginning and end of each line using formulat y=slope*x + i
 I added "fake" point at the bottom of image to extend lines to the border of image 
 even if detected line wasn't that long.
 
+8) Temporal calculations
+I calculate moving average based on up to 10 frames (i don't use "future" values, only "past").
 
 ### 2. Potential shortcomings 
 
 I think there are two main shortcoming of this algorithm
-- It would work poorly if there are any cars in front of me. 
+- It would work poorly if there are any cars in front of camera. 
 - It wouldn't work at all, on regular roads (not highways) with much tighter curves 
-(Polyfit would need to be changed to allow creating curvy lines).
+(Polyfit would need to be changed to allow creating curved lines).
 
 
 ### 3. Possible improvements to your pipeline
 
 Potential improvement could be to set upper boundary to make line even more stable. 
+Another idea would be to add higher level polyfit to make lines curved at the end.
