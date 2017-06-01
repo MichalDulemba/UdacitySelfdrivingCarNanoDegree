@@ -2,7 +2,12 @@
 
 **Finding Lane Lines on the Road**
 
-![first video](solidWhiteRight_nosmooting.mp4)
+Yellow  
+https://vimeo.com/219801348  
+https://vimeo.com/219801360  
+
+https://vimeo.com/219801499  
+https://vimeo.com/219801342  
 
 ### Reflection
 
@@ -17,6 +22,7 @@ My pipeline consisted of 5 steps.
 
 You can see it using   
 ![jpg pipeline](single image pipeline.ipynb)
+
 
 ### 2. Calculations
 
