@@ -4,11 +4,11 @@
 
 Movies with working algorithms:
 
-Yellow  (without and with temporal smooting)
+Yellow  (without and with temporal smooting)  
 https://vimeo.com/219801348  
 https://vimeo.com/219801360  
 
-White   (without and with temporal smooting)
+White   (without and with temporal smooting)  
 https://vimeo.com/219801499  
 https://vimeo.com/219801342  
 
