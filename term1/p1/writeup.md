@@ -16,7 +16,7 @@ My pipeline consisted of 5 steps.
 5) Finding lines with HoughLinesP function
 
 You can see it using 
-![jpg pipeline](single image pipeline)
+![jpg pipeline]("single image pipeline.ipynb")
 
 ### 2. Calculations
 
