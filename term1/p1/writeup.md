@@ -20,27 +20,27 @@ You can see it using
 
 ### 2. Calculations
 
-1) Slopes - left / right line
+1) Slopes - left / right line  
 At this point I had detected both lines (left and right) in one list/array.
 I calculted slope for each line so i could distinguish right from left.
 I removed some of the noise at this point by setting some limits for slopes.
 
-2) Sorting 
+2) Sorting  
 To avoid any issues with drawing lines, i sorted lines by starting x
 
-3) Averaging line
+3) Averaging line  
 I averaged each line to a point by calculating mean of x1+x2 and y1+y2
 
-4) Fitting poly
+4) Fitting poly  
 I found slope and intercept for all points detected in previous step. 
 
-5) Finding first point 
+5) Finding first point   
 I found it using max/min functions. 
 
 6) New lines 
 I calculated for x,y beginning and end of each line using formulat y=slope*x + intercept
 
-7) Bottom fix
+7) Bottom fix  
 I added "fake" point at the bottom of image to extend lines to the border of image 
 even if detected line wasn't that long.
 
