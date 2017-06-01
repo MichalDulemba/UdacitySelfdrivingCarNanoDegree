@@ -55,6 +55,4 @@ I think there are two main shortcoming of this algorithm
 
 ### 3. Possible improvements to your pipeline
 
-A possible improvement would be to ...
-
-Another potential improvement could be to ...
+Potential improvement could be to set upper boundary to make line even more stable. 
