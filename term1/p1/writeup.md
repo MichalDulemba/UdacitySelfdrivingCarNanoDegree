@@ -27,7 +27,7 @@ You can see all versions of pipeline :
 ![jpg pipeline](single_image_pipeline.ipynb)  
 ![functional jpg pipeline](functional_single_image_pipeline.ipynb)  
 ![Video pipeline without smooting](video_pipeline_no_smooting.ipynb)  
-![Video pipeline with temporal smooting](video_pipeline_ with_temporal_smooting.ipynb)  
+![Video pipeline with temporal smooting](video_pipeline_with_temporal_smooting.ipynb)  
 
 
 ### 2. Calculations
