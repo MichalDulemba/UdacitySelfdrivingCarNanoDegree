@@ -37,7 +37,7 @@ I found slope and intercept for all points detected in previous step.
 5) Finding first point   
 I found it using max/min functions. 
 
-6) New lines 
+6) New lines  
 I calculated for x,y beginning and end of each line using formulat y=slope*x + intercept
 
 7) Bottom fix  
