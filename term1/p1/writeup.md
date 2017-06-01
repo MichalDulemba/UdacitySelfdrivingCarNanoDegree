@@ -15,7 +15,7 @@ My pipeline consisted of 5 steps.
 4) Masking trapezoid area for "cleanup"
 5) Finding lines with HoughLinesP function
 
-You can see it using 
+You can see it using   
 ![jpg pipeline]("single image pipeline.ipynb")
 
 ### 2. Calculations
