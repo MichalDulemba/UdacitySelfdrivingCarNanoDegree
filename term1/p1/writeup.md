@@ -29,14 +29,28 @@ I removed some of the noise at this point by setting some limits for slopes.
 To avoid any issues with drawing lines, i sorted lines by starting x
 
 3) Averaging line
+I averaged each line to a point by calculating mean of x1+x2 and y1+y2
+
+4) Fitting poly
+I found slope and intercept for all points detected in previous step. 
+
+5) Finding first point 
+I found it using max/min functions. 
+
+6) New lines 
+I calculated for x,y beginning and end of each line using formulat y=slope*x + intercept
+
+7) Bottom fix
+I added "fake" point at the bottom of image to extend lines to the border of image 
+even if detected line wasn't that long.
 
 
 ### 2. Potential shortcomings 
 
-
-One potential shortcoming would be what would happen when ... 
-
-Another shortcoming could be ...
+I think there are two main shortcoming of this algorithm
+- It would work poorly if there are any cars in front of me. 
+- It wouldn't work at all, on regular roads (not highways) with much tighter curves 
+(Polyfit would need to be changed to allow creating curvy lines).
 
 
 ### 3. Possible improvements to your pipeline
