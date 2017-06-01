@@ -2,7 +2,7 @@
 
 **Finding Lane Lines on the Road**
 
-Movies with working algorithms:
+Movies with working algorithms:  
 Password is : p1_udacity
 Yellow  (without and with temporal smooting)  
 https://vimeo.com/219801348  
