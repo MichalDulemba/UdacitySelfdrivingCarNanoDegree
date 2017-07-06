@@ -104,7 +104,6 @@ My final model consisted of the following layers:
 I trained my model with "Adam" optimizer and learning rate of 0.001.
 Most of the tests were done in range 15-25 epochs, after that i berely saw any change in validation accuracy. 
 For most of the tests I used dropout keep_rate at 0.7
-What was interesting that changing sigma of weight initialization to 0.05 improved results.
 
 #### 4. Final results
 To get to 97.5% i went through several steps:
