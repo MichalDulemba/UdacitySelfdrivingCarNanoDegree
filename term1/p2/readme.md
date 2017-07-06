@@ -15,7 +15,6 @@ Training set is
 #### 2. Exploratory visualization of the dataset.
 
 Here is an exploratory visualization of the data set. It is a bar chart showing how the data is distributed among all categories for training, validation and test set. 
-images/training.png
 
 ![Training set](images/training.png)
 Training data  
