@@ -31,23 +31,29 @@ Sample images
 #### 1. Data sampling, preparation and augmentation
 
 In folder "previous steps" you can check steps I took to get to this point with model/data.
-I decided not to go black and white because I didn't want to lose any information. I noticed that many of road signs were really low contrast and very dark so I tried techniques like:
-- simple brightness change
-- advanced gamma correction
-- CLAHE (histogram equalization) 
-
-My idea was - if something is almost unreadable to human being, neural network can also have hard time recognizing it. Therefore I inspected every idea i had with my eyes first and then with testing it on neural network. 
-
-Next step was of course division by 255 (normalizing to 0-1) and subtracting 0.5 to "center" the data around 0. 
 
 I found out that dataset is highly unbalanced - some categories were 20 times larger than the others. This is why I decided to upsample smaller categories so that all categories would have the same number of elements. At this point I didn't augment images themselves. My idea was to do it later in the next steps.
 
 Dataset after upsampling all categories to have the same amount of examples as the largest one:
 
-![Training set][images/training.png]
+![Training set after usampling](images/training2.png)
 
+#### 2. Data preparation
 
-####1. Describe how you preprocessed the image data. What techniques were chosen and why did you choose these techniques? Consider including images showing the output of each preprocessing technique. Pre-processing refers to techniques such as converting to grayscale, normalization, etc. (OPTIONAL: As described in the "Stand Out Suggestions" part of the rubric, if you generated additional data for training, describe why you decided to generate additional data, how you generated the data, and provide example images of the additional data. Then describe the characteristics of the augmented training set like number of images in the set, number of images for each class, etc.)
+I decided not to go black and white because I didn't want to lose any information. I noticed that many of road signs were really low contrast and very dark so I tried techniques like:
+- simple brightness change
+- advanced gamma correction
+- CLAHE (histogram equalization) 
+
+My idea was - if something is almost unreadable to human being, neural network can also have hard time recognizing it. Therefore I inspected every idea i had with my eyes first and then tested it on neural network. 
+
+Based on preliminary tests/results I went with "CLAHE" histogram equalization. Later I also tested further brightness changes, but witn no significant change in accuracy. 
+
+Next step was of course division by 255 (normalizing to 0-1) and subtracting 0.5 to "center" the data around 0. 
+
+#### 3. Data augmentation
+
+#### 1. Describe how you preprocessed the image data. What techniques were chosen and why did you choose these techniques? Consider including images showing the output of each preprocessing technique. Pre-processing refers to techniques such as converting to grayscale, normalization, etc. (OPTIONAL: As described in the "Stand Out Suggestions" part of the rubric, if you generated additional data for training, describe why you decided to generate additional data, how you generated the data, and provide example images of the additional data. Then describe the characteristics of the augmented training set like number of images in the set, number of images for each class, etc.)
 
 As a first step, I decided to convert the images to grayscale because ...
 
