@@ -1,19 +1,6 @@
-#**Traffic Sign Recognition** 
+# **Traffic Sign Recognition** 
 
-
-## Rubric Points
-###Here I will consider the [rubric points](https://review.udacity.com/#!/rubrics/481/view) individually and describe how I addressed each point in my implementation.  
-
----
-###Writeup / README
-
-####1. Provide a Writeup / README that includes all the rubric points and how you addressed each one. You can submit your writeup as markdown or pdf. You can use this template as a guide for writing the report. The submission includes the project code.
-
-You're reading it! and here is a link to my [project code](https://github.com/udacity/CarND-Traffic-Sign-Classifier-Project/blob/master/Traffic_Sign_Classifier.ipynb)
-
-###Data Set Summary & Exploration
-
-####1. Provide a basic summary of the data set. In the code, the analysis should be done using python, numpy and/or pandas methods rather than hardcoding results manually.
+### Data Set Summary & Exploration
 
 I used the python/numpy to calculate summary statistics of the traffic
 signs data set:
@@ -25,39 +12,54 @@ Training set is
 * The shape of a traffic sign image is 32x32
 * The number of unique classes/labels in the data set is 43
 
-####2. Include an exploratory visualization of the dataset.
+#### 2. Exploratory visualization of the dataset.
 
 Here is an exploratory visualization of the data set. It is a bar chart showing how the data is distributed among all categories for training, validation and test set. 
 
-![Training set][images/training.png]
-![Validation set][images/validation.png]
-![Test set][images/test.png]
+![Training set](images/training.png)
+Training data  
+![Validation set](images/validation.png)  
+Validation data  
+![Test set](images/test.png)  
+Test data  
 
+Sample images
+![sample from set](images/sample_signs.png) 
 
-###Design and Test a Model Architecture
+### Design and Test a Model Architecture
 
-####1
+#### 1. Data sampling, preparation and augmentation
 
 In folder "previous steps" you can check steps I took to get to this point with model/data.
-I decided not to go black and white because I didn't want to lose any information. I noticed that many of road signs were really low contrast and very dark so I tried techniques like:
-- simple brightness change
-- advanced gamma correction
-- CLAHE (histogram equalization) 
-
-My idea was - if something is almost unreadable to human being, neural network can also have hard time recognizing it. Therefore I inspected every idea i had with my eyes first and then with testing it on neural network. 
-
-Next step was of course division by 255 (normalizing to 0-1) and subtracting 0.5 to "center" the data around 0. 
 
 I found out that dataset is highly unbalanced - some categories were 20 times larger than the others. This is why I decided to upsample smaller categories so that all categories would have the same number of elements. At this point I didn't augment images themselves. My idea was to do it later in the next steps.
 
 Dataset after upsampling all categories to have the same amount of examples as the largest one:
 
-![Training set][images/training.png]
+![Training set after upsampling](images/training2.png)
 
+#### 2. Data preparation
 
-####1. Describe how you preprocessed the image data. What techniques were chosen and why did you choose these techniques? Consider including images showing the output of each preprocessing technique. Pre-processing refers to techniques such as converting to grayscale, normalization, etc. (OPTIONAL: As described in the "Stand Out Suggestions" part of the rubric, if you generated additional data for training, describe why you decided to generate additional data, how you generated the data, and provide example images of the additional data. Then describe the characteristics of the augmented training set like number of images in the set, number of images for each class, etc.)
+I decided not to go black and white because I didn't want to lose any information. I noticed that many of road signs were really low contrast, very dark and some were pretty blurry, so I tried techniques like:
+- simple brightness change
+- advanced gamma correction
+- CLAHE (histogram equalization) 
 
-As a first step, I decided to convert the images to grayscale because ...
+My idea was - if something is almost unreadable to human being, neural network can also have hard time recognizing it. Therefore I inspected every idea i had with my eyes first and then tested it on neural network. 
+
+Based on preliminary tests/results I went with "CLAHE" histogram equalization. Later I also tested further brightness changes, but witn no significant change in accuracy. 
+
+Next step was of course division by 255 (normalizing to 0-1) and subtracting 0.5 to "center" the data around 0. 
+
+![Training set after preprocessing](images/standard1.png)
+
+![Training set after preprocessing](images/standard2.png)
+
+#### 3. Data augmentation
+
+After geting to around 97% accuracy, I decided to tried to test couple of data augmentation techniques like random shifts, scaling, brightness change. 
+
+#### 1. Describe how you preprocessed the image data. What techniques were chosen and why did you choose these techniques? Consider including images showing the output of each preprocessing technique. Pre-processing refers to techniques such as converting to grayscale, normalization, etc. (OPTIONAL: As described in the "Stand Out Suggestions" part of the rubric, if you generated additional data for training, describe why you decided to generate additional data, how you generated the data, and provide example images of the additional data. Then describe the characteristics of the augmented training set like number of images in the set, number of images for each class, etc.)
 
 Here is an example of a traffic sign image before and after grayscaling.
 
@@ -76,7 +78,7 @@ Here is an example of an original image and an augmented image:
 The difference between the original data set and the augmented data set is the following ... 
 
 
-####2. Describe what your final model architecture looks like including model type, layers, layer sizes, connectivity, etc.) Consider including a diagram and/or table describing the final model.
+#### 2. Model description
 
 I started with simple lenet as in previous lab, then made it wider/deeper. After couple of tests I switched to vgg-like architecture. 
 
@@ -97,11 +99,71 @@ My final model consisted of the following layers:
  
 
 
-####3. Describe how you trained your model. The discussion can include the type of optimizer, the batch size, number of epochs and any hyperparameters such as learning rate.
+#### 3. Training 
+I trained my model with "Adam" optimizer and learning rate of 0.001.
+Most of the tests were done in range 15-20 epochs, after that i berely saw any change in validation accuracy. 
 
-To train the model, I used an ....
 
-####4. Describe the approach taken for finding a solution and getting the validation set accuracy to be at least 0.93. Include in the discussion the results on the training, validation and test sets and where in the code these were calculated. Your approach may have been an iterative process, in which case, outline the steps you took to get to the final solution and why you chose those steps. Perhaps your solution involved an already well known implementation or architecture. In this case, discuss why you think the architecture is suitable for the current problem.
+#### 4. Final results
+To get to 97.5% i went through several steps:
+1) Lenet architecture with more filters
+2) Prepared data histogram / labels / quantity for each category
+3) Tested filters 3x3 against 5x5. Suprisingly 5x5 gave much better results. Probably due to very little tiny features on road signs
+4) Added data normalization x/255
+5) Tested x -= mean(x) and x /= stddev(x) - worse results
+6) Tested min/max regularization - worse results
+7) Switched to "vgg like" network 
+8) Tested 3x3 filters in third and fourth layer - better results
+9) Smaller categories upsampling - 95% accuracy
+10) Gamma adjust - 96%
+11) Switch to CLAHE - 97% and fixed dropout (turned off) during prediction
+12) Displaying more examples, testing brightness correction - issues with rgb images overflow (values higher than 255)
+13) Switch to python generator (instead a simple loop)
+14) Testing data augmentation - 98.2% with small image shifts (0-4 px)
+15) Testing data augmentation - directional blur
+16)
+17)
+18)
+19)
+20)
+
+I changed training code, so every epoch it is testing model against training data as well. This gives me knowledge about overfitting and convergence in general (if it works at all). 
+I also added saving best model possible - during training code remembers last best accuracy, and if new one (in the new epoch) is better - it saves model again. It slowed down training process, but gave better results in test accuracy. 
+To augment batches in "real time" - i switched to python generator, so augmentation is applied per batch. Less issues with memory limits, but slower solution. One could try to use some parallel processing here - it could speed things up.  
+
+```
+best_accuracy = 0
+proper_generator = batch_generator()
+with tf.Session() as sess:
+    sess.run(tf.global_variables_initializer())
+    num_examples = len(X_train)
+    
+    print("Training...")
+    print()
+    for i in range(EPOCHS):
+        X_train, y_train = shuffle(X_train, y_train)
+        for offset in tqdm(range(0, num_examples, BATCH_SIZE)):
+            
+            batch_x, batch_y = next(proper_generator)
+            sess.run(training_operation, feed_dict={x: batch_x, y: batch_y, keep_prob : 0.7})
+        
+        proper_generator = batch_generator()
+        training_accuracy = evaluate(X_train, y_train)
+        validation_accuracy = evaluate(X_valid, y_valid)
+        
+        # saving best model possible
+        if validation_accuracy > best_accuracy:
+            best_accuracy = validation_accuracy
+            saver.save(sess, './lenet')
+            print("Model saved")
+        
+        print("EPOCH {} ...".format(i+1))
+        print("Train Accuracy (no augmentation, only prep)= {:.4f}".format(training_accuracy))
+        print("Validation Accuracy (no augmentation, only prep)= {:.4f}".format(validation_accuracy))
+        print()
+```    
+
+Describe the approach taken for finding a solution and getting the validation set accuracy to be at least 0.93. Include in the discussion the results on the training, validation and test sets and where in the code these were calculated. Your approach may have been an iterative process, in which case, outline the steps you took to get to the final solution and why you chose those steps. Perhaps your solution involved an already well known implementation or architecture. In this case, discuss why you think the architecture is suitable for the current problem.
 
 My final model results were:
 * training set accuracy of ?
@@ -121,9 +183,9 @@ If a well known architecture was chosen:
 * How does the final model's accuracy on the training, validation and test set provide evidence that the model is working well?
  
 
-###Test a Model on New Images
+### Testing my model on new images
 
-####1. Choose five German traffic signs found on the web and provide them in the report. For each image, discuss what quality or qualities might be difficult to classify.
+#### 1. Five german trafic signs found on the web:
 
 Here are five German traffic signs that I found on the web:
 
@@ -132,7 +194,8 @@ Here are five German traffic signs that I found on the web:
 
 The first image might be difficult to classify because ...
 
-####2. Discuss the model's predictions on these new traffic signs and compare the results to predicting on the test set. At a minimum, discuss what the predictions were, the accuracy on these new predictions, and compare the accuracy to the accuracy on the test set (OPTIONAL: Discuss the results in more detail as described in the "Stand Out Suggestions" part of the rubric).
+#### 2. Results 
+Discuss the model's predictions on these new traffic signs and compare the results to predicting on the test set. At a minimum, discuss what the predictions were, the accuracy on these new predictions, and compare the accuracy to the accuracy on the test set (OPTIONAL: Discuss the results in more detail as described in the "Stand Out Suggestions" part of the rubric).
 
 Here are the results of the prediction:
 
@@ -147,7 +210,8 @@ Here are the results of the prediction:
 
 The model was able to correctly guess 4 of the 5 traffic signs, which gives an accuracy of 80%. This compares favorably to the accuracy on the test set of ...
 
-####3. Describe how certain the model is when predicting on each of the five new images by looking at the softmax probabilities for each prediction. Provide the top 5 softmax probabilities for each image along with the sign type of each probability. (OPTIONAL: as described in the "Stand Out Suggestions" part of the rubric, visualizations can also be provided such as bar charts)
+#### 3. Top 5 probabilites
+Describe how certain the model is when predicting on each of the five new images by looking at the softmax probabilities for each prediction. Provide the top 5 softmax probabilities for each image along with the sign type of each probability. (OPTIONAL: as described in the "Stand Out Suggestions" part of the rubric, visualizations can also be provided such as bar charts)
 
 The code for making predictions on my final model is located in the 11th cell of the Ipython notebook.
 
