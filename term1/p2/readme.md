@@ -205,7 +205,7 @@ I will resize them to 32x32 in code.
 <img src="german_examples/cut/11.jpg" align="left" width="50">
 <img src="german_examples/cut/1.jpg" align="left" width="50">
 
-<br>
+<br /><br /><br /><br />
 #### 2. Results 
 
 Here are the results of the prediction:
