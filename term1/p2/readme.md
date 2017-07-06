@@ -36,7 +36,7 @@ I found out that dataset is highly unbalanced - some categories were 20 times la
 
 Dataset after upsampling all categories to have the same amount of examples as the largest one:
 
-![Training set after usampling](images/training2.png)
+![Training set after upsampling](images/training2.png)
 
 #### 2. Data preparation
 
@@ -50,6 +50,10 @@ My idea was - if something is almost unreadable to human being, neural network c
 Based on preliminary tests/results I went with "CLAHE" histogram equalization. Later I also tested further brightness changes, but witn no significant change in accuracy. 
 
 Next step was of course division by 255 (normalizing to 0-1) and subtracting 0.5 to "center" the data around 0. 
+
+![Training set after preprocessing](images/standard1.png)
+
+![Training set after preprocessing](images/standard2.png)
 
 #### 3. Data augmentation
 
