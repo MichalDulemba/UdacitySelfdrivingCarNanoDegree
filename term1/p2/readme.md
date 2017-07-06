@@ -209,7 +209,7 @@ I will resize them to 32x32 in code.
 
 
 
-#### 2. Results 
+#### 2. Testing german road signs in my model
 
 Here are the results of the prediction:
 
