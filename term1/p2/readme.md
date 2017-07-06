@@ -83,9 +83,17 @@ My final model consisted of the following layers:
 | Input         		| 32x32x3 RGB image   			| 
 | Convolution 5x5     	| 1x1 stride, same padding, outputs 32x32x64 	|
 | RELU			|						|
+| Convolution 5x5     	| 1x1 stride, same padding, outputs 32x32x64 	|
+| RELU			|						|
 | Max pooling	      	| 2x2 stride,  outputs 16x16x64 		|
-| Convolution 3x3       | etc.     					|
-| Fully connected		| etc.        									|
+| Convolution 3x3     	| 1x1 stride, same padding, outputs 16x16x128 	|
+| RELU			|						|
+| Convolution 3x3     	| 1x1 stride, same padding, outputs 16x16x128 	|
+| RELU			|						|
+| Max pooling	      	| 2x2 stride,  outputs 8x8x64 		|
+| Fully connected		| in:8192 / out:120        									|
+| Dropout| keep_rate =  0.7 etc.        									|
+| Fully connected		| in:120 / out:43       									|
 | Softmax				| etc.        									|
 |						|												|
 |						|												|
