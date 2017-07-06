@@ -174,36 +174,36 @@ My final model results were:
 
 Here are a few German traffic signs that I found on the web:
 
-<img src="german_examples/1.jpg" align="left" width="600">
-<img src="german_examples/2.jpg" align="left" width="600">
-<img src="german_examples/3.JPG" align="left" width="600">
-<img src="german_examples/4.jpg" align="left" width="600">
-<img src="german_examples/5.jpg" align="left" width="600">
-<img src="german_examples/6.JPG" align="left" width="600">
-<img src="german_examples/7.jpg" align="left" width="600">
-<img src="german_examples/8.jpg" align="left" width="600">
-<img src="german_examples/9.jpg" align="left" width="600">
-<img src="german_examples/10.JPG" align="left" width="600">
-<img src="german_examples/11.jpg" align="left" width="600">
+<img src="german_examples/1.jpg" align="left" width="600">  
+<img src="german_examples/2.jpg" align="left" width="600">  
+<img src="german_examples/3.JPG" align="left" width="600">  
+<img src="german_examples/4.jpg" align="left" width="600">  
+<img src="german_examples/5.jpg" align="left" width="600">  
+<img src="german_examples/6.JPG" align="left" width="600">  
+<img src="german_examples/7.jpg" align="left" width="600">  
+<img src="german_examples/8.jpg" align="left" width="600">  
+<img src="german_examples/9.jpg" align="left" width="600">  
+<img src="german_examples/10.JPG" align="left" width="600">  
+<img src="german_examples/11.jpg" align="left" width="600">  
 
 I cropped them before testing on my model.
 Some of them could be harder because of partial oclusions, blurriness or dirt.
 I will resize them to 32x32 in code.
 
-![alt text](german_examples/cut/1.jpg)  
-![alt text](german_examples/cut/2a.jpg)  
-![alt text](german_examples/cut/2b.jpg)  
-![alt text](german_examples/cut/3.JPG)  
-![alt text](german_examples/cut/4.jpg)  
-![alt text](german_examples/cut/5.jpg)  
-![alt text](german_examples/cut/6.JPG)  
-![alt text](german_examples/cut/6a.JPG)  
-![alt text](german_examples/cut/7.jpg)  
-![alt text](german_examples/cut/8.jpg)  
-![alt text](german_examples/cut/9.jpg)  
-![alt text](german_examples/cut/10.JPG)  
-![alt text](german_examples/cut/11.jpg)  
-
+<img src="german_examples/cut/1.jpg" align="left" width="32">
+<img src="german_examples/cut/2a.jpg" align="left" width="32">
+<img src="german_examples/cut/2b.jpg" align="left" width="32">
+<img src="german_examples/cut/3.JPG" align="left" width="32">
+<img src="german_examples/cut/4.jpg" align="left" width="32">
+<img src="german_examples/cut/5.jpg" align="left" width="32">
+<img src="german_examples/cut/6.JPG" align="left" width="32">
+<img src="german_examples/cut/6a.JPG" align="left" width="32">
+<img src="german_examples/cut/7.jpg" align="left" width="32">
+<img src="german_examples/cut/8.jpg" align="left" width="32">
+<img src="german_examples/cut/9.jpg" align="left" width="32">
+<img src="german_examples/cut/10.JPG" align="left" width="32">
+<img src="german_examples/cut/11.jpg" align="left" width="32">
+<img src="german_examples/cut/1.jpg" align="left" width="32">
 
 #### 2. Results 
 Discuss the model's predictions on these new traffic signs and compare the results to predicting on the test set. At a minimum, discuss what the predictions were, the accuracy on these new predictions, and compare the accuracy to the accuracy on the test set (OPTIONAL: Discuss the results in more detail as described in the "Stand Out Suggestions" part of the rubric).
