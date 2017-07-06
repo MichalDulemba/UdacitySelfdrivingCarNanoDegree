@@ -102,8 +102,8 @@ My final model consisted of the following layers:
 
 #### 3. Training 
 I trained my model with "Adam" optimizer and learning rate of 0.001.
-Most of the tests were done in range 15-20 epochs, after that i berely saw any change in validation accuracy. 
-
+Most of the tests were done in range 15-25 epochs, after that i berely saw any change in validation accuracy. 
+For most of the tests I used dropout keep_rate at 0.7
 
 #### 4. Final results
 To get to 97.5% i went through several steps:
@@ -127,6 +127,7 @@ To get to 97.5% i went through several steps:
 I changed training code, so every epoch it is testing model against training data as well. This gives me knowledge about overfitting and convergence in general (if it works at all). 
 I also added saving best model possible - during training code remembers last best accuracy, and if new one (in the new epoch) is better - it saves model again. It slowed down training process, but gave better results in test accuracy. 
 To augment batches in "real time" - i switched to python generator, so augmentation is applied per batch. Less issues with memory limits, but slower solution. One could try to use some parallel processing here - it could speed things up.  
+I used dropout between fully connected layers to help model generalize better (avoid overfitting). 
 
 ```
 best_accuracy = 0
@@ -166,19 +167,6 @@ My final model results were:
 * validation set accuracy of 98%
 * test set accuracy of 96%
 
-
-If an iterative approach was chosen:
-* What was the first architecture that was tried and why was it chosen?
-* What were some problems with the initial architecture?
-* How was the architecture adjusted and why was it adjusted? Typical adjustments could include choosing a different model architecture, adding or taking away layers (pooling, dropout, convolution, etc), using an activation function or changing the activation function. One common justification for adjusting an architecture would be due to overfitting or underfitting. A high accuracy on the training set but low accuracy on the validation set indicates over fitting; a low accuracy on both sets indicates under fitting.
-* Which parameters were tuned? How were they adjusted and why?
-* What are some of the important design choices and why were they chosen? For example, why might a convolution layer work well with this problem? How might a dropout layer help with creating a successful model?
-
-If a well known architecture was chosen:
-* What architecture was chosen?
-* Why did you believe it would be relevant to the traffic sign application?
-* How does the final model's accuracy on the training, validation and test set provide evidence that the model is working well?
- 
 
 ### Testing my model on new images
 
