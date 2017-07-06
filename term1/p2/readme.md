@@ -129,8 +129,39 @@ To get to 97.5% i went through several steps:
 
 I changed training code, so every epoch it is testing model against training data as well. This gives me knowledge about overfitting and convergence in general (if it works at all). 
 I also added saving best model possible - during training code remembers last best accuracy, and if new one (in the new epoch) is better - it saves model again. It slowed down training process, but gave better results in test accuracy. 
-To augment batches in "real time" - i switched to python generator, so augmentation is applied per batch. Less issues with memory limits, but slower solution. One could try to use some parallel processing here - it could speed things up. 
+To augment batches in "real time" - i switched to python generator, so augmentation is applied per batch. Less issues with memory limits, but slower solution. One could try to use some parallel processing here - it could speed things up.  
 
+```
+best_accuracy = 0
+proper_generator = batch_generator()
+with tf.Session() as sess:
+    sess.run(tf.global_variables_initializer())
+    num_examples = len(X_train)
+    
+    print("Training...")
+    print()
+    for i in range(EPOCHS):
+        X_train, y_train = shuffle(X_train, y_train)
+        for offset in tqdm(range(0, num_examples, BATCH_SIZE)):
+            
+            batch_x, batch_y = next(proper_generator)
+            sess.run(training_operation, feed_dict={x: batch_x, y: batch_y, keep_prob : 0.7})
+        
+        proper_generator = batch_generator()
+        training_accuracy = evaluate(X_train, y_train)
+        validation_accuracy = evaluate(X_valid, y_valid)
+        
+        # saving best model possible
+        if validation_accuracy > best_accuracy:
+            best_accuracy = validation_accuracy
+            saver.save(sess, './lenet')
+            print("Model saved")
+        
+        print("EPOCH {} ...".format(i+1))
+        print("Train Accuracy (no augmentation, only prep)= {:.4f}".format(training_accuracy))
+        print("Validation Accuracy (no augmentation, only prep)= {:.4f}".format(validation_accuracy))
+        print()
+```    
 
 Describe the approach taken for finding a solution and getting the validation set accuracy to be at least 0.93. Include in the discussion the results on the training, validation and test sets and where in the code these were calculated. Your approach may have been an iterative process, in which case, outline the steps you took to get to the final solution and why you chose those steps. Perhaps your solution involved an already well known implementation or architecture. In this case, discuss why you think the architecture is suitable for the current problem.
 
