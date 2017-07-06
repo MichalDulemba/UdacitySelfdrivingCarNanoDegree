@@ -174,17 +174,17 @@ My final model results were:
 
 Here are a few German traffic signs that I found on the web:
 
-<img src="german_examples/1.jpg" align="left" width="600">  
-<img src="german_examples/2.jpg" align="left" width="600">  
-<img src="german_examples/3.JPG" align="left" width="600">  
-<img src="german_examples/4.jpg" align="left" width="600">  
-<img src="german_examples/5.jpg" align="left" width="600">  
-<img src="german_examples/6.JPG" align="left" width="600">  
-<img src="german_examples/7.jpg" align="left" width="600">  
-<img src="german_examples/8.jpg" align="left" width="600">  
-<img src="german_examples/9.jpg" align="left" width="600">  
-<img src="german_examples/10.JPG" align="left" width="600">  
-<img src="german_examples/11.jpg" align="left" width="600">  
+<img src="german_examples/1.jpg" width="600">  
+<img src="german_examples/2.jpg"  width="600">  
+<img src="german_examples/3.JPG"  width="600">  
+<img src="german_examples/4.jpg"  width="600">  
+<img src="german_examples/5.jpg"  width="600">  
+<img src="german_examples/6.JPG"  width="600">  
+<img src="german_examples/7.jpg"  width="600">  
+<img src="german_examples/8.jpg"  width="600">  
+<img src="german_examples/9.jpg"  width="600">  
+<img src="german_examples/10.JPG"  width="600">  
+<img src="german_examples/11.jpg"  width="600">  
 
 I cropped them before testing on my model.
 Some of them could be harder because of partial oclusions, blurriness or dirt.
