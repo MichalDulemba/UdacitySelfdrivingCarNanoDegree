@@ -40,7 +40,7 @@ Dataset after upsampling all categories to have the same amount of examples as t
 
 #### 2. Data preparation
 
-I decided not to go black and white because I didn't want to lose any information. I noticed that many of road signs were really low contrast and very dark so I tried techniques like:
+I decided not to go black and white because I didn't want to lose any information. I noticed that many of road signs were really low contrast, very dark and some were pretty blurry, so I tried techniques like:
 - simple brightness change
 - advanced gamma correction
 - CLAHE (histogram equalization) 
@@ -117,10 +117,10 @@ To get to 97.5% i went through several steps:
 9) Smaller categories upsampling - 95% accuracy
 10) Gamma adjust - 96%
 11) Switch to CLAHE - 97% and fixed dropout (turned off) during prediction
-12) displaying more examples, testing brightness correction - issues with rgb images overflow (values higher than 255)
-13) ...
-14)
-15)
+12) Displaying more examples, testing brightness correction - issues with rgb images overflow (values higher than 255)
+13) Switch to python generator (instead a simple loop)
+14) Testing data augmentation - 98.2% with small image shifts (0-4 px)
+15) Testing data augmentation - directional blur
 16)
 17)
 18)
