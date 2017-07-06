@@ -60,23 +60,15 @@ Next step was of course division by 255 (normalizing to 0-1) and subtracting 0.5
 After geting to around 97% accuracy, I decided to tried to test couple of data augmentation techniques like random shifts, scaling, brightness change. 
 You can see it in ![this file](data_augmentation.ipynb)
 
-#### 1. Describe how you preprocessed the image data. What techniques were chosen and why did you choose these techniques? Consider including images showing the output of each preprocessing technique. Pre-processing refers to techniques such as converting to grayscale, normalization, etc. (OPTIONAL: As described in the "Stand Out Suggestions" part of the rubric, if you generated additional data for training, describe why you decided to generate additional data, how you generated the data, and provide example images of the additional data. Then describe the characteristics of the augmented training set like number of images in the set, number of images for each class, etc.)
-
-Here is an example of a traffic sign image before and after grayscaling.
-
-![alt text][image2]
-
-As a last step, I normalized the image data because ...
-
-I decided to generate additional data because ... 
-
-To add more data to the the data set, I used the following techniques because ... 
-
-Here is an example of an original image and an augmented image:
-
-![alt text][image3]
-
-The difference between the original data set and the augmented data set is the following ... 
+Examples of data augmentation:
+Blur change
+![Blur](images/blur_change.png)
+Brightness change
+![Brightness](images/brightness_change.png)
+Scale change
+![Scale](images/scale_change.png)
+Shift change
+![Shift](images/shift_change.png)
 
 
 #### 2. Model description
@@ -91,9 +83,17 @@ My final model consisted of the following layers:
 | Input         		| 32x32x3 RGB image   			| 
 | Convolution 5x5     	| 1x1 stride, same padding, outputs 32x32x64 	|
 | RELU			|						|
+| Convolution 5x5     	| 1x1 stride, same padding, outputs 32x32x64 	|
+| RELU			|						|
 | Max pooling	      	| 2x2 stride,  outputs 16x16x64 		|
-| Convolution 3x3       | etc.     					|
-| Fully connected		| etc.        									|
+| Convolution 3x3     	| 1x1 stride, same padding, outputs 16x16x128 	|
+| RELU			|						|
+| Convolution 3x3     	| 1x1 stride, same padding, outputs 16x16x128 	|
+| RELU			|						|
+| Max pooling	      	| 2x2 stride,  outputs 8x8x64 		|
+| Fully connected		| in:8192 / out:120        									|
+| Dropout| keep_rate =  0.7 etc.        									|
+| Fully connected		| in:120 / out:43       									|
 | Softmax				| etc.        									|
 |						|												|
 |						|												|
@@ -102,8 +102,8 @@ My final model consisted of the following layers:
 
 #### 3. Training 
 I trained my model with "Adam" optimizer and learning rate of 0.001.
-Most of the tests were done in range 15-20 epochs, after that i berely saw any change in validation accuracy. 
-
+Most of the tests were done in range 15-25 epochs, after that i berely saw any change in validation accuracy. 
+For most of the tests I used dropout keep_rate at 0.7
 
 #### 4. Final results
 To get to 97.5% i went through several steps:
@@ -127,6 +127,7 @@ To get to 97.5% i went through several steps:
 I changed training code, so every epoch it is testing model against training data as well. This gives me knowledge about overfitting and convergence in general (if it works at all). 
 I also added saving best model possible - during training code remembers last best accuracy, and if new one (in the new epoch) is better - it saves model again. It slowed down training process, but gave better results in test accuracy. 
 To augment batches in "real time" - i switched to python generator, so augmentation is applied per batch. Less issues with memory limits, but slower solution. One could try to use some parallel processing here - it could speed things up.  
+I used dropout between fully connected layers to help model generalize better (avoid overfitting). 
 
 ```
 best_accuracy = 0
@@ -166,19 +167,6 @@ My final model results were:
 * validation set accuracy of 98%
 * test set accuracy of 96%
 
-
-If an iterative approach was chosen:
-* What was the first architecture that was tried and why was it chosen?
-* What were some problems with the initial architecture?
-* How was the architecture adjusted and why was it adjusted? Typical adjustments could include choosing a different model architecture, adding or taking away layers (pooling, dropout, convolution, etc), using an activation function or changing the activation function. One common justification for adjusting an architecture would be due to overfitting or underfitting. A high accuracy on the training set but low accuracy on the validation set indicates over fitting; a low accuracy on both sets indicates under fitting.
-* Which parameters were tuned? How were they adjusted and why?
-* What are some of the important design choices and why were they chosen? For example, why might a convolution layer work well with this problem? How might a dropout layer help with creating a successful model?
-
-If a well known architecture was chosen:
-* What architecture was chosen?
-* Why did you believe it would be relevant to the traffic sign application?
-* How does the final model's accuracy on the training, validation and test set provide evidence that the model is working well?
- 
 
 ### Testing my model on new images
 
@@ -225,7 +213,5 @@ For the first image, the model is relatively sure that this is a stop sign (prob
 
 For the second image ... 
 
-### (Optional) Visualizing the Neural Network (See Step 4 of the Ipython notebook for more details)
-####1. Discuss the visual output of your trained network's feature maps. What characteristics did the neural network use to make classifications?
 
 
