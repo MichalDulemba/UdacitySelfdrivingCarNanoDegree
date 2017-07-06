@@ -192,7 +192,7 @@ Here are a few German traffic signs that I found on the web:
 I cropped them before testing on my model.
 Some of them could be harder because of partial oclusions, blurriness or dirt.
 I will resize them to 32x32 in code.
-<div align="left"> 
+<div align="left" width="800"> 
 <img src="german_examples/cut/1.jpg" align="left" width="50">  
 <img src="german_examples/cut/2a.jpg" align="left" width="50"> 
 <img src="german_examples/cut/2b.jpg" align="left" width="50"> 
@@ -200,7 +200,7 @@ I will resize them to 32x32 in code.
 <img src="german_examples/cut/4.jpg" align="left" width="50">  
 </div>
 
-<div align="left"> 
+<div align="left" width="800"> 
 <img src="german_examples/cut/5.jpg" align="left" width="50">
 <img src="german_examples/cut/6.JPG" align="left" width="50">
 <img src="german_examples/cut/6a.JPG" align="left" width="50">
@@ -208,7 +208,7 @@ I will resize them to 32x32 in code.
 <img src="german_examples/cut/8.jpg" align="left" width="50">
 </div>
 
-<div align="left"> 
+<div align="left" width="800"> 
 <img src="german_examples/cut/9.jpg" align="left" width="50">
 <img src="german_examples/cut/10.JPG" align="left" width="50">
 <img src="german_examples/cut/11.jpg" align="left" width="50">
