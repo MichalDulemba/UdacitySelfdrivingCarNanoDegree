@@ -205,7 +205,7 @@ I will resize them to 32x32 in code.
 <img src="german_examples/cut/8.jpg" align="left" width="45">
 <img src="german_examples/cut/9.jpg" align="left" width="45">
 <img src="german_examples/cut/10.JPG" align="left" width="45">
-<img src="german_examples/cut/11.jpg" align="left" width="45">
+<img src="german_examples/cut/11.jpg" align="right" width="45">
 
 
 
