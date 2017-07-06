@@ -61,9 +61,13 @@ After geting to around 97% accuracy, I decided to tried to test couple of data a
 You can see it in ![this file](data_augmentation.ipynb)
 
 Examples of data augmentation:
+Blur change
 ![Blur](images/blur_change.png)
+Brightness change
 ![Brightness](images/brightness_change.png)
+Scale change
 ![Scale](images/scale_change.png)
+Shift change
 ![Shift](images/shift_change.png)
 
 
