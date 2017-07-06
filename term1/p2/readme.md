@@ -120,8 +120,11 @@ To get to 97.5% i went through several steps:
 11) Switch to CLAHE - 97% and fixed dropout (turned off) during prediction
 12) Displaying more examples, testing brightness correction - issues with rgb images overflow (values higher than 255)
 13) Switch to python generator (instead a simple loop)
-14) Testing data augmentation - 98.2% with small image shifts (0-4 px)
-15) Testing data augmentation - directional blur
+14) Testing data augmentation 
+- small image shifts (0-4 px)
+- directional blur
+- resizing
+- brightness change
 
 
 I changed training code, so every epoch it is testing model against training data as well. This gives me knowledge about overfitting and convergence in general (if it works at all). 
