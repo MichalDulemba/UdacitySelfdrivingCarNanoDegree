@@ -170,14 +170,38 @@ My final model results were:
 
 ### Testing my model on new images
 
-#### 1. Five german trafic signs found on the web:
+#### 1. A few german trafic signs found on the web:
 
-Here are five German traffic signs that I found on the web:
+Here are a few German traffic signs that I found on the web:
 
-![alt text][image4] ![alt text][image5] ![alt text][image6] 
-![alt text][image7] ![alt text][image8]
+![alt text](german_examples/1.jpg)  
+![alt text](german_examples/2.jpg)  
+![alt text](german_examples/3.jpg)  
+![alt text](german_examples/4.jpg)  
+![alt text](german_examples/5.jpg)  
+![alt text](german_examples/6.jpg)  
+![alt text](german_examples/7.jpg)  
+![alt text](german_examples/8.jpg)  
+![alt text](german_examples/9.jpg)  
+![alt text](german_examples/10.jpg)  
+![alt text](german_examples/11.jpg)  
 
-The first image might be difficult to classify because ...
+I cropped them before testing on my model. Some of them could be harder because of partial oclusions, blurriness or dirt.
+
+![alt text](german_examples/cut/1.jpg)  
+![alt text](german_examples/cut/2a.jpg)  
+![alt text](german_examples/cut/2b.jpg)  
+![alt text](german_examples/cut/3.jpg)  
+![alt text](german_examples/cut/4.jpg)  
+![alt text](german_examples/cut/5.jpg)  
+![alt text](german_examples/cut/6.jpg)  
+![alt text](german_examples/cut/6a.jpg)  
+![alt text](german_examples/cut/7.jpg)  
+![alt text](german_examples/8.jpg)  
+![alt text](german_examples/9.jpg)  
+![alt text](german_examples/10.jpg)  
+![alt text](german_examples/11.jpg)  
+
 
 #### 2. Results 
 Discuss the model's predictions on these new traffic signs and compare the results to predicting on the test set. At a minimum, discuss what the predictions were, the accuracy on these new predictions, and compare the accuracy to the accuracy on the test set (OPTIONAL: Discuss the results in more detail as described in the "Stand Out Suggestions" part of the rubric).
