@@ -186,7 +186,9 @@ Here are a few German traffic signs that I found on the web:
 ![alt text](german_examples/10.jpg)  
 ![alt text](german_examples/11.jpg)  
 
-I cropped them before testing on my model. Some of them could be harder because of partial oclusions, blurriness or dirt.
+I cropped them before testing on my model.
+Some of them could be harder because of partial oclusions, blurriness or dirt.
+I will resize them to 32x32 in code.
 
 ![alt text](german_examples/cut/1.jpg)  
 ![alt text](german_examples/cut/2a.jpg)  
@@ -197,10 +199,10 @@ I cropped them before testing on my model. Some of them could be harder because 
 ![alt text](german_examples/cut/6.jpg)  
 ![alt text](german_examples/cut/6a.jpg)  
 ![alt text](german_examples/cut/7.jpg)  
-![alt text](german_examples/8.jpg)  
-![alt text](german_examples/9.jpg)  
-![alt text](german_examples/10.jpg)  
-![alt text](german_examples/11.jpg)  
+![alt text](german_examples/cut/8.jpg)  
+![alt text](german_examples/cut/9.jpg)  
+![alt text](german_examples/cut/10.jpg)  
+![alt text](german_examples/cut/11.jpg)  
 
 
 #### 2. Results 
