@@ -211,11 +211,20 @@ Here are the results of the prediction:
 
 | Image			        |     Prediction	        					| 
 |:---------------------:|:---------------------------------------------:| 
-| Stop Sign      		| Stop sign   									| 
-| U-turn     			| U-turn 										|
-| Yield					| Yield											|
-| 100 km/h	      		| Bumpy Road					 				|
-| Slippery Road			| Slippery Road      							|
+| 60      		| Stop sign   									| 
+| Road work     			| U-turn 										|
+| Road narrows on the right		| Slippery Road      							|
+| No vehicles			| Slippery Road      							|
+| 40					| Yield											|
+| Road work    		| Bumpy Road					 				|
+| Pedestrians			| Slippery Road      							|
+| Pedestrians			| Slippery Road      							|
+| Roundabout			| Slippery Road      							|
+| Blind alley		| Slippery Road      							|
+| Bicycles			| Slippery Road      							|
+| Left turn			| Slippery Road      							|
+| Road work		| Slippery Road      							|
+
 
 
 The model was able to correctly guess 4 of the 5 traffic signs, which gives an accuracy of 80%. This compares favorably to the accuracy on the test set of ...
