@@ -58,6 +58,7 @@ Next step was of course division by 255 (normalizing to 0-1) and subtracting 0.5
 #### 3. Data augmentation
 
 After geting to around 97% accuracy, I decided to tried to test couple of data augmentation techniques like random shifts, scaling, brightness change. 
+You can see it in ![this file](data_augmentation.ipynb)
 
 #### 1. Describe how you preprocessed the image data. What techniques were chosen and why did you choose these techniques? Consider including images showing the output of each preprocessing technique. Pre-processing refers to techniques such as converting to grayscale, normalization, etc. (OPTIONAL: As described in the "Stand Out Suggestions" part of the rubric, if you generated additional data for training, describe why you decided to generate additional data, how you generated the data, and provide example images of the additional data. Then describe the characteristics of the augmented training set like number of images in the set, number of images for each class, etc.)
 
@@ -88,7 +89,7 @@ My final model consisted of the following layers:
 | Layer         		|     Description	        	| 
 |:---------------------:|:---------------------------------------------:| 
 | Input         		| 32x32x3 RGB image   			| 
-| Convolution 3x3     	| 1x1 stride, same padding, outputs 32x32x64 	|
+| Convolution 5x5     	| 1x1 stride, same padding, outputs 32x32x64 	|
 | RELU			|						|
 | Max pooling	      	| 2x2 stride,  outputs 16x16x64 		|
 | Convolution 3x3       | etc.     					|
@@ -121,11 +122,7 @@ To get to 97.5% i went through several steps:
 13) Switch to python generator (instead a simple loop)
 14) Testing data augmentation - 98.2% with small image shifts (0-4 px)
 15) Testing data augmentation - directional blur
-16)
-17)
-18)
-19)
-20)
+
 
 I changed training code, so every epoch it is testing model against training data as well. This gives me knowledge about overfitting and convergence in general (if it works at all). 
 I also added saving best model possible - during training code remembers last best accuracy, and if new one (in the new epoch) is better - it saves model again. It slowed down training process, but gave better results in test accuracy. 
@@ -163,12 +160,12 @@ with tf.Session() as sess:
         print()
 ```    
 
-Describe the approach taken for finding a solution and getting the validation set accuracy to be at least 0.93. Include in the discussion the results on the training, validation and test sets and where in the code these were calculated. Your approach may have been an iterative process, in which case, outline the steps you took to get to the final solution and why you chose those steps. Perhaps your solution involved an already well known implementation or architecture. In this case, discuss why you think the architecture is suitable for the current problem.
 
 My final model results were:
-* training set accuracy of ?
-* validation set accuracy of ? 
-* test set accuracy of ?
+* training set accuracy of 99.9%
+* validation set accuracy of 98%
+* test set accuracy of 96%
+
 
 If an iterative approach was chosen:
 * What was the first architecture that was tried and why was it chosen?
