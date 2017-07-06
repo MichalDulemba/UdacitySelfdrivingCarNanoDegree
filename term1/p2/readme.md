@@ -17,10 +17,15 @@ Training set is
 Here is an exploratory visualization of the data set. It is a bar chart showing how the data is distributed among all categories for training, validation and test set. 
 images/training.png
 
-![Training set](images/training.png)  
+![Training set](images/training.png)
+Training data  
 ![Validation set](images/validation.png)  
+Validation data  
 ![Test set](images/test.png)  
+Test data  
 
+Sample images
+![sample from set](images/sample_signs.png) 
 
 ### Design and Test a Model Architecture
 
