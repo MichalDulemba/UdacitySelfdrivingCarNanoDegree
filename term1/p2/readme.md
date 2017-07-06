@@ -205,8 +205,8 @@ I will resize them to 32x32 in code.
 <img src="german_examples/cut/11.jpg" align="left" width="32">
 <img src="german_examples/cut/1.jpg" align="left" width="32">
 
+<br>
 #### 2. Results 
-Discuss the model's predictions on these new traffic signs and compare the results to predicting on the test set. At a minimum, discuss what the predictions were, the accuracy on these new predictions, and compare the accuracy to the accuracy on the test set (OPTIONAL: Discuss the results in more detail as described in the "Stand Out Suggestions" part of the rubric).
 
 Here are the results of the prediction:
 
