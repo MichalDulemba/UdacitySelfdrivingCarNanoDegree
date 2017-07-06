@@ -57,9 +57,9 @@ Next step was of course division by 255 (normalizing to 0-1) and subtracting 0.5
 
 #### 3. Data augmentation
 
-#### 1. Describe how you preprocessed the image data. What techniques were chosen and why did you choose these techniques? Consider including images showing the output of each preprocessing technique. Pre-processing refers to techniques such as converting to grayscale, normalization, etc. (OPTIONAL: As described in the "Stand Out Suggestions" part of the rubric, if you generated additional data for training, describe why you decided to generate additional data, how you generated the data, and provide example images of the additional data. Then describe the characteristics of the augmented training set like number of images in the set, number of images for each class, etc.)
+After geting to around 97% accuracy, I decided to tried to test couple of data augmentation techniques like random shifts, scaling, brightness change. 
 
-As a first step, I decided to convert the images to grayscale because ...
+#### 1. Describe how you preprocessed the image data. What techniques were chosen and why did you choose these techniques? Consider including images showing the output of each preprocessing technique. Pre-processing refers to techniques such as converting to grayscale, normalization, etc. (OPTIONAL: As described in the "Stand Out Suggestions" part of the rubric, if you generated additional data for training, describe why you decided to generate additional data, how you generated the data, and provide example images of the additional data. Then describe the characteristics of the augmented training set like number of images in the set, number of images for each class, etc.)
 
 Here is an example of a traffic sign image before and after grayscaling.
 
@@ -100,11 +100,38 @@ My final model consisted of the following layers:
 
 
 #### 3. Training 
-Describe how you trained your model. The discussion can include the type of optimizer, the batch size, number of epochs and any hyperparameters such as learning rate.
+I trained my model with "Adam" optimizer and learning rate of 0.001.
+Most of the tests were done in range 15-20 epochs, after that i berely saw any change in validation accuracy. 
 
-To train the model, I used an ....
 
 #### 4. Final results
+To get to 97.5% i went through several steps:
+1) Lenet architecture with more filters
+2) Prepared data histogram / labels / quantity for each category
+3) Tested filters 3x3 against 5x5. Suprisingly 5x5 gave much better results. Probably due to very little tiny features on road signs
+4) Added data normalization x/255
+5) Tested x -= mean(x) and x /= stddev(x) - worse results
+6) Tested min/max regularization - worse results
+7) Switched to "vgg like" network 
+8) Tested 3x3 filters in third and fourth layer - better results
+9) Smaller categories upsampling - 95% accuracy
+10) Gamma adjust - 96%
+11) Switch to CLAHE - 97% and fixed dropout (turned off) during prediction
+12) displaying more examples, testing brightness correction - issues with rgb images overflow (values higher than 255)
+13) ...
+14)
+15)
+16)
+17)
+18)
+19)
+20)
+
+I changed training code, so every epoch it is testing model against training data as well. This gives me knowledge about overfitting and convergence in general (if it works at all). 
+I also added saving best model possible - during training code remembers last best accuracy, and if new one (in the new epoch) is better - it saves model again. It slowed down training process, but gave better results in test accuracy. 
+To augment batches in "real time" - i switched to python generator, so augmentation is applied per batch. Less issues with memory limits, but slower solution. One could try to use some parallel processing here - it could speed things up. 
+
+
 Describe the approach taken for finding a solution and getting the validation set accuracy to be at least 0.93. Include in the discussion the results on the training, validation and test sets and where in the code these were calculated. Your approach may have been an iterative process, in which case, outline the steps you took to get to the final solution and why you chose those steps. Perhaps your solution involved an already well known implementation or architecture. In this case, discuss why you think the architecture is suitable for the current problem.
 
 My final model results were:
