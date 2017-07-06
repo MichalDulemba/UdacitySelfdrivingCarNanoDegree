@@ -21,9 +21,9 @@ Here is an exploratory visualization of the data set. It is a bar chart showing 
 ![Test set][images/test.png]  
 
 
-###Design and Test a Model Architecture
+### Design and Test a Model Architecture
 
-####1
+#### 1
 
 In folder "previous steps" you can check steps I took to get to this point with model/data.
 I decided not to go black and white because I didn't want to lose any information. I noticed that many of road signs were really low contrast and very dark so I tried techniques like:
@@ -63,7 +63,7 @@ Here is an example of an original image and an augmented image:
 The difference between the original data set and the augmented data set is the following ... 
 
 
-####2. Describe what your final model architecture looks like including model type, layers, layer sizes, connectivity, etc.) Consider including a diagram and/or table describing the final model.
+#### 2. Model description
 
 I started with simple lenet as in previous lab, then made it wider/deeper. After couple of tests I switched to vgg-like architecture. 
 
@@ -108,9 +108,9 @@ If a well known architecture was chosen:
 * How does the final model's accuracy on the training, validation and test set provide evidence that the model is working well?
  
 
-###Test a Model on New Images
+### Testing my model on new images
 
-####1. Choose five German traffic signs found on the web and provide them in the report. For each image, discuss what quality or qualities might be difficult to classify.
+#### 1. Five german trafic signs found on the web:
 
 Here are five German traffic signs that I found on the web:
 
@@ -119,7 +119,8 @@ Here are five German traffic signs that I found on the web:
 
 The first image might be difficult to classify because ...
 
-####2. Discuss the model's predictions on these new traffic signs and compare the results to predicting on the test set. At a minimum, discuss what the predictions were, the accuracy on these new predictions, and compare the accuracy to the accuracy on the test set (OPTIONAL: Discuss the results in more detail as described in the "Stand Out Suggestions" part of the rubric).
+#### 2. Results 
+Discuss the model's predictions on these new traffic signs and compare the results to predicting on the test set. At a minimum, discuss what the predictions were, the accuracy on these new predictions, and compare the accuracy to the accuracy on the test set (OPTIONAL: Discuss the results in more detail as described in the "Stand Out Suggestions" part of the rubric).
 
 Here are the results of the prediction:
 
