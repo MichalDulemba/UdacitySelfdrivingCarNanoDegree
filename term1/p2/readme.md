@@ -193,7 +193,7 @@ I will resize them to 32x32 in code.
 ![alt text](german_examples/cut/1.jpg)  
 ![alt text](german_examples/cut/2a.jpg)  
 ![alt text](german_examples/cut/2b.jpg)  
-![alt text](german_examples/cut/3.jpg)  
+![alt text](german_examples/cut/3.JPG)  
 ![alt text](german_examples/cut/4.jpg)  
 ![alt text](german_examples/cut/5.jpg)  
 ![alt text](german_examples/cut/6.JPG)  
