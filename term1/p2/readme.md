@@ -101,6 +101,8 @@ My final model consisted of the following layers:
 
 
 #### 3. Training 
+Based on couple of docker files found on the web, i created my own - tf (gpu based) + cv + some libraries.
+Anyone can build it (couple of hours) at home - [Dockerfile](Dockerfile)  
 I trained my model with "Adam" optimizer and learning rate of 0.001.
 Most of the tests were done in range 15-25 epochs, after that i berely saw any change in validation accuracy. 
 For most of the tests I used dropout keep_rate at 0.7
