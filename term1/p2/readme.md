@@ -292,7 +292,7 @@ The code for making predictions on my final model is "Test German Road Signs" ce
 |  Priority road 	| 0.0000 									| 
 |  Keep left | 0.0000 									| 
 
-<img src="german_examples/cut/3.jpg" align="left" width="46">
+<img src="german_examples/cut/3.JPG" align="left" width="46">
 
 Roundabout mandatory
 
