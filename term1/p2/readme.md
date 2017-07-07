@@ -57,7 +57,7 @@ Next step was of course division by 255 (normalizing to 0-1) and subtracting 0.5
 
 #### 3. Data augmentation
 
-After geting to around 97% accuracy, I decided to tried to test couple of data augmentation techniques like random shifts, scaling, brightness change. 
+After geting to around 97% accuracy, I decided to tried to test couple of data augmentation techniques like random shifts, scaling, brightness change. Scaling gave some real boost in results.
 You can see it in ![this file](data_augmentation.ipynb)
 
 Examples of data augmentation:
