@@ -241,27 +241,24 @@ The code for making predictions on my final model is "Test German Road Signs" ce
 
 | category			        |     probability	        					| 
 |:---------------------:|:---------------------------------------------:| 
-| Speed limit (60km/h)    		| 1.0000) 									| 
-| Keep right    		| 0.0000) 									| 
-| Go straight or right    		| 0.0000) 									| 
-| End of speed limit (80km/h)  		| 0.0000) 									| 
-| Speed limit (80km/h)  		| 0.0000) 									| 
+| Speed limit (60km/h)    		| 1.0000 									| 
+| Keep right    		| 0.0000 									| 
+| Go straight or right    		| 0.0000 									| 
+| End of speed limit (80km/h)  		| 0.0000 									| 
+| Speed limit (80km/h)  		| 0.0000 									| 
 
 
-                         Speed limit (60km/h) 1.0000
-                                   Keep right 0.0000  
-                         Go straight or right 0.0000  
-                  End of speed limit (80km/h) 0.0000  
-                         Speed limit (80km/h) 0.0000  
 <img src="german_examples/cut/10.jpg" width="46">
 
+| category			        |     probability	        					| 
+|:---------------------:|:---------------------------------------------:| 
+| Dangerous curve to the left   		| 1.0000 									| 
+| Road narrows on the right    		| 0.0000 									| 
+| Speed limit (70km/h)  		| 0.0000 									| 
+| Double curve 		| 0.0000 									| 
+| Speed limit (120km/h) 		| 0.0000 									| 
 
-Dangerous curve to the left
-                  Dangerous curve to the left 1.0000  
-                    Road narrows on the right 0.0000  
-                         Speed limit (70km/h) 0.0000  
-                                 Double curve 0.0000  
-                        Speed limit (120km/h) 0.0000  
+
 <img src="german_examples/cut/11.jpg" align="left" width="46">
 
 Road work
