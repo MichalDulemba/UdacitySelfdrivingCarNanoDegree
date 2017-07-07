@@ -233,11 +233,14 @@ Here are the results of the prediction:
 | Bicycles			| No entry     							|
 
 
-The model was able to correctly guess 5 of the 13 traffic signs, but some of them were completely unknown to the model. I just wanted to see, what happens. 
+The model was able to correctly guess 5 of the 13 traffic signs, but some of them were completely unknown to the model (40km/h, pedestrians, blind alley and road narrows on the left, bicycles). I just wanted to see, what happens. It is really hard to say, why it failed at roundabout, maybe because it is a category with small number of samples. 
 
 #### 3. Top 5 probabilites
 
 The code for making predictions on my final model is "Test German Road Signs" cell. 
+As one can see - model when is right, probability in first category is close to 1. 
+But suprisingly, when it fails, it also gives very high probabilites. 
+Sometimes it picks signs that are somewhat similar to real category for example instead of "Road narrows on the right" it shows "Road works" or instead of (unknown) "40" it shows "80", but sometimes it misses it completely (showing "no passing" instead of blind alley).
 
 <img src="german_examples/cut/1.jpg" width="46">
 
