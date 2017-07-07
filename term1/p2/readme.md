@@ -325,7 +325,7 @@ Roundabout mandatory
 |   Yield 	|0.0000			| 
 | Turn left ahead  | 0.0000		| 
 
-<img src="german_examples/cut/6.jpg" align="left" width="46">
+<img src="german_examples/cut/6.JPG" align="left" width="46">
 
 | category			        |     probability	        					| 
 |:---------------------:|:---------------------------------------------:| 
