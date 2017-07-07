@@ -376,6 +376,5 @@ Roundabout mandatory
 |     Speed limit (30km/h)  |0.0000| 
 |     Speed limit (80km/h) | 0.0000		| 
 
-<img src="german_examples/cut/2b.jpg" align="left" width="46">
 
 
