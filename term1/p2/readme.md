@@ -167,8 +167,8 @@ with tf.Session() as sess:
 
 My final model results were:
 * training set accuracy of 99.9%
-* validation set accuracy of 98%
-* test set accuracy of 96%
+* validation set accuracy of 98.5%
+* test set accuracy of 97%
 
 
 ### Testing my model on new images
@@ -216,41 +216,144 @@ Here are the results of the prediction:
 
 | Image			        |     Prediction	        					| 
 |:---------------------:|:---------------------------------------------:| 
-| 60      		| Stop sign   									| 
-| Road work     			| U-turn 										|
-| Road narrows on the right		| Slippery Road      							|
-| No vehicles			| Slippery Road      							|
-| 40					| Yield											|
-| Road work    		| Bumpy Road					 				|
-| Pedestrians			| Slippery Road      							|
-| Pedestrians			| Slippery Road      							|
-| Roundabout			| Slippery Road      							|
-| Blind alley		| Slippery Road      							|
-| Bicycles			| Slippery Road      							|
-| Left turn			| Slippery Road      							|
-| Road work		| Slippery Road      							|
+| 60      		| Speed limit (60km/h) 									| 
+| Dangerous curve to the left      		| Dangerous curve to the left							| 
+| Road work     			|  Road work 										|
+| Road work   		| Road work        							|
+| Road narrows on the left   		| Road work        							|
+
+| No vehicles			| Roundabout mandatory     							|
+| 40					| Speed limit (80km/h)									|
+| Road work    		| Road work   			 				|
+| Pedestrians			| Speed limit (30km/h)      							|
+| Pedestrians			| Priority road      							|
+| Roundabout			| Priority road     							|
+| Blind alley		| No passing     							|
+| Bicycles			| No entry     							|
 
 
-
-The model was able to correctly guess 4 of the 5 traffic signs, which gives an accuracy of 80%. This compares favorably to the accuracy on the test set of ...
+The model was able to correctly guess 5 of the 13 traffic signs, but some of them were completely unknown to the model. I just wanted to see, what happens. 
 
 #### 3. Top 5 probabilites
-Describe how certain the model is when predicting on each of the five new images by looking at the softmax probabilities for each prediction. Provide the top 5 softmax probabilities for each image along with the sign type of each probability. (OPTIONAL: as described in the "Stand Out Suggestions" part of the rubric, visualizations can also be provided such as bar charts)
 
-The code for making predictions on my final model is located in the 11th cell of the Ipython notebook.
+The code for making predictions on my final model is "Test German Road Signs" cell. 
 
-For the first image, the model is relatively sure that this is a stop sign (probability of 0.6), and the image does contain a stop sign. The top five soft max probabilities were
-
-| Probability         	|     Prediction	        					| 
-|:---------------------:|:---------------------------------------------:| 
-| .60         			| Stop sign   									| 
-| .20     				| U-turn 										|
-| .05					| Yield											|
-| .04	      			| Bumpy Road					 				|
-| .01				    | Slippery Road      							|
+<img src="german_examples/cut/1.jpg" width="46">
+Speed limit (60km/h)
+                         Speed limit (60km/h) 1.0000  
+                                   Keep right 0.0000  
+                         Go straight or right 0.0000  
+                  End of speed limit (80km/h) 0.0000  
+                         Speed limit (80km/h) 0.0000  
+<img src="german_examples/cut/10.jpg" width="46">
 
 
-For the second image ... 
+Dangerous curve to the left
+                  Dangerous curve to the left 1.0000  
+                    Road narrows on the right 0.0000  
+                         Speed limit (70km/h) 0.0000  
+                                 Double curve 0.0000  
+                        Speed limit (120km/h) 0.0000  
+<img src="german_examples/cut/11.jpg" align="left" width="46">
 
+Road work
+                                    Road work 1.0000
+                                Priority road 0.0000
+                              Traffic signals 0.0000
+                         Speed limit (80km/h) 0.0000
+                                   Bumpy road 0.0000
+./german_examples/cut/2a.jpg
+<img src="german_examples/cut/2a.jpg" align="left" width="46">
+
+Road work
+                                    Road work 1.0000
+                                Priority road 0.0000
+                              Traffic signals 0.0000
+                              Turn left ahead 0.0000
+                                        Yield 0.0000
+./german_examples/cut/2b.jpg
+<img src="german_examples/cut/2b.jpg" align="left" width="46">
+
+Road work
+                                    Road work 0.7203
+                                   Keep right 0.2691
+                              General caution 0.0053
+                                Priority road 0.0015
+                                    Keep left 0.0013
+./german_examples/cut/3.JPG
+<img src="german_examples/cut/3.jpg" align="left" width="46">
+
+Roundabout mandatory
+                         Roundabout mandatory 0.9324
+                 Dangerous curve to the right 0.0654
+                                Priority road 0.0012
+                  End of speed limit (80km/h) 0.0008
+     Vehicles over 3.5 metric tons prohibited 0.0002
+./german_examples/cut/4.jpg
+<img src="german_examples/cut/4.jpg" align="left" width="46">
+
+Speed limit (80km/h)
+                         Speed limit (80km/h) 0.9997
+                         Speed limit (60km/h) 0.0003
+                  End of speed limit (80km/h) 0.0000
+                         Speed limit (30km/h) 0.0000
+     Vehicles over 3.5 metric tons prohibited 0.0000
+./german_examples/cut/5.jpg
+<img src="german_examples/cut/5.jpg" align="left" width="46">
+
+Road work
+                                    Road work 1.0000
+                              Traffic signals 0.0000
+                                Priority road 0.0000
+                                        Yield 0.0000
+                              Turn left ahead 0.0000
+./german_examples/cut/6.JPG
+<img src="german_examples/cut/6.jpg" align="left" width="46">
+
+Speed limit (30km/h)
+                         Speed limit (30km/h) 0.9290
+                                     No entry 0.0354
+                         Speed limit (20km/h) 0.0098
+                              Traffic signals 0.0086
+                                         Stop 0.0084
+./german_examples/cut/6a.JPG
+
+<img src="german_examples/cut/6a.JPG" align="left" width="46">
+
+Priority road
+                                Priority road 0.9796
+                                   No passing 0.0095
+                            End of no passing 0.0055
+                                     No entry 0.0031
+                 Dangerous curve to the right 0.0013
+./german_examples/cut/7.jpg
+
+<img src="german_examples/cut/7.jpg" align="left" width="46">
+
+Priority road
+                                Priority road 0.9993
+                                    Road work 0.0007
+                                        Yield 0.0000
+                              Traffic signals 0.0000
+                                         Stop 0.0000
+./german_examples/cut/8.jpg
+<img src="german_examples/cut/8.jpg" align="left" width="46">
+
+No passing
+                                   No passing 0.9806
+                                Priority road 0.0188
+     Vehicles over 3.5 metric tons prohibited 0.0002
+                                        Yield 0.0001
+ No passing for vehicles over 3.5 metric tons 0.0001
+./german_examples/cut/9.jpg
+<img src="german_examples/cut/9.jpg" align="left" width="46">
+
+No entry
+                                     No entry 0.8884
+                                         Stop 0.1116
+                         Speed limit (20km/h) 0.0000
+                         Speed limit (30km/h) 0.0000
+                         Speed limit (80km/h) 0.0000
+<img src="german_examples/cut/2b.jpg" align="left" width="46">
 
 
