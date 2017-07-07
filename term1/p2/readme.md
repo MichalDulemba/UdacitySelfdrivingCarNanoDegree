@@ -281,89 +281,101 @@ The code for making predictions on my final model is "Test German Road Signs" ce
 | Yield	| 0.0000 									| 
 
 
-./german_examples/cut/2b.jpg
 <img src="german_examples/cut/2b.jpg" align="left" width="46">
 
-Road work
-                                    Road work 0.7203
-                                   Keep right 0.2691
-                              General caution 0.0053
-                                Priority road 0.0015
-                                    Keep left 0.0013
-./german_examples/cut/3.JPG
+
+| category			        |     probability	        					| 
+|:---------------------:|:---------------------------------------------:| 
+| Road work  		| 1.0000 									| 
+| Keep right 		| 0.0000 									| 
+|  General caution 	| 0.0000 									| 
+|  Priority road 	| 0.0000 									| 
+|  Keep left | 0.0000 									| 
+
 <img src="german_examples/cut/3.jpg" align="left" width="46">
 
 Roundabout mandatory
-                         Roundabout mandatory 0.9324
-                 Dangerous curve to the right 0.0654
-                                Priority road 0.0012
-                  End of speed limit (80km/h) 0.0008
-     Vehicles over 3.5 metric tons prohibited 0.0002
-./german_examples/cut/4.jpg
+
+| category			        |     probability	        					| 
+|:---------------------:|:---------------------------------------------:| 
+| Road work  		| 1.0000 									| 
+| Keep right 		| 0.2691									| 
+|  General caution 	| 0.0053								| 
+|  Priority road 	|0.0015							| 
+|  Keep left | 0.0013 									| 
+
 <img src="german_examples/cut/4.jpg" align="left" width="46">
 
-Speed limit (80km/h)
-                         Speed limit (80km/h) 0.9997
-                         Speed limit (60km/h) 0.0003
-                  End of speed limit (80km/h) 0.0000
-                         Speed limit (30km/h) 0.0000
-     Vehicles over 3.5 metric tons prohibited 0.0000
-./german_examples/cut/5.jpg
+| category			        |     probability	        					| 
+|:---------------------:|:---------------------------------------------:| 
+| Speed limit (80km/h)  		| 0.9997 									| 
+| Speed limit (60km/h)		| 0.0003						| 
+|    End of speed limit (80km/h)	| 0.0000							| 
+|  Speed limit (30km/h) 	|0.0000			| 
+| Vehicles over 3.5 metric tons prohibited  | 0.0000		| 
+
+
 <img src="german_examples/cut/5.jpg" align="left" width="46">
 
-Road work
-                                    Road work 1.0000
-                              Traffic signals 0.0000
-                                Priority road 0.0000
-                                        Yield 0.0000
-                              Turn left ahead 0.0000
-./german_examples/cut/6.JPG
+| category			        |     probability	        					| 
+|:---------------------:|:---------------------------------------------:| 
+|  Road work   		| 1.0000			| 
+| Traffic signals		| 0.0000						| 
+|  Priority road	| 0.0000							| 
+|   Yield 	|0.0000			| 
+| Turn left ahead  | 0.0000		| 
+
 <img src="german_examples/cut/6.jpg" align="left" width="46">
 
-Speed limit (30km/h)
-                         Speed limit (30km/h) 0.9290
-                                     No entry 0.0354
-                         Speed limit (20km/h) 0.0098
-                              Traffic signals 0.0086
-                                         Stop 0.0084
-./german_examples/cut/6a.JPG
+| category			        |     probability	        					| 
+|:---------------------:|:---------------------------------------------:| 
+|  Speed limit (30km/h)  		| 0.9290			| 
+| No entry		| 0.0354					| 
+|  Speed limit (20km/h)	| 0.0098						| 
+|    Traffic signals |0.0086		| 
+|  Stop | 0.0084		| 
+
 
 <img src="german_examples/cut/6a.JPG" align="left" width="46">
 
-Priority road
-                                Priority road 0.9796
-                                   No passing 0.0095
-                            End of no passing 0.0055
-                                     No entry 0.0031
-                 Dangerous curve to the right 0.0013
-./german_examples/cut/7.jpg
+| category			        |     probability	        					| 
+|:---------------------:|:---------------------------------------------:| 
+|  Priority road 		| 0.9796			| 
+|  No passing 		| 0.0095					| 
+|  End of no passing	| 0.0055				| 
+|     No entry |0.0031 | 
+|    Dangerous curve to the right | 0.0013		| 
 
 <img src="german_examples/cut/7.jpg" align="left" width="46">
 
-Priority road
-                                Priority road 0.9993
-                                    Road work 0.0007
-                                        Yield 0.0000
-                              Traffic signals 0.0000
-                                         Stop 0.0000
-./german_examples/cut/8.jpg
+| category			        |     probability	        					| 
+|:---------------------:|:---------------------------------------------:| 
+|   Priority road	| 0.9993	| 
+|  Road work 		| 0.0007			| 
+|  Yield	|  0.0000		| 
+|     Traffic signals |0.0000| 
+|     Stop | 0.0000		| 
+
 <img src="german_examples/cut/8.jpg" align="left" width="46">
 
-No passing
-                                   No passing 0.9806
-                                Priority road 0.0188
-     Vehicles over 3.5 metric tons prohibited 0.0002
-                                        Yield 0.0001
- No passing for vehicles over 3.5 metric tons 0.0001
-./german_examples/cut/9.jpg
+| category			        |     probability	        					| 
+|:---------------------:|:---------------------------------------------:| 
+|   No passing	| 0.9806 | 
+|  Priority road 		| 0.0188		| 
+|  Vehicles over 3.5 metric tons prohibited	|  0.0002		| 
+|     Yield  |0.0001| 
+|     No passing for vehicles over 3.5 metric ton | 0.0001		| 
+
 <img src="german_examples/cut/9.jpg" align="left" width="46">
 
-No entry
-                                     No entry 0.8884
-                                         Stop 0.1116
-                         Speed limit (20km/h) 0.0000
-                         Speed limit (30km/h) 0.0000
-                         Speed limit (80km/h) 0.0000
+| category			        |     probability	        					| 
+|:---------------------:|:---------------------------------------------:| 
+|   No entry	| 0.8884	| 
+|   Stop		| 0.1116			| 
+|   Speed limit (20km/h)	|  0.0000		| 
+|     Speed limit (30km/h)  |0.0000| 
+|     Speed limit (80km/h) | 0.0000		| 
+
 <img src="german_examples/cut/2b.jpg" align="left" width="46">
 
 
