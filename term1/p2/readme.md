@@ -221,7 +221,6 @@ Here are the results of the prediction:
 | Road work     			|  Road work 										|
 | Road work   		| Road work        							|
 | Road narrows on the left   		| Road work        							|
-
 | No vehicles			| Roundabout mandatory     							|
 | 40					| Speed limit (80km/h)									|
 | Road work    		| Road work   			 				|
@@ -239,8 +238,17 @@ The model was able to correctly guess 5 of the 13 traffic signs, but some of the
 The code for making predictions on my final model is "Test German Road Signs" cell. 
 
 <img src="german_examples/cut/1.jpg" width="46">
-Speed limit (60km/h)
-                         Speed limit (60km/h) 1.0000  
+
+| category			        |     probability	        					| 
+|:---------------------:|:---------------------------------------------:| 
+| Speed limit (60km/h)    		| 1.0000) 									| 
+| Keep right    		| 0.0000) 									| 
+| Go straight or right    		| 0.0000) 									| 
+| End of speed limit (80km/h)  		| 0.0000) 									| 
+| Speed limit (80km/h)  		| 0.0000) 									| 
+
+
+                         Speed limit (60km/h) 1.0000
                                    Keep right 0.0000  
                          Go straight or right 0.0000  
                   End of speed limit (80km/h) 0.0000  
