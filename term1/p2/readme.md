@@ -248,7 +248,7 @@ The code for making predictions on my final model is "Test German Road Signs" ce
 | Speed limit (80km/h)  		| 0.0000 									| 
 
 
-<img src="german_examples/cut/10.jpg" width="46">
+<img src="german_examples/cut/10.JPG" width="46">
 
 | category			        |     probability	        					| 
 |:---------------------:|:---------------------------------------------:| 
@@ -261,21 +261,26 @@ The code for making predictions on my final model is "Test German Road Signs" ce
 
 <img src="german_examples/cut/11.jpg" align="left" width="46">
 
-Road work
-                                    Road work 1.0000
-                                Priority road 0.0000
-                              Traffic signals 0.0000
-                         Speed limit (80km/h) 0.0000
-                                   Bumpy road 0.0000
+| category			        |     probability	        					| 
+|:---------------------:|:---------------------------------------------:| 
+| Road work  		| 1.0000 									| 
+| Priority road  		| 0.0000 									| 
+|  Traffic signals 	| 0.0000 									| 
+| Speed limit (80km/h)		| 0.0000 									| 
+| Bumpy road		| 0.0000 									| 
+
 ./german_examples/cut/2a.jpg
 <img src="german_examples/cut/2a.jpg" align="left" width="46">
 
-Road work
-                                    Road work 1.0000
-                                Priority road 0.0000
-                              Traffic signals 0.0000
-                              Turn left ahead 0.0000
-                                        Yield 0.0000
+| category			        |     probability	        					| 
+|:---------------------:|:---------------------------------------------:| 
+| Road work  		| 1.0000 									| 
+| Priority road  		| 0.0000 									| 
+|  Traffic signals 	| 0.0000 									| 
+| Turn left ahead	| 0.0000 									| 
+| Yield	| 0.0000 									| 
+
+
 ./german_examples/cut/2b.jpg
 <img src="german_examples/cut/2b.jpg" align="left" width="46">
 
