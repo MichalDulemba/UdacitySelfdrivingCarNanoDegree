@@ -80,11 +80,11 @@ This would mean that some kind of gaussian distribution of steering values would
 
 My model consists of a convolution neural network with 5x5 and 3x3 filter sizes and depths between 24 and 64. 
 The model includes RELU layers to introduce nonlinearity , and the data is normalized in the model using a Keras lambda layer. 
-I also crop images inside the model, to avoid any issues with drive.py
+I also crop images inside the model, to avoid any issues with drive.py  
 
-Model layers:
-Lambda (normalization)  
-Cropping  
+Model layers:  
+Lambda (normalization)   
+Cropping   
 
 Convolutional (24 filters, filter size (5,5), strides=1, padding="valid")  
 Activation ELU / RELU  
