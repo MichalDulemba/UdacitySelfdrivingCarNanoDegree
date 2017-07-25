@@ -147,6 +147,5 @@ In many forum discussions, people mentioned changing image brightness and some t
 Second - I tried to move my head around during driving to simulate image shifts and my first reaction was - if you move image around, and white lines change their relative position, problably
 you should change steering as well - so that would require again quite some time for testing different change values.
 
-Also I lost lots of time during initial setup process - first because of decimal point . vs , that messed up drive.py and my data, and later - to make those model work on GPU, I had to create
-my own docker images.
+Also I lost lots of time during initial setup process - first because of decimal point . vs , that "messed up" drive.py and my data, and later - to make those model work on GPU, I had to create my own docker images. But later it was lots of fun with testing, driving under water etc. Lots of new ideas can be tested using this kind of tools before you apply them in a real car. 
 
