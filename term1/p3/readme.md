@@ -38,13 +38,13 @@ Using this hack allowed me to record pretty smooth data, a lot more like in real
 ### Data distribution / statistics 
 To get more balanced data set - I drove car 10 laps one way, and 10 another (because regular lap is most of the time turning left). 10 laps helped generalize better - because my driving would never be the same, model learns kind of "average" way of driving on this track. I didn't add recovery from edges because it wasn't necessary to drive properly, but I added first sharp turn left couple of times because it was the weakest point in model behaviour.
 
-Udacity provided data (probably recorded using keyboard) - around 8000 images.
+#### Udacity provided data (probably recorded using keyboard) - around 8000 images.
 ![Close up](images/close_up_udacity.png)
 ![Laps](images/laps_udacity.png)
 ![Statistics](images/stats_udacity.png)
 
 
-My data - 27 000 images 
+#### My data - 27 000 images 
 ![Close up](images/close_up_my_data.png)
 ![Laps](images/laps_my_data.png)
 ![Statistics](images/stats_mydata.png)
