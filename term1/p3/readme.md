@@ -13,22 +13,25 @@ The goals / steps of this project are the following:
 
 
 [//]: # (Image References)
-Images from car "cameras".
+Images from car "cameras".  
 ![Left](images/left_2017_07_16_05_34_03_367.jpg)
 ![Right](images/right_2017_07_16_05_34_03_367.jpg)
 ![Center](images/center_2017_07_16_05_34_03_367.jpg)
 
 ## Repository
 You can find here all elements of this project.   
-Video - cloning.mp4 also at https://vimeo.com/225957146 (password: udacity)  
-final_model.py - my final model of neural network  
+Video - cloning.mp4 also at https://vimeo.com/225957146 (password: udacity)   
++ 2 other videos
 drive.py - modified version of drive.py   
 readme.md - this project description  
-models - other model experiments  
+models folder:
+        nvidia_ELU_3cameras_generator - model based on generator with 3 cameras and ELU activation  
+        nvidia_RELU_based model  - model based on loading all data to memory, one camera, RELU activation  
 
 
 ## Good data approach 
-I played with Udacity simulator couple of months before I was ready to try myself on SelfDrivingCar ND. To be honest driving with keyboard was really hard for me. Using mouse gave a little better results but still it looked more like drunk driving /first time driving. I decided to dig into code and find place to make easier to drive with mouse. After trying to limit steering angle, second idea was to make mouse much less sensitive - 4 times to be exact. You can do it in Assets/Standard Assets/Vehicles/Car/Scripts/Steering.cs by changing this line float mousePosition = Input.mousePosition.x; into this float mousePosition = Input.mousePosition.x / 4;
+I played with Udacity simulator couple of months before I was ready to try myself on SelfDrivingCar ND. To be honest driving with keyboard was really hard for me. Using mouse gave a little better results but still it looked more like drunk driving /first time driving. I decided to dig into code and find place to make easier to drive with mouse. After trying to limit steering angle, second idea was to make mouse much less sensitive - 4 times to be exact.   
+You can do it in Assets/Standard Assets/Vehicles/Car/Scripts/Steering.cs by changing this line float mousePosition = Input.mousePosition.x; into this float mousePosition = Input.mousePosition.x / 4;
 
 Using this hack allowed me to record pretty smooth data, a lot more like in real life, where at least most of the time, you change steering angle really in a slow continous way. It is still far from perfect but helped me building proper models.
 
