@@ -30,7 +30,8 @@ readme.md - this project description
 models folder:  
         nvidia_ELU_3cameras_generator - model based on generator with 3 cameras and ELU activation  
         nvidia_RELU_based model  - model based on loading all data to memory, one camera, RELU activation  
-
+        model.h5.7z - RELU trained model (packed into 7z archive due to github limitations)  
+        ELU_model.h5.7z - ELU trained model (packed into 7z archive due to github limitations)  
 
 ## Good data approach 
 I played with Udacity simulator couple of months before I was ready to try myself on SelfDrivingCar ND. To be honest driving with keyboard was really hard for me. Using mouse gave a little better results but still it looked more like drunk driving /first time driving. I decided to dig into code and find place to make easier to drive with mouse. After trying to limit steering angle, second idea was to make mouse much less sensitive - 4 times to be exact.   
