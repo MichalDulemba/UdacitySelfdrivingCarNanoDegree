@@ -14,9 +14,12 @@ The goals / steps of this project are the following:
 
 [//]: # (Image References)
 Images from car "cameras".  
-![Left](images/left_2017_07_16_05_34_03_367.jpg)
-![Right](images/right_2017_07_16_05_34_03_367.jpg)
-![Center](images/center_2017_07_16_05_34_03_367.jpg)
+LEFT  <br /><br />
+![Left](images/left_2017_07_16_05_34_03_367.jpg)<br /><br />
+RIGHT  
+![Right](images/right_2017_07_16_05_34_03_367.jpg)<br /><br />
+CENTER  
+![Center](images/center_2017_07_16_05_34_03_367.jpg)<br /><br />
 
 ## Repository
 You can find here all elements of this project.   
