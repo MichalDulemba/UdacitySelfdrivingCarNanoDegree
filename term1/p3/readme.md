@@ -24,10 +24,10 @@ CENTER
 ## Repository
 You can find here all elements of this project.   
 Video - cloning.mp4 also at https://vimeo.com/225957146 (password: udacity)   
-+ 2 other videos
-drive.py - modified version of drive.py   
-readme.md - this project description  
-models folder:
++ 2 other videos  
+drive.py - modified version of drive.py    
+readme.md - this project description    
+models folder:  
         nvidia_ELU_3cameras_generator - model based on generator with 3 cameras and ELU activation  
         nvidia_RELU_based model  - model based on loading all data to memory, one camera, RELU activation  
 
