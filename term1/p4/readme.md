@@ -155,9 +155,9 @@ Then I found on stackoverflow small snippet of code that allows to use median to
 my system reaction was kind of delayed. I figured out that when there was a sudden change in line position, median wasn't enough to "catch up". 
 So i decided to add a final step - weighted average on data without outliers. This smoothened drawing even more. 
 
-![Center](images2/Raw_data_fitting.jpg)
-
 ![Center](images2/found_line_regions.jpg)
+
+![Center](images2/Raw_data_fitting.jpg)
 
 ![Center](images2/with_mean.jpg)
 
