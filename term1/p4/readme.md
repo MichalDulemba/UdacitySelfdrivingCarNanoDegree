@@ -19,7 +19,7 @@ The code for this step is contained in the IPython notebook "undistort.ipynb".
 8) Later during pipeline i just load files with undistort matrices and apply them on each frame  
 
 Original
-![Left](images/original distorted.jpg)
+![Original distorted](images/original distorted.jpg)
 
 Original undistorted
 ![Left](images/original undistorted.jpg)
