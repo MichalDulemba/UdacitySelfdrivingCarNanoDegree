@@ -1,4 +1,4 @@
-**Advanced Lane Finding Project**
+## Advanced Lane Finding Project
 
 Goal of this project was process previously recorded video and create a new video containing visual information about lane lines and road curvature.
 
