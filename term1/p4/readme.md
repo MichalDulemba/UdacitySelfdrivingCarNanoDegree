@@ -21,10 +21,8 @@ The code for this step is contained in the IPython notebook "undistort.ipynb".
 Original  
 ![Original distorted](images/_original_distorted.jpg)  
 
-![Left](images/left_2017_07_16_05_34_03_367.jpg)<br /><br />  
-
 Original undistorted  
-![Left](images/original undistorted.jpg)  
+![Left](images/_original_undistorted.jpg)  
 
 
 #### 2. Operations on image to get binary image.
@@ -38,23 +36,23 @@ I used a combination of color and gradient thresholds to generate a binary image
 6) To remove unwanted small noise I use function medianBlur that removes some small artifacts from thresholding
 
 Threshold on h channel (from HSV)
-![Right](images/right_2017_07_16_05_34_03_367.jpg)
+![Right](images/h_channel_hsv_color_threshold.jpg)
 
 Threshold on l channel (from HSL)
-![Center](images/center_2017_07_16_05_34_03_367.jpg)
+![Center](images/hs_l_channel_color_thres.jpg)
 
 Gradient x (on original RGB image)
-![Center](images/center_2017_07_16_05_34_03_367.jpg)
+![Center](images/sobel_X_s_channel.jpg)
 
 Combination of previous
 gradient x (=1) AND threshold on h channel (=1) OR threshold on l channel (=0)
-![Center](images/center_2017_07_16_05_34_03_367.jpg)
+![Center](images/color_threshold_and_sobel_x.jpg)
 
 Morphological "closing"
-![Center](images/center_2017_07_16_05_34_03_367.jpg)
+![Center](images/morphology_closing.jpg)
 
 Median Blur
-![Center](images/center_2017_07_16_05_34_03_367.jpg)
+![Center](images/median_blur.jpg)
 
 
 
@@ -66,7 +64,7 @@ I chose points based on couple of tests (what is the best source region / destin
 - dst are destination points
 
 Unwarped image (after median blur)
-![Center](images/center_2017_07_16_05_34_03_367.jpg)
+![Center](images/median_blur.jpg)
 
 To change perspective of this image to top-view I use function warpPerspective and
 hardcoded points:
@@ -89,16 +87,16 @@ hardcoded points:
 ```
 
 Warped image
-![Center](images/center_2017_07_16_05_34_03_367.jpg)
+![Center](images/clean_warped.jpg)
 
 I verified that my perspective transform was working as expected by drawing region based on `src` points and test image and changed its perspective to to verify that the lines appear parallel in the warped image.
 
 Unwarped image with region of interest
-![Center](images/center_2017_07_16_05_34_03_367.jpg)
+![Center](images/combined_rgb.jpg)
 
 
 Warped image - lines seem to by parallel
-![Center](images/center_2017_07_16_05_34_03_367.jpg)
+![Center](images/warped_with_lines.jpg)
 
 #### 4. Lane line pixels identification 
 Next i used code from udacity materials (with some corrections/changes) to use sliding window approach for finding regions possibly containing lines. 
