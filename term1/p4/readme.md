@@ -19,7 +19,7 @@ The code for this step is contained in the IPython notebook "undistort.ipynb".
 8) Later during pipeline i just load files with undistort matrices and apply them on each frame  
 
 Original  
-![Original distorted](UdacitySelfdrivingCarNanoDegree/term1/p4/images/original_distorted.jpg)  
+![Original distorted](images/original_distorted.jpg)  
 
 ![Left](images/left_2017_07_16_05_34_03_367.jpg)<br /><br />  
 
