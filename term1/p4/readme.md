@@ -105,7 +105,7 @@ I use window 100x80 to avoid finding too small pieces but also to avoid to much 
 I draw those rectangle regions using function draw_centroids.
 
 Found regions
-![Center](images/center_2017_07_16_05_34_03_367.jpg)
+![Center](images/found_line_regions.jpg)
 
 To create touples containing x and y coordinates of the centers I use function centroids_to_points. 
 
@@ -116,23 +116,28 @@ Fitting is taking place in function fit_left_and_right. It returns A,B,C coeffic
 Then i draw lines based on those polynomials onto original warped image to see if they really fit and are good curvature approximation
 
 Fitted lines
-![Center](images/center_2017_07_16_05_34_03_367.jpg)
+![Center](images/with_outlier_removal_and_weighted_average.jpg)
 
 After fitting the lines, I can draw part of the road showing curvature.
 Region of interest on the road
-![Center](images/center_2017_07_16_05_34_03_367.jpg)
+![Center](images/road_mask.jpg)
 
 
-#### 5. Curvature
-
-I did this in lines in function road_curvature that calculates this based on assumptions about pixel to meter conversion.
-
-#### 6. Final step
+#### 5. Road region back on image
 
 In the final step I use AddWeighted function to plot road region onto original image.
 
 Fitted lines
 ![Center](images/center_2017_07_16_05_34_03_367.jpg)
+
+
+#### 6. Curvature
+
+I did this in lines in function road_curvature that calculates this based on assumptions about pixel to meter conversion.
+Then i add this information for each frame.
+
+![Center](images/with_text.jpg)
+
 
 
 ### Pipeline (video)
@@ -150,14 +155,24 @@ Then I found on stackoverflow small snippet of code that allows to use median to
 my system reaction was kind of delayed. I figured out that when there was a sudden change in line position, median wasn't enough to "catch up". 
 So i decided to add a final step - weighted average on data without outliers. This smoothened drawing even more. 
 
+![Center](images/Raw_data_fitting.jpg)
 
+![Center](images/found_line_regions.jpg)
+
+![Center](images/with_mean.jpg)
+
+![Center](images/with_outlier_removal_and_weighted_average.jpg)
 
 #### 3. Final video
 
 Below you can find link to my project video:
 
+https://vimeo.com/228931641
+password: udacity
 
----
+or download video:
+
+![final video](video_ready.mp4)
 
 ### Discussion
 
