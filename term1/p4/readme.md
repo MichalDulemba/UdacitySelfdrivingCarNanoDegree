@@ -128,7 +128,7 @@ Region of interest on the road
 In the final step I use AddWeighted function to plot road region onto original image.
 
 Fitted lines
-![Center](images/center_2017_07_16_05_34_03_367.jpg)
+![Center](images/frame_ready_for_movie.jpg)
 
 
 #### 6. Curvature
