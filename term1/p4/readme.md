@@ -101,7 +101,7 @@ Warped image - lines seem to by parallel
 #### 4. Lane line pixels identification 
 Next i used code from udacity materials (with some corrections/changes) to use sliding window approach for finding regions possibly containing lines. 
 Function is called find_window_centroids and finds X coordinate of the center of region containg most white points. 
-I use window 100x80 to avoid finding too small pieces but also to avoid to much generalization (big region would not be as accurate as small ones).
+I use window 75x80 to avoid finding too small pieces but also to avoid to much generalization (big region would not be as accurate as small ones).
 I draw those rectangle regions using function draw_centroids.
 
 Found regions
@@ -133,8 +133,8 @@ Fitted lines
 
 #### 6. Curvature
 
-I did this in lines in function road_curvature that calculates this based on assumptions about pixel to meter conversion.
-Then i add this information for each frame.
+I did this in function road_curvature that calculates curvature based on assumptions about pixel to meter conversion.
+Then I add this information to each frame.
 
 ![Center](images/with_text.jpg)
 
@@ -149,7 +149,7 @@ Same steps as for single images were used to detect lines / fit regions.
 #### 2. Averaging the results
 
 First attempts to create video without any averaging failed miserably on so called "bad frames" that contained some noise or too little information. 
-My first idea was to average polyline coefficients but later i decided to work on raw data - points. 
+My first idea was to average polyline coefficients but later i decided to work on raw data - detected centroid points. 
 When i tried simple averaging values for the same point overtime I got some improvement but outliers still caused some issues, but they weren't as clearly visible.  
 Then I found on stackoverflow small snippet of code that allows to use median to clean up your data. Median can be much better for finding outliers than simple mean, because mean gets "polluted" by outliers and it is much harder to estimate proper value / find outliers.   
 After some tweaking results got even better, but sometimes
@@ -181,4 +181,4 @@ During this project I learned to switch between different data types, scalling i
 My solution can definitely be improved by working on threshold automatic adaptation and image brightness/contrast correction. Without those changes, it just works on those conditions found in project_video samples.  
 Also removing polyfit outliers (points that make fitting on particular step worse) could help make this model more robust. 
 I also saw that some students completely abandom idea of using gradients, and in many cases they got better results with lots of color thresholding. 
-
+Another idea for improvement would be using even smaller sliding window with some kind of "whitness" index, that would later be used as importance "weight" in calculations. You could later use this information for finding centroids with more precision. 
