@@ -176,7 +176,7 @@ or download video:
 
 ### Discussion
 
-During this project I learned to switch between different data types, scalling it from 0-1 to 0-255 back and forth. This was probably the most "annoying" point and at the beggining cost me some time.
-My solution can definitely be improved by working on threshold automatic adaptation and image brightness/contrast correction. Without those changes, it just works on those conditions found in project_video samples.
-Also removing polyfit outliers (points that make fitting on particular step worse) could help make this model more robust.
+During this project I learned to switch between different data types, scalling it from 0-1 to 0-255 back and forth. This was probably the most "annoying" point and at the beggining cost me some time.  
+My solution can definitely be improved by working on threshold automatic adaptation and image brightness/contrast correction. Without those changes, it just works on those conditions found in project_video samples.  
+Also removing polyfit outliers (points that make fitting on particular step worse) could help make this model more robust.  
 
