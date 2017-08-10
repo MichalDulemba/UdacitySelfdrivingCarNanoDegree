@@ -18,11 +18,13 @@ The code for this step is contained in the IPython notebook "undistort.ipynb".
 7) Save those matrices into files using np.save  
 8) Later during pipeline i just load files with undistort matrices and apply them on each frame  
 
-Original
-![Left](images/original distorted.jpg)
+Original  
+![Original distorted](images/original_distorted.jpg)  
 
-Original undistorted
-![Left](images/original undistorted.jpg)
+![Left](images/left_2017_07_16_05_34_03_367.jpg)<br /><br />  
+
+Original undistorted  
+![Left](images/original undistorted.jpg)  
 
 
 #### 2. Operations on image to get binary image.
