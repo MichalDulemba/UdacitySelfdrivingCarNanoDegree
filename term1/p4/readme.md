@@ -150,8 +150,9 @@ Same steps as for single images were used to detect lines / fit regions.
 
 First attempts to create video without any averaging failed miserably on so called "bad frames" that contained some noise or too little information. 
 My first idea was to average polyline coefficients but later i decided to work on raw data - points. 
-When i tried simple averaging values for the same point overtime I got some improvement but outliers still caused some issues, but they weren't as clearly visible.
-Then I found on stackoverflow small snippet of code that allows to use median to clean up your data. After some tweaking results got even better, but sometimes
+When i tried simple averaging values for the same point overtime I got some improvement but outliers still caused some issues, but they weren't as clearly visible.  
+Then I found on stackoverflow small snippet of code that allows to use median to clean up your data. Median can be much better for finding outliers than simple mean, because mean gets "polluted" by outliers and it is much harder to estimate proper value / find outliers.   
+After some tweaking results got even better, but sometimes
 my system reaction was kind of delayed. I figured out that when there was a sudden change in line position, median wasn't enough to "catch up". 
 So i decided to add a final step - weighted average on data without outliers. This smoothened drawing even more. 
 
