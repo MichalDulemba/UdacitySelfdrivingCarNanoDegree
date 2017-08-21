@@ -51,7 +51,10 @@ My final working model is in <FILE>
 I also tried to use VGG19 as feature extractor but training was horribly slow and I had to dump this idea.
 After research about what network is as good and faster, I decided to integrate Resnet-like network into my model.
 
-I used keras functions and changed it a little bit to avoid such spatial compression. 
+I used keras functions for creating resnet components and changed it a little bit to fit SSD model.
+Looking back at the image with model schematics I replaced all light blue elements (previously VGG like) with new
+Resnet like. 
+
 Overall it was kind of fight between accuracy and available memory. 
 Even 11GB on 1080 Ti is not that much if you work on larger models.
 
@@ -59,17 +62,38 @@ I also added more possible aspect ratios because first tests showed that model i
 into rectangle.
 
 
+
+
+
+
 ### Decoding/thresholding
 
-I had to play with parameters 
+When I started to work on this I played a lot with two main parameters.
 
+1) Confidence threshold that tells decode functions what predictions should we use as positive (above what value in range 0-1).
+Default was 0.5 but it gave many false positives, so i increased it, until i was happy with results.
+But sometimes for one object there was more than one overlapping positive prediction box. This is where second parameter comes.
+
+2) Iou threshold was used as a threshold value in decode functions that helped to remove boxes that had "jaccard overlap" bigger than this value.
+Jaccard overlap called also iou is calculated as intersection(overlapping part) / union (sum of both boxes). 
+This overlap is very handy in terms of calculating how much boxes overlap but when you are thresholding, you will probably also want to remove
+boxes that overlap completely. This is why i added this condition to greedy nms functions. 
+
+For totaly clear results I used:
 confidence_thresh=0.95, iou_threshold=0.05,
+
+but after fixing complete box overlapping i used
+confidence_thres=0.8 and iou_threshold =0.3 - it gave a tiny bit of fake positives but my two main cars were correctly detected and other small cars
+were also marked as cars. 
+
+
 
 ### Video Implementation
 
 #### 1. Creating video
 Video is created using <FILE> that simply creates model, loads weights and then procesess video. 
-
+Each frame is scaled down to model size - 480x300 and then predictions are rescaled to original image.
+A little bit like in U networks. 
 
 
 #### 2. Final video
@@ -79,23 +103,23 @@ You can see my final result at
 or here
 <FILE>
 
-#### 3. Removing false positives
-As usual - the more you want detect, the bigger change that you will get false positives. 
-Therefore I used confidence_threshold of 0.95 that allowed to remove most unwanted detections. 
-
-
-
 
 ### Discussion
 
 #### 1. Ideas for improvement
 
-Next step would be testing how many layers we can remove from this model to make it fast/lightweight. At this moment we could test higher resolution images without resizing (and losing information). 
+Next step would be testing how many layers we can remove from this model to make it fast/lightweight. 
+With lighter model we could test higher resolution images without resizing (and losing information). 
 
-Also i found that "greedy nms" based on confidance has some issues when one box is completely inside the other. On PyimageSearch.com I found method by dr Malisiewicz, that is using box area to make better NMS.
+Also some work could be done on NMS functions. Because at this point sometimes the box with best confidence is not the best fit for a car.
+On PyimageSearch.com I found method by dr Malisiewicz, that is using box area to make better NMS.
 http://www.pyimagesearch.com/2015/02/16/faster-non-maximum-suppression-python/
 
 
 #### 2. Failures
 Definitely this model with very little data to train is not very generalized. I tested detecting car at night and it was a complete failure.
+Also not every position of the car is detected equally. When camera sees left/right side of the car and very little front/back, very often
+it fails. This is all due to very little data and this data is also not very diverse. 
+
+
 

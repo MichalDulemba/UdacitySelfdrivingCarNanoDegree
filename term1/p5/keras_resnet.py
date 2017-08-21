@@ -297,13 +297,6 @@ def build_model(image_size,
 
 
     
-    #st6 = AveragePooling2D((7, 7), name='avg_pool')(stage4)
-    #st6 = GlobalAveragePooling2D()(st6)
-
-    #fc6 = Conv2D(1024, (3, 3), dilation_rate=(6, 6), activation='relu', padding='same', name='fc6')(st5)
-
-    #fc7 = Conv2D(1024, (1, 1), activation='relu', padding='same', name='fc7')(fc6)
-
     conv6_1 = Conv2D(256, (1, 1), activation='relu', padding='same', name='conv6_1')(st4)
     conv6_2 = Conv2D(512, (3, 3), strides=(1, 1), activation='relu', padding='same', name='conv6_2')(conv6_1)
 

@@ -186,6 +186,7 @@ def greedy_nms(y_pred_decoded, iou_threshold=0.45, coords='minmax'):
             if boxes_left.shape[0] == 0: break # If there are no boxes left after this step, break. Otherwise...
             similarities = iou(boxes_left[:,2:], maximum_box[2:], coords=coords) # ...compare (IoU) the other left over boxes to the maximum box...
             boxes_left = boxes_left[similarities <= iou_threshold] # ...so that we can remove the ones that overlap too much with the maximum box
+            boxes_left = boxes_left[similarities == 1]
         y_pred_decoded_nms.append(np.array(maxima))
 
     return y_pred_decoded_nms
@@ -205,6 +206,7 @@ def _greedy_nms(predictions, iou_threshold=0.45, coords='minmax'):
         if boxes_left.shape[0] == 0: break # If there are no boxes left after this step, break. Otherwise...
         similarities = iou(boxes_left[:,1:], maximum_box[1:], coords=coords) # ...compare (IoU) the other left over boxes to the maximum box...
         boxes_left = boxes_left[similarities <= iou_threshold] # ...so that we can remove the ones that overlap too much with the maximum box
+        boxes_left = boxes_left[similarities == 1]
     return np.array(maxima)
 
 def _greedy_nms2(predictions, iou_threshold=0.45, coords='minmax'):
@@ -222,6 +224,7 @@ def _greedy_nms2(predictions, iou_threshold=0.45, coords='minmax'):
         if boxes_left.shape[0] == 0: break # If there are no boxes left after this step, break. Otherwise...
         similarities = iou(boxes_left[:,2:], maximum_box[2:], coords=coords) # ...compare (IoU) the other left over boxes to the maximum box...
         boxes_left = boxes_left[similarities <= iou_threshold] # ...so that we can remove the ones that overlap too much with the maximum box
+        boxes_left = boxes_left[similarities == 1]
     return np.array(maxima)
 
 def decode_y(y_pred,
