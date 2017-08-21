@@ -1,5 +1,5 @@
 
-# Vehicle Detection Project #
+# Vehicle Detection Project - Neural Network Based - SSD #
 
 The goals / steps of this project are the following:
 - choosing method (deep learning vs hog/svm)
