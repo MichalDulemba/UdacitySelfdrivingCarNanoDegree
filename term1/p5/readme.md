@@ -88,7 +88,7 @@ were also marked as cars.
 #### 1. Creating video
 Video is created using <FILE> that simply creates model, loads weights and then procesess video. 
 Each frame is scaled down to model size - 480x300 and then predictions are rescaled to original image.
-A little bit like in U networks. 
+A little bit like in U networks. I added time of processing each frame and its number to "debug" my solution.
 
 
 #### 2. Final video
