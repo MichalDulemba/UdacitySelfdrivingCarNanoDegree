@@ -23,7 +23,7 @@ Original model called often SSD300 consists of base model and prediction layers.
 Image that is commonly used to show "ssd" architecture is not doing a very good job in my opinion.
 So I decided to draw my own based on Pierre's (and later mine) code. 
 
-<IMAGE>
+![SSD schematics](original_SSD.gif) 
 
 Base model is:
 1) VGG feature extractor (light blue on the left)
