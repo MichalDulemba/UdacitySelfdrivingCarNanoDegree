@@ -61,7 +61,7 @@ Even 11GB on 1080 Ti is not that much if you work on larger models.
 I also added more possible aspect ratios because first tests showed that model is having hard time to "fit" car nicely
 into rectangle.
 
-Model is stored in keras_resnet.py, and "Resnet-like SSD training.ipynb" is used to train it. 
+Model is stored in "keras_resnet.py", and "Resnet-like SSD training.ipynb" is used to train it. 
 
 ### Decoding/thresholding
 
