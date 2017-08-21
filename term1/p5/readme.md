@@ -44,8 +44,8 @@ At the end of this model, those two pipelines are joined into single big tensor 
 I started with very small network initially proposed by Pierluigi. 
 It was good enough to detect some cars, and show me what i can expect from this kind of detections.
 
-Next step was making it a lot deeper (more layers and more filters) 
-- I did it in couple of steps, gradually getting better results.
+Next step was making it a lot deeper (more layers and more filters).
+I did it in couple of steps, gradually getting better results.
 
 My final working model is in <FILE>
 I also tried to use VGG19 as feature extractor but training was horribly slow and I had to dump this idea.
@@ -63,9 +63,6 @@ into rectangle.
 
 
 
-
-
-
 ### Decoding/thresholding
 
 When I started to work on this I played a lot with two main parameters.
@@ -76,8 +73,7 @@ But sometimes for one object there was more than one overlapping positive predic
 
 2) Iou threshold was used as a threshold value in decode functions that helped to remove boxes that had "jaccard overlap" bigger than this value.
 Jaccard overlap called also iou is calculated as intersection(overlapping part) / union (sum of both boxes). 
-This overlap is very handy in terms of calculating how much boxes overlap but when you are thresholding, you will probably also want to remove
-boxes that overlap completely. This is why i added this condition to greedy nms functions. 
+This overlap is very handy in terms of calculating how much boxes overlap but when you are thresholding, you will probably also want to remove boxes that overlap completely. This is why i added this condition to greedy nms functions. 
 
 For totaly clear results I used:
 confidence_thresh=0.95, iou_threshold=0.05,
@@ -85,7 +81,6 @@ confidence_thresh=0.95, iou_threshold=0.05,
 but after fixing complete box overlapping i used
 confidence_thres=0.8 and iou_threshold =0.3 - it gave a tiny bit of fake positives but my two main cars were correctly detected and other small cars
 were also marked as cars. 
-
 
 
 ### Video Implementation
@@ -99,9 +94,9 @@ A little bit like in U networks.
 #### 2. Final video
 
 You can see my final result at
-<LINK>
+![Video](final1.mp4)  
 or here
-<FILE>
+https://www.youtube.com/watch?v=Wdt4Z5uYHiU&feature=youtu.be
 
 
 ### Discussion
@@ -118,8 +113,8 @@ http://www.pyimagesearch.com/2015/02/16/faster-non-maximum-suppression-python/
 
 #### 2. Failures
 Definitely this model with very little data to train is not very generalized. I tested detecting car at night and it was a complete failure.
-Also not every position of the car is detected equally. When camera sees left/right side of the car and very little front/back, very often
-it fails. This is all due to very little data and this data is also not very diverse. 
-
+Also not every position of the car is detected equally. When camera sees left/right side of the car and very little front/back, very often it fails. This is all due to very little data and this data is also not very diverse. 
+You can see this here:
+https://www.youtube.com/watch?v=OuKWjsj3UQQ&feature=youtu.be
 
 
