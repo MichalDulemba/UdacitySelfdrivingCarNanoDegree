@@ -24,7 +24,7 @@ void ParticleFilter::showlandmarks(const Map &map_landmarks){
   std::cout << "landmark list size" << map_landmarks.landmark_list.size() << std::endl;
 	for (int j=0; j < map_landmarks.landmark_list.size(); j++)
 	{
-	 std::cout << j << " - (" << map_landmarks.landmark_list[j].x_f << "," << map_landmarks.landmark_list[j].y_f << ") " << std::endl;
+	 std::cout << j << " - (" << map_landmarks.landmark_list[j].id_i << "," << map_landmarks.landmark_list[j].x_f << "," << map_landmarks.landmark_list[j].y_f << ") " << std::endl;
 	}
    std:: cout << std::endl << std::endl;
 }
@@ -52,7 +52,7 @@ void ParticleFilter::init(double x, double y, double theta, double std[]) {
 	// Add random Gaussian noise to each particle.
 	// NOTE: Consult particle_filter.h for more information about this method (and others in this file).
 std::cout << "------------------------------ begin init -------------------------------------------" << std::endl;
-num_particles = 100;
+num_particles = 1;
 std:default_random_engine gen;
 std::normal_distribution<double> N_x(x, std[0]);
 std::normal_distribution<double> N_y(y, std[1]);
@@ -113,8 +113,8 @@ for (int i=0; i<num_particles; i++){
 		}
 		else{
 
-				x_f = x_0 + velocity/yaw_rate * ( sin(init_yaw + (yaw_rate*delta_t)) - sin(init_yaw));
-				y_f = y_0 + velocity/yaw_rate * ( cos(init_yaw) - cos(init_yaw+(yaw_rate*delta_t)) );
+				x_f = x_0 + ((velocity/yaw_rate) * ( sin(init_yaw + (yaw_rate*delta_t)) - sin(init_yaw)) );
+				y_f = y_0 + ((velocity/yaw_rate) * ( cos(init_yaw) - cos(init_yaw+(yaw_rate*delta_t))) );
 				yaw_f = init_yaw + yaw_rate*delta_t;
 		}
     normal_distribution<double> N_x(x_f,std_pos[0]);
@@ -173,10 +173,11 @@ int nearest_landmark;
 
 std::cout << "--------------------------- begin updateWeights ------------------------------" << std::endl;
 
+showlandmarks(map_landmarks);
 
 for (int p=0; p < num_particles; p++){
 
-    std::cout << "\n ////////////////////////////-> ---- particle id = " << p << std::endl << std::endl;
+    std::cout << "\n -------------- PARTICLE id = " << p << " x " << particles[p].x << " y " <<  particles[p].y <<  std::endl << std::endl;
 
 		// TRANSLATE observations into global coordinates
 
@@ -227,8 +228,8 @@ for (int p=0; p < num_particles; p++){
 		double l1_y;
 
 
-    showlandmarks(map_landmarks);
-    P_final = 1;
+
+    P_final = 1.0;
 
 		for (int i=0; i< translated_obs.size();  i++){
 
@@ -238,21 +239,24 @@ for (int p=0; p < num_particles; p++){
 			double prev_distance = max_distance;
 		  nearest_landmark=0;
 			dist_to_landmark = 0;
-
+       // check what if j=1 and <=
 		  for (int j=0; j < map_landmarks.landmark_list.size(); j++)
 			{
 		  double landmark_x = map_landmarks.landmark_list[j].x_f;
 			double landmark_y = map_landmarks.landmark_list[j].y_f;
+      //std::cout << "j= " << j << "  checking landmark x,y " << map_landmarks.landmark_list[j].x_f << ", " << map_landmarks.landmark_list[j].y_f << "\n";
 
-				dist_to_landmark = sqrt(pow(translated_obs[i].x-landmark_x,2)  +pow(translated_obs[i].y-landmark_y,2));
+        dist_to_landmark = sqrt(pow(translated_obs[i].x-landmark_x,2)  +pow(translated_obs[i].y-landmark_y,2));
+        //std::cout << "j " << j << " dist to landmark " << dist_to_landmark  << std::endl;
 			  if (dist_to_landmark < prev_distance){
 		        nearest_landmark = j;
 						prev_distance = dist_to_landmark;
+            //std::cout << "j= " << j << " calc_distance " << prev_distance  << std::endl << std::endl;
 				}
 		  }
 
-			std::cout << "closest landmark id= " << nearest_landmark << "- x:" << map_landmarks.landmark_list[nearest_landmark].x_f << " y:" << map_landmarks.landmark_list[nearest_landmark].y_f << endl;
-			std::cout << "calc dist = " << dist_to_landmark << endl;
+			std::cout << "\n closest landmark id= " << nearest_landmark << "- x:" << map_landmarks.landmark_list[nearest_landmark].x_f << " y:" << map_landmarks.landmark_list[nearest_landmark].y_f << endl;
+			std::cout << "calc dist = " << prev_distance << endl;
 
 		// UPDATE WEIGHT
 
@@ -274,19 +278,19 @@ for (int p=0; p < num_particles; p++){
 			exponent = ( (pow(obs_x-l1_x,2)/a) + (pow(obs_y-l1_y,2)/b) );
 
 			P = A * exp(-exponent);
-      std::cout << "partial P" << P << endl;
+      std::cout << "partial P = " << P << endl;
 
 			P_final *= P;
-      std::cout << "final P" << P_final << endl << endl;
+      std::cout << "final P = " << P_final << endl << endl;
 		}
 		//}
 		particles[p].weight = P_final;
 
 }
 
-std::cout << "---------------------- after updateWeights ----------------------------- " << std::endl;
+
 showparticles();
-std::cout << "----------------------/ after updateWeights ---------------------------- " << std::endl;
+std::cout << "---------------------- after updateWeights ---------------------------- " << std::endl;
 }
 
 void ParticleFilter::resample() {
@@ -317,8 +321,9 @@ void ParticleFilter::resample() {
 
 	particles = particles_new;
 
-	std::cout << "-------------------------------- end of resample --------------------" << std::endl;
+
 	showparticles();
+  std::cout << "-------------------------------- end of resample --------------------" << std::endl;
 }
 
 Particle ParticleFilter::SetAssociations(Particle particle, std::vector<int> associations, std::vector<double> sense_x, std::vector<double> sense_y)
