@@ -30,7 +30,7 @@ class ParticleFilter {
 	// Number of particles to draw
 	int num_particles;
 
-
+	bool debug_mode;
 
 	// Flag, if filter is initialized
 	bool is_initialized;
@@ -45,7 +45,7 @@ public:
 
 	// Constructor
 	// @param num_particles Number of particles
-	ParticleFilter() : num_particles(0), is_initialized(false) {}
+	ParticleFilter() : num_particles(0), is_initialized(false), debug_mode(false) {}
 
 	// Destructor
 	~ParticleFilter() {}

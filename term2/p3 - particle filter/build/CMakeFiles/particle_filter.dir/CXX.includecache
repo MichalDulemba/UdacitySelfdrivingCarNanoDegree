@@ -1,0 +1,118 @@
+#IncludeRegexLine: ^[ 	]*#[ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/media/michal/DawneF5/AI NEURAL NETWORKS PYTHON UDACITY/UDACITY - MY CAR NANODEGREE/t2-p3/CarND-Kidnapped-Vehicle-Project/src/helper_functions.h
+sstream
+-
+fstream
+-
+math.h
+-
+vector
+-
+map.h
+/media/michal/DawneF5/AI NEURAL NETWORKS PYTHON UDACITY/UDACITY - MY CAR NANODEGREE/t2-p3/CarND-Kidnapped-Vehicle-Project/src/map.h
+
+/media/michal/DawneF5/AI NEURAL NETWORKS PYTHON UDACITY/UDACITY - MY CAR NANODEGREE/t2-p3/CarND-Kidnapped-Vehicle-Project/src/json.hpp
+algorithm
+-
+array
+-
+cassert
+-
+cctype
+-
+ciso646
+-
+cmath
+-
+cstddef
+-
+cstdint
+-
+cstdlib
+-
+cstring
+-
+forward_list
+-
+functional
+-
+initializer_list
+-
+iomanip
+-
+iostream
+-
+iterator
+-
+limits
+-
+locale
+-
+map
+-
+memory
+-
+numeric
+-
+sstream
+-
+stdexcept
+-
+string
+-
+type_traits
+-
+utility
+-
+vector
+-
+
+/media/michal/DawneF5/AI NEURAL NETWORKS PYTHON UDACITY/UDACITY - MY CAR NANODEGREE/t2-p3/CarND-Kidnapped-Vehicle-Project/src/main.cpp
+uWS/uWS.h
+-
+iostream
+-
+json.hpp
+/media/michal/DawneF5/AI NEURAL NETWORKS PYTHON UDACITY/UDACITY - MY CAR NANODEGREE/t2-p3/CarND-Kidnapped-Vehicle-Project/src/json.hpp
+math.h
+-
+particle_filter.h
+/media/michal/DawneF5/AI NEURAL NETWORKS PYTHON UDACITY/UDACITY - MY CAR NANODEGREE/t2-p3/CarND-Kidnapped-Vehicle-Project/src/particle_filter.h
+
+/media/michal/DawneF5/AI NEURAL NETWORKS PYTHON UDACITY/UDACITY - MY CAR NANODEGREE/t2-p3/CarND-Kidnapped-Vehicle-Project/src/map.h
+
+/media/michal/DawneF5/AI NEURAL NETWORKS PYTHON UDACITY/UDACITY - MY CAR NANODEGREE/t2-p3/CarND-Kidnapped-Vehicle-Project/src/particle_filter.cpp
+random
+-
+algorithm
+-
+iostream
+-
+numeric
+-
+math.h
+-
+iostream
+-
+sstream
+-
+string
+-
+iterator
+-
+map
+-
+particle_filter.h
+/media/michal/DawneF5/AI NEURAL NETWORKS PYTHON UDACITY/UDACITY - MY CAR NANODEGREE/t2-p3/CarND-Kidnapped-Vehicle-Project/src/particle_filter.h
+
+/media/michal/DawneF5/AI NEURAL NETWORKS PYTHON UDACITY/UDACITY - MY CAR NANODEGREE/t2-p3/CarND-Kidnapped-Vehicle-Project/src/particle_filter.h
+helper_functions.h
+/media/michal/DawneF5/AI NEURAL NETWORKS PYTHON UDACITY/UDACITY - MY CAR NANODEGREE/t2-p3/CarND-Kidnapped-Vehicle-Project/src/helper_functions.h
+

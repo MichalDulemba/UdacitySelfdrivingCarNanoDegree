@@ -34,7 +34,7 @@ void ParticleFilter::showparticles(){
 			std::cout << "(" << particles[i].x << "," << particles[i].y << "." << particles[i].theta << "," << particles[i].weight << ") "  << std::endl;
 		}
 		std::cout << std::endl << std::endl;
-		getchar();
+		if (debug_mode==1) getchar();
 }
 
 void ParticleFilter::showobservations(std::vector<LandmarkObs> obs){
@@ -52,7 +52,7 @@ void ParticleFilter::init(double x, double y, double theta, double std[]) {
 	// Add random Gaussian noise to each particle.
 	// NOTE: Consult particle_filter.h for more information about this method (and others in this file).
 std::cout << "------------------------------ begin init -------------------------------------------" << std::endl;
-num_particles = 1;
+num_particles = 100;
 std:default_random_engine gen;
 std::normal_distribution<double> N_x(x, std[0]);
 std::normal_distribution<double> N_y(y, std[1]);
@@ -61,12 +61,28 @@ std::normal_distribution<double> N_theta(theta, std[2]);
 for (int i=0; i< num_particles; i++){
 	 Particle particle;
 	 particle.id=i;
-	 particle.x= N_x(gen);
-	 particle.y= N_y(gen);
-	 particle.theta = N_theta(gen);
-	 particle.weight = 1;
-	 particles.push_back(particle); // current set with all particles - vector
-	 weights.push_back(particle.weight);  //insert 1
+
+   if (debug_mode==0) {
+    	 particle.x= N_x(gen);
+    	 particle.y= N_y(gen);
+    	 particle.theta = N_theta(gen);
+    	 particle.weight = 1;
+    	 particles.push_back(particle); // current set with all particles - vector
+    	 weights.push_back(particle.weight);  //insert 1
+   }
+   else
+   {
+      std::cout << "debug mode"    << endl;
+    	 particle.x= x;
+    	 particle.y= y;
+    	 particle.theta = theta;
+    	 if (i==0) particle.weight = 1;
+       else particle.weight=0;
+       particles.push_back(particle); // current set with all particles - vector
+    	 weights.push_back(particle.weight);  //insert 1
+   }
+
+
 }
 is_initialized = true;
 
@@ -81,7 +97,7 @@ void ParticleFilter::prediction(double delta_t, double std_pos[], double velocit
 	//  http://en.cppreference.com/w/cpp/numeric/random/normal_distribution
 	//  http://www.cplusplus.com/reference/random/default_random_engine/
 	std::cout << "------------------------------ begin prediction-----------------------------" << std::endl;
-	getchar();
+	if (debug_mode==1) getchar();
 
 std::vector<Particle> temp_particles;
 double x_f;
@@ -98,14 +114,25 @@ default_random_engine gen;
 for (int i=0; i<num_particles; i++){
 
     x_0 = particles[i].x;
-		x_0 = particles[i].y;
-		init_yaw = particles[i].theta;
+		y_0 = particles[i].y;
+    std::cout <<"x0 and y0" << x_0 << " " << y_0 << std::endl;
+
+    init_yaw = particles[i].theta;
 		weight = particles[i].weight;
-		std::cout << "weight" << weight << std::endl;
+
+    x_f=0;
+    y_f=0;
+    yaw_f=0;
+
+    std::cout << "weight" << weight << std::endl;
 
     Particle particle;
 
-		if (yaw_rate == 0){
+    std::cout << "xf without x0"<< ((velocity/yaw_rate) * ( sin(init_yaw + (yaw_rate*delta_t)) - sin(init_yaw)) );
+    std::cout << "yf without y0"<< ((velocity/yaw_rate) * ( cos(init_yaw) - cos(init_yaw+(yaw_rate*delta_t)))   );
+
+
+    if (yaw_rate == 0){
 
 				x_f = x_0 + velocity*delta_t*cos(init_yaw);
 				y_f = y_0 + velocity*delta_t*sin(init_yaw);
@@ -117,15 +144,29 @@ for (int i=0; i<num_particles; i++){
 				y_f = y_0 + ((velocity/yaw_rate) * ( cos(init_yaw) - cos(init_yaw+(yaw_rate*delta_t))) );
 				yaw_f = init_yaw + yaw_rate*delta_t;
 		}
-    normal_distribution<double> N_x(x_f,std_pos[0]);
-    normal_distribution<double> N_y(y_f,std_pos[1]);
-		normal_distribution<double> N_theta(yaw_f,std_pos[2]);
 
-    particle.id =i;
-		particle.x = N_x(gen);
-		particle.y = N_y(gen);
-		particle.theta = N_theta(gen);
-		particle.weight = weight;
+
+    if (debug_mode == 0){
+        normal_distribution<double> N_x(x_f,std_pos[0]);
+        normal_distribution<double> N_y(y_f,std_pos[1]);
+    		normal_distribution<double> N_theta(yaw_f,std_pos[2]);
+
+        particle.id =i;
+    		particle.x = N_x(gen);
+    		particle.y = N_y(gen);
+    		particle.theta = N_theta(gen);
+    		particle.weight = weight;
+    }
+    else
+    {
+      particle.id =i;
+      particle.x = x_f;
+      particle.y = y_f;
+      particle.theta = yaw_f;
+      particle.weight = weight;
+    }
+
+
     temp_particles.push_back(particle) ;
 }
 particles = temp_particles;
@@ -145,6 +186,8 @@ void ParticleFilter::dataAssociation(std::vector<LandmarkObs> predicted, std::ve
 
 void ParticleFilter::updateWeights(double sensor_range, double std_landmark[],
 		const std::vector<LandmarkObs> &observations, const Map &map_landmarks) {
+
+  if (debug_mode==0) {
 	// TODO: Update the weights of each particle using a mult-variate Gaussian distribution. You can read
 	//   more about this distribution here: https://en.wikipedia.org/wiki/Multivariate_normal_distribution
 	// NOTE: The observations are given in the VEHICLE'S coordinate system. Your particles are located
@@ -287,6 +330,7 @@ for (int p=0; p < num_particles; p++){
 		particles[p].weight = P_final;
 
 }
+}
 
 
 showparticles();
@@ -294,34 +338,37 @@ std::cout << "---------------------- after updateWeights -----------------------
 }
 
 void ParticleFilter::resample() {
-	// TODO: Resample particles with replacement with probability proportional to their weight.
-	// NOTE: You may find std::discrete_distribution helpful here.
-	//   http://en.cppreference.com/w/cpp/numeric/random/discrete_distribution
 
-	// need to create weights vector
-  std::cout << "\n --------------------------------begin resample ------------------------------ \n";
+  if (debug_mode==0)
+  {
+    	// TODO: Resample particles with replacement with probability proportional to their weight.
+    	// NOTE: You may find std::discrete_distribution helpful here.
+    	//   http://en.cppreference.com/w/cpp/numeric/random/discrete_distribution
 
-	std::vector <float> weights;
+    	// need to create weights vector
+      std::cout << "\n --------------------------------begin resample ------------------------------ \n";
 
-	for (int i=0; i<num_particles; i++){
-		weights.push_back(particles[i].weight);
-	}
-  std::vector <Particle> particles_new;
-  std::discrete_distribution<> d(weights.begin(), weights.end());
+    	std::vector <float> weights;
 
-
-	std::random_device rd;
-	std::mt19937 gen(rd());
-	std::map<int, int> m;
+    	for (int i=0; i<num_particles; i++){
+    		weights.push_back(particles[i].weight);
+    	}
+      std::vector <Particle> particles_new;
+      std::discrete_distribution<> d(weights.begin(), weights.end());
 
 
-	for (int n=0; n<num_particles; ++n) {
-	       particles_new.push_back(particles[d(gen)]);
-	}
-
-	particles = particles_new;
+    	std::random_device rd;
+    	std::mt19937 gen(rd());
+    	std::map<int, int> m;
 
 
+    	for (int n=0; n<num_particles; ++n) {
+    	       particles_new.push_back(particles[d(gen)]);
+    	}
+
+    	particles = particles_new;
+
+  }
 	showparticles();
   std::cout << "-------------------------------- end of resample --------------------" << std::endl;
 }
