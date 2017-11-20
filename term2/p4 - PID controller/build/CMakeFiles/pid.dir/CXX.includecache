@@ -1,0 +1,86 @@
+#IncludeRegexLine: ^[ 	]*#[ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/media/michal/DawneF/AI NEURAL NETWORKS PYTHON UDACITY/UDACITY - MY CAR NANODEGREE/t2-p4/CarND-Controls-PID/src/PID.cpp
+PID.h
+/media/michal/DawneF/AI NEURAL NETWORKS PYTHON UDACITY/UDACITY - MY CAR NANODEGREE/t2-p4/CarND-Controls-PID/src/PID.h
+iostream
+-
+math.h
+-
+
+/media/michal/DawneF/AI NEURAL NETWORKS PYTHON UDACITY/UDACITY - MY CAR NANODEGREE/t2-p4/CarND-Controls-PID/src/PID.h
+
+/media/michal/DawneF/AI NEURAL NETWORKS PYTHON UDACITY/UDACITY - MY CAR NANODEGREE/t2-p4/CarND-Controls-PID/src/json.hpp
+algorithm
+-
+array
+-
+cassert
+-
+cctype
+-
+ciso646
+-
+cmath
+-
+cstddef
+-
+cstdint
+-
+cstdlib
+-
+cstring
+-
+forward_list
+-
+functional
+-
+initializer_list
+-
+iomanip
+-
+iostream
+-
+iterator
+-
+limits
+-
+locale
+-
+map
+-
+memory
+-
+numeric
+-
+sstream
+-
+stdexcept
+-
+string
+-
+type_traits
+-
+utility
+-
+vector
+-
+
+/media/michal/DawneF/AI NEURAL NETWORKS PYTHON UDACITY/UDACITY - MY CAR NANODEGREE/t2-p4/CarND-Controls-PID/src/main.cpp
+uWS/uWS.h
+-
+iostream
+-
+json.hpp
+/media/michal/DawneF/AI NEURAL NETWORKS PYTHON UDACITY/UDACITY - MY CAR NANODEGREE/t2-p4/CarND-Controls-PID/src/json.hpp
+PID.h
+/media/michal/DawneF/AI NEURAL NETWORKS PYTHON UDACITY/UDACITY - MY CAR NANODEGREE/t2-p4/CarND-Controls-PID/src/PID.h
+math.h
+-
+
