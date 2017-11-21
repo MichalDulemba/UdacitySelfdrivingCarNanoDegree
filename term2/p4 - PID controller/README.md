@@ -61,10 +61,9 @@ I tried to make it based on the angle, but it wasn't working that well.
 
 5) Some ideas for further improvement would be drawing graph of car track (top view) versus "best track"   
 and seeing how it really works during turns - what parameters to change to make it better.   
-I was also thinking about using some kind of time series - so for example calculate parameters for maybe 10 steps and use this average
-for all calculations. Maybe that would prevent from "wobbling" and gave car the information that it is during turn, so it has to keep
-turning. Not sure how that would work out.   
+I was also thinking about using some kind of time series - so for example calculate parameters for maybe 10 steps and use this average for all calculations. Maybe that would prevent from "wobbling" and gave car the information that it is during turn, so it has to keep turning. Not sure how that would work out.   
 
+6) After several experiments I found out that I should test all parameters for at least 2 laps, because sometimes during first one, it was ok and during second, it wasn't driving safe. 
 
 
 
