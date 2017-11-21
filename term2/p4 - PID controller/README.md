@@ -6,7 +6,7 @@ make
 ./pid  
 
 ### Results:
-My final (more aggresive driving / two PIDs) parameters:  
+1) My final (more aggresive driving / two PIDs) parameters:  
 
 //PID for steering  
 init_Kp=-0.13;  
@@ -23,7 +23,7 @@ init_k_angle = -0.01;
 init_throttle = 0.5;  
 
 
-smooth version :  
+2) Smooth version :  
 init_Kp=-0.12;  
 init_Ki=0;  
 init_Kd=-1.5;  
