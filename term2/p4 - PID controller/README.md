@@ -57,7 +57,6 @@ If you make it too small - car still will oscillate but it will happen a little 
 Then when you increase it - car is getting more stable, it oscillates for shorter amount of time.
 But if you "over do" it, car is starting to jerk - P and D are fighting each other too much.  
 When you use only D part of controller:  
-
 https://vimeo.com/244771300  
 password: udacity  
 
