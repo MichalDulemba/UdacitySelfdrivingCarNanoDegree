@@ -9,24 +9,24 @@ make
 My final (more aggresive driving / two PIDs) parameters:  
 
 //PID for steering  
-init_Kp=-0.13;  
+init_Kp=0.13;  
 init_Ki=0;  
-init_Kd=-1.5;  
+init_Kd=1.5;  
 
 // PID for speed  
-init_speed_p = -0.1;   
+init_speed_p = 0.1;   
 init_speed_d = 1;   
 
 // throttle correction based on angle  
-init_k_angle = -0.01;  
+init_k_angle = 0.01;  
 
 init_throttle = 0.5;  
 
 
 smooth version :  
-init_Kp=-0.12;  
+init_Kp=0.12;  
 init_Ki=0;  
-init_Kd=-1.5;  
+init_Kd=2;  
 
 init_throttle = 0.5;  
 
@@ -42,6 +42,34 @@ more aggresive version
 
 password : udacity  
 or have a look at uploaded videos.   
+
+
+### How are parts of PID working:
+PID consists of 3 parts: 
+1) P - proportional
+This it the "main" part of this controller. It says how fast do we want to correct the CTE error. 
+So car will try to hit "perfect path" but it will oscillate around it. 
+You can see it here:
+https://vimeo.com/244771342
+password: udacity
+
+
+2) I - integral
+This part allows to correct some constant error introduced by for example tires / wheel aligment
+weight distribution and other factors that while you drive, you correct manually. 
+I didn't use it in my project because simulator doesn't introduce any constant error.
+
+
+3) D - derrivative
+This part helps to "calm down" oscillation. It is interesting how car behaves when you change it.
+If you make it too small - car still will oscillate but it will happen a little bit later.
+Then when you increase it - car is getting more stable, it oscillates for shorter amount of time.
+But if you "over do" it, car is starting to jerk - P and D are fighting each other too much.
+When you use only D part of controller:
+
+https://vimeo.com/244771300
+password: udacity
+
 
 
 ### Comments:

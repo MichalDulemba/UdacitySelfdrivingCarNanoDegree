@@ -151,19 +151,43 @@ double init_throttle = 0.73;
 based on ANGLE not steer value
 
 
+  double init_Kp=0.13;
+  double init_Ki=0;
+  double init_Kd=1.5;
+
+  // PID for speed
+  double init_speed_p = 0.1; //-0.02; //-0.12; //-0.2
+  double init_speed_d = 1; //1
+    // throttle correction based on angle
+  double init_k_angle = 0.01;//-0.02;//-1.2;
+  double init_throttle = 0.5;
+
+Submitted as safe
+  //PID for steering
+  double init_Kp=0.13;
+  double init_Ki=0;
+  double init_Kd=2;
+
+  // PID for speed
+  double init_speed_p = 0; //-0.02; //-0.12; //-0.2
+  double init_speed_d = 0; //1
+    // throttle correction based on angle
+  double init_k_angle = 0;//-0.02;//-1.2;
+  double init_throttle = 0.5;
+
 
   */
 
   //PID for steering
-  double init_Kp=-0.13;
+  double init_Kp=0.13;
   double init_Ki=0;
-  double init_Kd=-1.5;
+  double init_Kd=0;
 
   // PID for speed
-  double init_speed_p = -0.1; //-0.02; //-0.12; //-0.2
-  double init_speed_d = 1; //1
+  double init_speed_p = 0; //-0.02; //-0.12; //-0.2
+  double init_speed_d = 0; //1
     // throttle correction based on angle
-  double init_k_angle = -0.01;//-0.02;//-1.2;
+  double init_k_angle = 0;//-0.02;//-1.2;
   double init_throttle = 0.5;
 
 
@@ -199,11 +223,13 @@ based on ANGLE not steer value
           */
 
           std::cout << "angle "  << angle << std::endl;
-
+          
+          /*
           if ((fabs(angle) < 2) && (cte < 0.8)){
-            pid.max_throttle =0.9;
+            pid.max_throttle =1;
           }
-          else pid.max_throttle =0.5;
+          else pid.max_throttle =-0.4;
+          */
 
 
           steer_value = 0;

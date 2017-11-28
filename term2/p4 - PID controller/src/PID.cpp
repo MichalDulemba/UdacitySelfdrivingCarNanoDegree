@@ -46,13 +46,13 @@ void PID::UpdateError(double cte) {
 double PID::TotalError() {
   std::cout << "Kp * p_error: " << Kp * p_error << std::endl;
   std::cout << "Kd * d_error: " << Kd * d_error << std::endl;
-  double total = Kp * p_error + Kd * d_error;
+  double total = - Kp * p_error - Kd * d_error;
    //+ Ki * i_error
   return total;
 }
 double PID::SpeedError(double angle){
   //double speed = 0.7 + speed_p * p_error + speed_d * d_error ;
-  double speed = max_throttle + speed_p * p_error + speed_d * d_error + fabs(angle) * K_angle;
+  double speed = max_throttle - speed_p * p_error - speed_d * d_error - fabs(angle) * K_angle;
   std::cout  << "speed_p * p_error " << speed_p * p_error << std::endl;
   std::cout << "speed_d * d_error " << speed_d * d_error << std::endl;
   std::cout << "speed correction by steer_value  " << fabs(angle) * K_angle << std::endl;

@@ -6,17 +6,17 @@
 
 #IncludeRegexTransform: 
 
-/media/michal/DawneF/AI NEURAL NETWORKS PYTHON UDACITY/UDACITY - MY CAR NANODEGREE/t2-p4/CarND-Controls-PID/src/PID.cpp
+/media/michal/DawneF5/AI NEURAL NETWORKS PYTHON UDACITY/UDACITY - MY CAR NANODEGREE/UdacitySelfdrivingCarNanoDegree/term2/p4 - PID controller/src/PID.cpp
 PID.h
-/media/michal/DawneF/AI NEURAL NETWORKS PYTHON UDACITY/UDACITY - MY CAR NANODEGREE/t2-p4/CarND-Controls-PID/src/PID.h
+/media/michal/DawneF5/AI NEURAL NETWORKS PYTHON UDACITY/UDACITY - MY CAR NANODEGREE/UdacitySelfdrivingCarNanoDegree/term2/p4 - PID controller/src/PID.h
 iostream
 -
 math.h
 -
 
-/media/michal/DawneF/AI NEURAL NETWORKS PYTHON UDACITY/UDACITY - MY CAR NANODEGREE/t2-p4/CarND-Controls-PID/src/PID.h
+/media/michal/DawneF5/AI NEURAL NETWORKS PYTHON UDACITY/UDACITY - MY CAR NANODEGREE/UdacitySelfdrivingCarNanoDegree/term2/p4 - PID controller/src/PID.h
 
-/media/michal/DawneF/AI NEURAL NETWORKS PYTHON UDACITY/UDACITY - MY CAR NANODEGREE/t2-p4/CarND-Controls-PID/src/json.hpp
+/media/michal/DawneF5/AI NEURAL NETWORKS PYTHON UDACITY/UDACITY - MY CAR NANODEGREE/UdacitySelfdrivingCarNanoDegree/term2/p4 - PID controller/src/json.hpp
 algorithm
 -
 array
@@ -72,15 +72,15 @@ utility
 vector
 -
 
-/media/michal/DawneF/AI NEURAL NETWORKS PYTHON UDACITY/UDACITY - MY CAR NANODEGREE/t2-p4/CarND-Controls-PID/src/main.cpp
+/media/michal/DawneF5/AI NEURAL NETWORKS PYTHON UDACITY/UDACITY - MY CAR NANODEGREE/UdacitySelfdrivingCarNanoDegree/term2/p4 - PID controller/src/main.cpp
 uWS/uWS.h
 -
 iostream
 -
 json.hpp
-/media/michal/DawneF/AI NEURAL NETWORKS PYTHON UDACITY/UDACITY - MY CAR NANODEGREE/t2-p4/CarND-Controls-PID/src/json.hpp
+/media/michal/DawneF5/AI NEURAL NETWORKS PYTHON UDACITY/UDACITY - MY CAR NANODEGREE/UdacitySelfdrivingCarNanoDegree/term2/p4 - PID controller/src/json.hpp
 PID.h
-/media/michal/DawneF/AI NEURAL NETWORKS PYTHON UDACITY/UDACITY - MY CAR NANODEGREE/t2-p4/CarND-Controls-PID/src/PID.h
+/media/michal/DawneF5/AI NEURAL NETWORKS PYTHON UDACITY/UDACITY - MY CAR NANODEGREE/UdacitySelfdrivingCarNanoDegree/term2/p4 - PID controller/src/PID.h
 math.h
 -
 

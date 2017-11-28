@@ -1,4 +1,4 @@
-# Install script for directory: /media/michal/DawneF/AI NEURAL NETWORKS PYTHON UDACITY/UDACITY - MY CAR NANODEGREE/t2-p4/CarND-Controls-PID
+# Install script for directory: /media/michal/DawneF5/AI NEURAL NETWORKS PYTHON UDACITY/UDACITY - MY CAR NANODEGREE/UdacitySelfdrivingCarNanoDegree/term2/p4 - PID controller
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -40,5 +40,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "/media/michal/DawneF/AI NEURAL NETWORKS PYTHON UDACITY/UDACITY - MY CAR NANODEGREE/t2-p4/CarND-Controls-PID/build/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "/media/michal/DawneF5/AI NEURAL NETWORKS PYTHON UDACITY/UDACITY - MY CAR NANODEGREE/UdacitySelfdrivingCarNanoDegree/term2/p4 - PID controller/build/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")
