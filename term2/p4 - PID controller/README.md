@@ -6,12 +6,12 @@ make
 ./pid  
 
 ### Results:
-My final (more aggresive driving / two PIDs) parameters:  
+<b> My final (more aggresive driving / two PIDs) parameters:  </b>
 
 //PID for steering  
 init_Kp=0.13;  
 init_Ki=0;  
-init_Kd=1.5;  
+init_Kd=2;  
 
 // PID for speed  
 init_speed_p = 0.1;   
@@ -19,15 +19,6 @@ init_speed_d = 1;
 
 // throttle correction based on angle  
 init_k_angle = 0.01;  
-
-init_throttle = 0.5;  
-
-
-smooth version :  
-init_Kp=0.12;  
-init_Ki=0;  
-init_Kd=2;  
-
 init_throttle = 0.5;  
 
 I didn't use throttle PID here (all values set to 0)  
@@ -46,29 +37,29 @@ or have a look at uploaded videos.
 
 ### How are parts of PID working:
 PID consists of 3 parts: 
-1) P - proportional
+1) P - proportional  
 This it the "main" part of this controller. It says how fast do we want to correct the CTE error. 
-So car will try to hit "perfect path" but it will oscillate around it. 
-You can see it here:
-https://vimeo.com/244771342
-password: udacity
+So car will try to hit "perfect path" but it will oscillate around it.   
+You can see it here:  
+https://vimeo.com/244771342  
+password: udacity  
 
 
-2) I - integral
+2) I - integral  
 This part allows to correct some constant error introduced by for example tires / wheel aligment
-weight distribution and other factors that while you drive, you correct manually. 
-I didn't use it in my project because simulator doesn't introduce any constant error.
+weight distribution and other factors that while you drive, you correct manually.   
+I didn't use it in my project because simulator doesn't introduce any constant error.  
 
 
-3) D - derrivative
+3) D - derrivative  
 This part helps to "calm down" oscillation. It is interesting how car behaves when you change it.
-If you make it too small - car still will oscillate but it will happen a little bit later.
+If you make it too small - car still will oscillate but it will happen a little bit later.  
 Then when you increase it - car is getting more stable, it oscillates for shorter amount of time.
-But if you "over do" it, car is starting to jerk - P and D are fighting each other too much.
-When you use only D part of controller:
+But if you "over do" it, car is starting to jerk - P and D are fighting each other too much.  
+When you use only D part of controller:  
 
-https://vimeo.com/244771300
-password: udacity
+https://vimeo.com/244771300  
+password: udacity  
 
 
 
@@ -89,10 +80,9 @@ I tried to make it based on the angle, but it wasn't working that well.
 
 5) Some ideas for further improvement would be drawing graph of car track (top view) versus "best track"   
 and seeing how it really works during turns - what parameters to change to make it better.   
-I was also thinking about using some kind of time series - so for example calculate parameters for maybe 10 steps and use this average
-for all calculations. Maybe that would prevent from "wobbling" and gave car the information that it is during turn, so it has to keep
-turning. Not sure how that would work out.   
+I was also thinking about using some kind of time series - so for example calculate parameters for maybe 10 steps and use this average for all calculations. Maybe that would prevent from "wobbling" and gave car the information that it is during turn, so it has to keep turning. Not sure how that would work out.   
 
+6) After several experiments I found out that I should test all parameters for at least 2 laps, because sometimes during first one, it was ok and during second, it wasn't driving safe. 
 
 
 
