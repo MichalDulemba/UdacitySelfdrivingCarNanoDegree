@@ -1,4 +1,4 @@
-# CarND-Controls-MPC
+# Udacity CarND MPC Controler 
 
 
 ## Basic Build Instructions
@@ -18,6 +18,15 @@ or see the uploaded file.
 ## The model
 We are using kinematic model here. Model is based on those equations:
 
+		f0 = coeffs[0] + coeffs[1] *x0 + coeffs[2] * x0 *x0 + coeffs[3] * x0 *x0 *x0;  
+		psides0 = atan(3*coeffs[3]*x0 * x0 + 2*coeffs[2]*x0 + coeffs[1]);  
+
+		x = x0 + v0* cos(psi0) * dt;  
+		y = y0 + v0* sin(psi0) * dt;  
+		psi = psi0 - v0 * delta0 / Lf * dt;  
+		v = v0 + a0 * dt;  
+		cte  = ((y0-f0) + (v0 * sin(epsi0) *dt));
+		epsi = ((psi0 - psides0) + v0 * delta0 / Lf *dt);
 
 
 ## Cost function
@@ -41,16 +50,41 @@ We are using kinematic model here. Model is based on those equations:
 
 
 ## Timestep Length and elapsed duration
-I tested time steps from 0.1 to 0.2. When time step was small, model worked with maller speeds but above 70mph it wasn't working properly.  
-
+I tested time steps from 0.1 to 0.2. When time step was small (0.1s), model worked with maller speeds but above 70mph it wasn't working properly.  I also tried 0.1 with 15 steps but 0.18 with 10 steps worked much better. 
 
 
 ## Polynomial fitting and mpc processing
+I used method mentioned in the walkthrough video where you assume that car position is 0,0 and turn (psi) is also 0. Using those assumptions, you transform points given by the simulator to be in "car coordinates system". This step simplifies next calculations. Then you fit a 3rd degree polynomial using those points. Calculated coefficients are stored in "coeffs" variable. 
 
+
+## Full general algorithm
+1) Read information from the simulator
+2) "Zero" car coordinates
+3) Transform 6 waypoints to car coordinates
+4) Calculate polynomial
+5) Incorporate latency
+6) Set "State" variable
+7) Use solver to get steering and throttle
+8) Send steering and throttle to simulator
+9) Prepare green and yellow lines
+10) Go to step 1
 
 
 ## MPC with latency
+There were two ways to incorporate latency - before calculating points and after. First method is in theory more accurate but second worked for me properly. 
 
+To incorporate latency I used equations:
+		
+		double delta = steer_angle/ (deg2rad(25) * Lf);  
+		px = v*latency;  
+		py = 0;  
+		psi = -v*delta*latency/Lf;  
+		double epsi = -atan(coeffs[1]) + psi;   
+		double cte= polyeval(coeffs,0)+v*sin(epsi)*latency;  
+		
+I added Lf factor in the first equation - because without it, car was swinging from right to left (predicted angles were too big). I didn't change speed because there is no way to tell real accelaration of this car - so I didn't use the line below:
+//v += a*latency;
+     
 
 
 ## Remarks:
@@ -61,6 +95,7 @@ I tested time steps from 0.1 to 0.2. When time step was small, model worked with
 5) I used method of "zeroing" position of the car suggested in the project walkthrough video.   
 6) As suggested in one of the forum threads I used (y0-f0) instead of (f0-y0).  
 7) There is no real way to tell, what is the acceleration of the car (throttle is just some weird approximation).  
+8) Car drives a little bit aggresive but safe and reaches top speed of over 100mph. 
 
 
 
