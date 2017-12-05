@@ -66,7 +66,8 @@ I used method mentioned in the walkthrough video where you assume that car posit
 6) Set "State" variable
 7) Use solver to get steering and throttle
 8) Send steering and throttle to simulator
-9) Go to step 1
+9) Prepare green and yellow lines
+10) Go to step 1
 
 
 ## MPC with latency
