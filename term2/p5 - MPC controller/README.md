@@ -50,12 +50,23 @@ We are using kinematic model here. Model is based on those equations:
 
 
 ## Timestep Length and elapsed duration
-I tested time steps from 0.1 to 0.2. When time step was small, model worked with maller speeds but above 70mph it wasn't working properly.  
-
+I tested time steps from 0.1 to 0.2. When time step was small (0.1s), model worked with maller speeds but above 70mph it wasn't working properly.  I also tried 0.1 with 15 steps but 0.18 with 10 steps worked much better. 
 
 
 ## Polynomial fitting and mpc processing
+I used method mentioned in the walkthrough video where you assume that car position is 0,0 and turn (psi) is also 0. Using those assumptions, you transform points given by the simulator to be in "car coordinates system". This step simplifies next calculations. Then you fit a 3rd degree polynomial using those points. Calculated coefficients are stored in "coeffs" variable. 
 
+
+## Full general algorithm
+1) Read information from the simulator
+2) "Zero" car coordinates
+3) Transform 6 waypoints to car coordinates
+4) Calculate polynomial
+5) Incorporate latency
+6) Set "State" variable
+7) Use solver to get steering and throttle
+8) Send steering and throttle to simulator
+9) Go to step 1
 
 
 ## MPC with latency
@@ -70,8 +81,7 @@ To incorporate latency I used equations:
 		double epsi = -atan(coeffs[1]) + psi;   
 		double cte= polyeval(coeffs,0)+v*sin(epsi)*latency;  
 		
-I added Lf factor in the first equation - because without it, car was swinging from right to left (predicted angles were too big). I didn't change speed because there is no way to tell real accelaration of this car. 
-
+I added Lf factor in the first equation - because without it, car was swinging from right to left (predicted angles were too big). I didn't change speed because there is no way to tell real accelaration of this car - so I didn't use the line below:
 //v += a*latency;
      
 
