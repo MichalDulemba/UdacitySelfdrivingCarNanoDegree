@@ -6,8 +6,8 @@
 using CppAD::AD;
 
 // TODO: Set the timestep length and duration // DONE
-size_t N = 15;
-double dt = 0.1;
+size_t N = 10;
+double dt = 0.2;
 
 size_t x_start =0;
 size_t y_start = x_start + N;
@@ -66,10 +66,10 @@ class FG_eval {
    double smooth_turn_change = 200;
 
    double smooth_speed =100;
-   double smooth_speed_change =1;
+   double smooth_speed_change =10;
 
-   double cte_weight =1000;
-   double epsi_weight =1000;
+   double cte_weight =2000;
+   double epsi_weight =2000;
    double speed_weight =1;
 
    double ref_epsi =0;
