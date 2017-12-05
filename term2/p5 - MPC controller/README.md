@@ -3,16 +3,16 @@
 
 ## Basic Build Instructions
 
-1. Clone this repo.
-2. Make a build directory: `mkdir build && cd build`
-3. Compile: `cmake .. && make`
-4. Run it: `./mpc`.
+1. Clone this repo.  
+2. Make a build directory: `mkdir build && cd build`  
+3. Compile: `cmake .. && make`  
+4. Run it: `./mpc`.  
 
 
 ## Video - working model
-https://vimeo.com/245860342
-password: udacity
-or see the uploaded file. 
+https://vimeo.com/245860342  
+password: udacity  
+or see the uploaded file.   
 
 
 ## The model
@@ -24,25 +24,25 @@ We are using kinematic model here. Model is based on those equations:
 
 
    To create cost function for the solver i added cte, epsi, v, delta, a, delta change and a change
-   with respective weight multipliers:
+   with respective weight multipliers:   
 
-   smooth_turn = 50;
-   smooth_turn_change = 200;
+   smooth_turn = 50;  
+   smooth_turn_change = 200;  
+    
+   smooth_speed =90;  
+   smooth_speed_change =10;  
 
-   smooth_speed =90;
-   smooth_speed_change =10;
+   cte_weight =2000;  
+   epsi_weight =2000;  
+   speed_weight =1;  
 
-   cte_weight =2000;
-   epsi_weight =2000;
-   speed_weight =1;
-
-   ref_v = 100;
+   ref_v = 100;  
 
 
 
 ## Timestep Length and elapsed duration
-I tested time steps from 0.1 to 0.2. When time step was small, model worked with maller speeds but above 70mph it wasn't working properly.
-0.20 was too much when 
+I tested time steps from 0.1 to 0.2. When time step was small, model worked with maller speeds but above 70mph it wasn't working properly.  
+
 
 
 ## Polynomial fitting and mpc processing
