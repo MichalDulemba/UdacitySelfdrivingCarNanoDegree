@@ -7,7 +7,7 @@ using CppAD::AD;
 
 // TODO: Set the timestep length and duration // DONE
 size_t N = 10;
-double dt = 0.2;
+double dt = 0.18;
 
 size_t x_start =0;
 size_t y_start = x_start + N;
@@ -62,10 +62,10 @@ class FG_eval {
 
 
    // COST constraints
-   double smooth_turn = 5;
+   double smooth_turn = 50;
    double smooth_turn_change = 200;
 
-   double smooth_speed =100;
+   double smooth_speed =90;
    double smooth_speed_change =10;
 
    double cte_weight =2000;

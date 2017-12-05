@@ -93,7 +93,13 @@ int main() {
           double psi = j[1]["psi"];
           double v = j[1]["speed"];
           double steer_angle = j[1]["steering_angle"];
-          v *= 0.44;
+          double throttle = j[1]["throttle"];
+
+	  v *= 0.44;
+
+
+
+
 
           for (uint i=0; i <ptsx.size(); i++){
             //translation from map coordinates to car coordinates based on :
@@ -124,64 +130,48 @@ int main() {
 
           auto coeffs = polyfit (ptsx_conv, ptsy_conv, 3);
 
-          //double cte = polyeval(coeffs, px) - py;
-          //double epsi = psi - atan(3*coeffs[3]*px*px + 2*coeffs[2]*px + coeffs[1]);
 
-          double latency = 0;
+
+          double latency = 0.1;
           int latency_ms = (int)(latency * 1000);
 
           double Lf = 2.67;
 
-          if (latency > 0.1){
-            double delta =0;
-            //delta = v * sin(epsi) * latency;
-
-            //psi = psi + v*delta/Lf*latency;
-            px = 0 + v*cos(0)*latency;
-            py = 0 + v*sin(0)*latency;
-
-            //v = v + acceleration*latency;
-          }
-          else {
-            px=0;
-            py=0;
-          }
-
-          double cte = polyeval (coeffs,0);
-          double epsi = -atan(coeffs[1]);
 
 
+		//double a = throttle;
+		double delta = steer_angle/ (deg2rad(25) * Lf);
+
+		px = v*latency;
+		py = 0;
+		psi = -v*delta*latency/Lf;
+		double epsi = -atan(coeffs[1]) + psi; 
+		double cte= polyeval(coeffs,0)+v*sin(epsi)*latency;
+		//v += a*latency;
+
+                std::cout << "with latency" << px << " "<< delta << " " << psi << std::endl;
+            
 
 
 
           //std::cout << ptsx[0];
           //std::cout << ptsy;
           Eigen::VectorXd state(6);
-          state << px,py,0,v,cte,epsi;
+          state << px,py,psi,v,cte,epsi;
 
           auto vars = mpc.Solve(state, coeffs);
 
-          /*
-          std:: cout << "solved" << std::endl;
-          for (uint i=0; i<vars.size(); i++)
-          {
-            std::cout << vars[i] << std::endl;
-          }
-          */
 
-          /*
-          * TODO: Calculate steering angle and throttle using MPC.
-          *
-          * Both are in between [-1, 1].
-          *
-          */
-          double steer_value = vars[0] / (deg2rad(25)) ;
+          mpc.steer_value = vars[0] / (deg2rad(25)) ;
           double throttle_value = vars[1];
+
+
+
 
           json msgJson;
           // NOTE: Remember to divide by deg2rad(25) before you send the steering value back.
           // Otherwise the values will be in between [-deg2rad(25), deg2rad(25] instead of [-1, 1].
-          msgJson["steering_angle"] = steer_value;
+          msgJson["steering_angle"] = mpc.steer_value;
           msgJson["throttle"] = throttle_value;
 
           //Display the MPC predicted trajectory
@@ -192,7 +182,7 @@ int main() {
           // the points in the simulator are connected by a Green line
 
            // fix green line (starts from the car now)
-            mpc_x_vals.push_back(0);
+            mpc_x_vals.push_back(3);
             mpc_y_vals.push_back(0);
 
           for (uint i=2; i < vars.size(); i+=2){

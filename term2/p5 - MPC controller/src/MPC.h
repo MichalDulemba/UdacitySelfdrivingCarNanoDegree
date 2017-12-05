@@ -10,6 +10,7 @@ class MPC {
  public:
   MPC();
   int step=0;
+  double steer_value=0;
 
   virtual ~MPC();
 
