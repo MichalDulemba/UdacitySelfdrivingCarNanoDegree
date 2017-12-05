@@ -18,6 +18,15 @@ or see the uploaded file.
 ## The model
 We are using kinematic model here. Model is based on those equations:
 
+f0 = coeffs[0] + coeffs[1] *x0 + coeffs[2] * x0 *x0 + coeffs[3] * x0 *x0 *x0;  
+psides0 = atan(3*coeffs[3]*x0 * x0 + 2*coeffs[2]*x0 + coeffs[1]);  
+
+x = x0 + v0* cos(psi0) * dt;  
+y = y0 + v0* sin(psi0) * dt;  
+psi = psi0 - v0 * delta0 / Lf * dt;  
+v = v0 + a0 * dt;  
+cte  = ((y0-f0) + (v0 * sin(epsi0) *dt));
+epsi = ((psi0 - psides0) + v0 * delta0 / Lf *dt);
 
 
 ## Cost function
@@ -61,7 +70,7 @@ To incorporate latency I used equations:
 		double epsi = -atan(coeffs[1]) + psi;   
 		double cte= polyeval(coeffs,0)+v*sin(epsi)*latency;  
 		
-I didn't change speed because there is no way to tell real accelaration of this car. 
+I added Lf factor in the first equation - because without it, car was swinging from right to left (predicted angles were too big). I didn't change speed because there is no way to tell real accelaration of this car. 
 
 //v += a*latency;
      
