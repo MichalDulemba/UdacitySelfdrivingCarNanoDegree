@@ -95,6 +95,7 @@ I added Lf factor in the first equation - because without it, car was swinging f
 5) I used method of "zeroing" position of the car suggested in the project walkthrough video.   
 6) As suggested in one of the forum threads I used (y0-f0) instead of (f0-y0).  
 7) There is no real way to tell, what is the acceleration of the car (throttle is just some weird approximation).  
+8) Car drives a little bit aggresive but safe and reaches top speed of over 100mph. 
 
 
 
