@@ -63,13 +63,13 @@ class FG_eval {
 
    // COST constraints
    double smooth_turn = 5;
-   double smooth_turn_change = 100;
+   double smooth_turn_change = 200;
 
-   double smooth_speed =150;
-   double smooth_speed_change =10;
+   double smooth_speed =100;
+   double smooth_speed_change =1;
 
-   double cte_weight =2000;
-   double epsi_weight =2000;
+   double cte_weight =1000;
+   double epsi_weight =1000;
    double speed_weight =1;
 
    double ref_epsi =0;
