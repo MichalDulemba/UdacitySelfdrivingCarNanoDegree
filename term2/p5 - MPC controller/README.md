@@ -71,7 +71,7 @@ I used method mentioned in the walkthrough video where you assume that car posit
 
 
 ## MPC with latency
-There were two ways to incorporate latency - before calculating points and after. First method is in theory more accurate but second worked properly. 
+There were two ways to incorporate latency - before calculating points and after. First method is in theory more accurate but second worked for me properly. 
 
 To incorporate latency I used equations:
 		
