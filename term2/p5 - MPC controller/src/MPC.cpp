@@ -62,18 +62,18 @@ class FG_eval {
 
 
    // COST constraints
-   double smooth_turn = 50;
-   double smooth_turn_change = 200;
+   double smooth_turn = 80; // this also helped in more stable driving
+   double smooth_turn_change = 400;  // regarding review - I changed this value to get more stable driving - thank you
 
    double smooth_speed =90;
-   double smooth_speed_change =10;
+   double smooth_speed_change =5; // smaller value here gave my car to break harder on the first difficult curve
 
-   double cte_weight =2000;
+   double cte_weight =2000; //regarding review - I left this value and it worked ok (changed other values)
    double epsi_weight =2000;
    double speed_weight =1;
 
    double ref_epsi =0;
-   double ref_v = 100;
+   double ref_v = 100; //regarding review - converting to m/s doesn't work properly (simulator takes this value as target in MPH)
    double ref_cte = 0;
 
    fg[0]=0;
@@ -143,12 +143,12 @@ vector<double> MPC::Solve(Eigen::VectorXd state, Eigen::VectorXd coeffs) {
   size_t i;
   typedef CPPAD_TESTVECTOR(double) Dvector;
 
-  double x = state[0];
-  double y = state[1];
-  double psi = state[2];
-  double v = state[3];
-  double cte = state[4];
-  double epsi = state[5];
+  const double x = state[0];
+  const double y = state[1];
+  const double psi = state[2];
+  const double v = state[3];
+  const double cte = state[4];
+  const double epsi = state[5];
 
 
   // TODO: Set the number of model variables (includes both states and inputs).

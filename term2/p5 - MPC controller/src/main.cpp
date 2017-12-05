@@ -140,7 +140,7 @@ int main() {
 
 
 		//double a = throttle;
-		double delta = steer_angle/ (deg2rad(25) * Lf);
+		double delta = steer_angle;  // regarding review - fixed and works properly. Thank you. 
 
 		px = v*latency;
 		py = 0;
