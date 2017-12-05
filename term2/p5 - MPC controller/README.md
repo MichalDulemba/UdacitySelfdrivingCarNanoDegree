@@ -53,12 +53,14 @@ I tested time steps from 0.1 to 0.2. When time step was small, model worked with
 There were two ways to incorporate latency - before calculating points and after. First method is in theory more accurate but second worked properly. 
 
 To incorporate latency I used equations:
-		double delta = steer_angle/ (deg2rad(25) * Lf);
-		px = v*latency;
-		py = 0;
-		psi = -v*delta*latency/Lf;
-		double epsi = -atan(coeffs[1]) + psi; 
-		double cte= polyeval(coeffs,0)+v*sin(epsi)*latency;
+		
+		double delta = steer_angle/ (deg2rad(25) * Lf);  
+		px = v*latency;  
+		py = 0;  
+		psi = -v*delta*latency/Lf;  
+		double epsi = -atan(coeffs[1]) + psi;   
+		double cte= polyeval(coeffs,0)+v*sin(epsi)*latency;  
+		
 I didn't change speed because there is no way to tell real accelaration of this car. 
 
 //v += a*latency;
