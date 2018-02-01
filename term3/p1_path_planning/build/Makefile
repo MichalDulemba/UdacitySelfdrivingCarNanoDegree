@@ -48,10 +48,10 @@ RM = /usr/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = "/media/michal/DawneF/AI_NEURAL_NETWORKS_PYTHON_UDACITY/UDACITY - MY CAR NANODEGREE/TODO - t3-p1/CarND-Path-Planning-Project"
+CMAKE_SOURCE_DIR = "/media/michal/DawneF5/AI_NEURAL_NETWORKS_PYTHON_UDACITY/UDACITY - MY CAR NANODEGREE/UdacitySelfdrivingCarNanoDegree/term3/p1_path_planning"
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = "/media/michal/DawneF/AI_NEURAL_NETWORKS_PYTHON_UDACITY/UDACITY - MY CAR NANODEGREE/TODO - t3-p1/CarND-Path-Planning-Project/build"
+CMAKE_BINARY_DIR = "/media/michal/DawneF5/AI_NEURAL_NETWORKS_PYTHON_UDACITY/UDACITY - MY CAR NANODEGREE/UdacitySelfdrivingCarNanoDegree/term3/p1_path_planning/build"
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -80,9 +80,9 @@ rebuild_cache/fast: rebuild_cache
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start "/media/michal/DawneF/AI_NEURAL_NETWORKS_PYTHON_UDACITY/UDACITY - MY CAR NANODEGREE/TODO - t3-p1/CarND-Path-Planning-Project/build/CMakeFiles" "/media/michal/DawneF/AI_NEURAL_NETWORKS_PYTHON_UDACITY/UDACITY - MY CAR NANODEGREE/TODO - t3-p1/CarND-Path-Planning-Project/build/CMakeFiles/progress.marks"
+	$(CMAKE_COMMAND) -E cmake_progress_start "/media/michal/DawneF5/AI_NEURAL_NETWORKS_PYTHON_UDACITY/UDACITY - MY CAR NANODEGREE/UdacitySelfdrivingCarNanoDegree/term3/p1_path_planning/build/CMakeFiles" "/media/michal/DawneF5/AI_NEURAL_NETWORKS_PYTHON_UDACITY/UDACITY - MY CAR NANODEGREE/UdacitySelfdrivingCarNanoDegree/term3/p1_path_planning/build/CMakeFiles/progress.marks"
 	$(MAKE) -f CMakeFiles/Makefile2 all
-	$(CMAKE_COMMAND) -E cmake_progress_start "/media/michal/DawneF/AI_NEURAL_NETWORKS_PYTHON_UDACITY/UDACITY - MY CAR NANODEGREE/TODO - t3-p1/CarND-Path-Planning-Project/build/CMakeFiles" 0
+	$(CMAKE_COMMAND) -E cmake_progress_start "/media/michal/DawneF5/AI_NEURAL_NETWORKS_PYTHON_UDACITY/UDACITY - MY CAR NANODEGREE/UdacitySelfdrivingCarNanoDegree/term3/p1_path_planning/build/CMakeFiles" 0
 .PHONY : all
 
 # The main clean target

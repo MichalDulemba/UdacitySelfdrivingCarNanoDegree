@@ -1,4 +1,4 @@
-# Install script for directory: /media/michal/DawneF/AI_NEURAL_NETWORKS_PYTHON_UDACITY/UDACITY - MY CAR NANODEGREE/TODO - t3-p1/CarND-Path-Planning-Project
+# Install script for directory: /media/michal/DawneF5/AI_NEURAL_NETWORKS_PYTHON_UDACITY/UDACITY - MY CAR NANODEGREE/UdacitySelfdrivingCarNanoDegree/term3/p1_path_planning
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -40,5 +40,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "/media/michal/DawneF/AI_NEURAL_NETWORKS_PYTHON_UDACITY/UDACITY - MY CAR NANODEGREE/TODO - t3-p1/CarND-Path-Planning-Project/build/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "/media/michal/DawneF5/AI_NEURAL_NETWORKS_PYTHON_UDACITY/UDACITY - MY CAR NANODEGREE/UdacitySelfdrivingCarNanoDegree/term3/p1_path_planning/build/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")

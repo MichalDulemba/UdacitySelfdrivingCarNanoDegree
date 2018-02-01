@@ -8,6 +8,7 @@
 #include "Eigen-3.3/Eigen/Core"
 #include "Eigen-3.3/Eigen/QR"
 #include "json.hpp"
+#include "spline.h"
 
 using namespace std;
 
@@ -178,6 +179,7 @@ int main() {
   // The max s value before wrapping around the track back to 0
   double max_s = 6945.554;
 
+
   ifstream in_map_(map_file_.c_str(), ifstream::in);
 
   string line;
@@ -213,12 +215,12 @@ int main() {
 
       if (s != "") {
         auto j = json::parse(s);
-        
+
         string event = j[0].get<string>();
-        
+
         if (event == "telemetry") {
           // j[1] is the data JSON object
-          
+
         	// Main car's localization Data
           	double car_x = j[1]["x"];
           	double car_y = j[1]["y"];
@@ -227,12 +229,12 @@ int main() {
           	double car_yaw = j[1]["yaw"];
           	double car_speed = j[1]["speed"];
 
-		std::cout << "carx " << car_x << "cary " << car_y << std::endl;
+		        std::cout << "carx " << car_x << "cary " << car_y << std::endl;
 
           	// Previous path data given to the Planner
           	auto previous_path_x = j[1]["previous_path_x"];
           	auto previous_path_y = j[1]["previous_path_y"];
-          	// Previous path's end s and d values 
+          	// Previous path's end s and d values
           	double end_path_s = j[1]["end_path_s"];
           	double end_path_d = j[1]["end_path_d"];
 
@@ -243,45 +245,31 @@ int main() {
 
           	vector<double> next_x_vals;
           	vector<double> next_y_vals;
-
-double pos_x;
-          double pos_y;
-          double angle;
-          int path_size = previous_path_x.size();
-
-          for(int i = 0; i < path_size; i++)
-          {
-              next_x_vals.push_back(previous_path_x[i]);
-              next_y_vals.push_back(previous_path_y[i]);
-          }
-
-          if(path_size == 0)
-          {
-              pos_x = car_x;
-              pos_y = car_y;
-              angle = deg2rad(car_yaw);
-          }
-          else
-          {
-              pos_x = previous_path_x[path_size-1];
-              pos_y = previous_path_y[path_size-1];
-
-              double pos_x2 = previous_path_x[path_size-2];
-              double pos_y2 = previous_path_y[path_size-2];
-              angle = atan2(pos_y-pos_y2,pos_x-pos_x2);
-          }
-
-          double dist_inc = 0.5;
-          for(int i = 0; i < 50-path_size; i++)
-          {    
-              next_x_vals.push_back(pos_x+(dist_inc)*cos(angle+(i+1)*(pi()/100)));
-              next_y_vals.push_back(pos_y+(dist_inc)*sin(angle+(i+1)*(pi()/100)));
-              pos_x += (dist_inc)*cos(angle+(i+1)*(pi()/100));
-              pos_y += (dist_inc)*sin(angle+(i+1)*(pi()/100));
-          }
+            double time_step = 0.02; // seconds
+            double distance_inc = 0.5;
+            int lane_width = 4;
+            int trajectory_points_number = 50;
+            int lane_quantity = 3;
 
 
+            // create middle for each lane
+            vector <int> lane_middle;
+            for (int i=0; i<lane_quantity; i++){
+              lane_middle.push_back(2+i*lane_width);
+            }
 
+            std:: cout << "lane middle 1" << lane_middle[1];
+
+            for (int i=0; i < trajectory_points_number; i++){
+              std::cout << "s " << car_s << "car_d " << car_d << std::endl;
+              double next_s = car_s + (i+1) * distance_inc;
+              double next_d = lane_middle[2];
+              std::cout << "nexts " << next_s << "nexty " << next_d << std::endl;
+              vector <double> next_xy = getXY(next_s, next_d, map_waypoints_s, map_waypoints_x, map_waypoints_y);
+
+              next_x_vals.push_back(next_xy[0]);
+              next_y_vals.push_back(next_xy[1]);
+            }
 
           	// TODO: define a path made up of (x,y) points that the car will visit sequentially every .02 seconds
           	msgJson["next_x"] = next_x_vals;
@@ -291,7 +279,7 @@ double pos_x;
 
           	//this_thread::sleep_for(chrono::milliseconds(1000));
           	ws.send(msg.data(), msg.length(), uWS::OpCode::TEXT);
-          
+
         }
       } else {
         // Manual driving
