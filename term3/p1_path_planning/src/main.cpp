@@ -202,8 +202,11 @@ int main() {
   	map_waypoints_dy.push_back(d_y);
   }
 
+  double starting_velocity = 0.0;
+  double target_velocity = starting_velocity; // iniate with 0 to avoid jerk at the start
+  int current_lane =1; // ### FIX SCOPE ###
 
-  h.onMessage([&map_waypoints_x,&map_waypoints_y,&map_waypoints_s,&map_waypoints_dx,&map_waypoints_dy](uWS::WebSocket<uWS::SERVER> ws, char *data, size_t length,
+  h.onMessage([&target_velocity, &current_lane, &map_waypoints_x,&map_waypoints_y,&map_waypoints_s,&map_waypoints_dx,&map_waypoints_dy](uWS::WebSocket<uWS::SERVER> ws, char *data, size_t length,
                      uWS::OpCode opCode) {
     // "42" at the start of the message means there's a websocket message event.
     // The 4 signifies a websocket message
@@ -249,8 +252,7 @@ int main() {
           	vector<double> next_x_vals;
           	vector<double> next_y_vals;
 
-            int starting_lane =1;
-            double target_velocity = 49.5;
+            std:: cout << "reseting speed \n";
             double time_step = 0.02; // seconds
             double distance_inc = 0.5;
             int lane_width = 4;
@@ -266,12 +268,57 @@ int main() {
               lane_middle.push_back(2+i*lane_width);
             }
 
-            std:: cout << "lane middle 1 " << lane_middle[1]  <<  std::endl;
+            std:: cout << "current_lane " << current_lane << " lane middle " << lane_middle[current_lane]  <<  std::endl;
 
             double ref_car_x = car_x;
             double ref_car_y = car_y;
             double ref_car_yaw = deg2rad(car_yaw);
             int prev_path_size = previous_path_x.size();
+            int number_of_cars = sensor_fusion.size();
+            int minimum_distance = 20;
+            if (prev_path_size >0)
+            {
+              car_s = end_path_s;
+            }
+            bool too_close = false;
+
+            for (int i=0; i<number_of_cars; i++){
+
+                float d_pos_other_car = sensor_fusion[i][6];
+                int left_lane_edge = lane_middle[current_lane]-2;
+                int right_lane_edge =lane_middle[current_lane]+2;
+
+                if ( (d_pos_other_car > left_lane_edge) && (d_pos_other_car < right_lane_edge) )
+                {
+                  double vx = sensor_fusion[i][3];
+                  double vy = sensor_fusion[i][4];
+                  double check_speed = sqrt(vx*vx+vy*vy);  //magnitude of velocity vector
+                  double check_car_s = sensor_fusion[i][5];
+                  check_car_s += ((double) prev_path_size*time_step*check_speed);
+                  if ( (check_car_s > car_s) && ((check_car_s-car_s) < minimum_distance) ){
+                    //target_velocity = 29.5;
+                    std::cout << "too close \n";
+                    too_close = true;
+                    if (current_lane>0)
+                    {
+                      current_lane=0;
+                    }
+                    // check if you can change lane
+                  }
+                }
+            }
+            if (too_close)
+                {
+                  target_velocity -= 0.448; //slow down by 5meters
+
+                }
+            else if (target_velocity < 49.5){
+              target_velocity += 0.448;
+            }
+            std::cout << "target velocity " << target_velocity << std::endl;
+
+
+
 
             /// ------ begin of spline points creation
 
@@ -314,10 +361,10 @@ int main() {
             // new points based on the chosen lane
 
             std::cout << "spline x size " << spline_x_vals.size() <<  "spline y size " << spline_y_vals.size() << std::endl;
-
-            vector <double> next_wp0 = getXY(car_s+smooth_point_dist, lane_middle[1], map_waypoints_s, map_waypoints_x, map_waypoints_y);
-            vector <double> next_wp1 = getXY(car_s+(smooth_point_dist*2), lane_middle[1], map_waypoints_s, map_waypoints_x, map_waypoints_y);
-            vector <double> next_wp2 = getXY(car_s+(smooth_point_dist*3), lane_middle[1], map_waypoints_s, map_waypoints_x, map_waypoints_y);
+            std::cout << "current line"<< current_lane << "lane middle" << lane_middle[current_lane];
+            vector <double> next_wp0 = getXY(car_s+smooth_point_dist, lane_middle[current_lane], map_waypoints_s, map_waypoints_x, map_waypoints_y);
+            vector <double> next_wp1 = getXY(car_s+(smooth_point_dist*2), lane_middle[current_lane], map_waypoints_s, map_waypoints_x, map_waypoints_y);
+            vector <double> next_wp2 = getXY(car_s+(smooth_point_dist*3), lane_middle[current_lane], map_waypoints_s, map_waypoints_x, map_waypoints_y);
 
             spline_x_vals.push_back(next_wp0[0]);
             spline_x_vals.push_back(next_wp1[0]);
