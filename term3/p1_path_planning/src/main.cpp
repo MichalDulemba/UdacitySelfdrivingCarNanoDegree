@@ -9,6 +9,9 @@
 #include "Eigen-3.3/Eigen/QR"
 #include "json.hpp"
 #include "spline.h"
+#include <chrono>
+#include <thread>
+
 
 using namespace std;
 
@@ -164,8 +167,135 @@ vector<double> getXY(double s, double d, const vector<double> &maps_s, const vec
 
 }
 
+
+// my helper functions
+
+float last_car_curr_lane (vector <vector <float>> other_cars, int current_lane, vector <int> lane_middle, float car_s)
+{
+  int number_of_cars = other_cars.size();
+  //std::cout << "number_of_cars" << number_of_cars;
+
+  float smallest_distance=10000;
+  float distance = 10000;
+  int car_id = -1;
+
+  for (int i=0; i<number_of_cars; i++){
+
+      float d_pos_other_car = other_cars[i][6];
+      int left_lane_edge = lane_middle[current_lane]-2;
+      int right_lane_edge =lane_middle[current_lane]+2;
+
+      if ( (d_pos_other_car > left_lane_edge) && (d_pos_other_car < right_lane_edge) )
+      {
+        double check_speed = other_cars[i][8];  //magnitude of velocity vector
+        double check_car_s = other_cars[i][5];
+        std::cout << "speed of checked car " << check_car_s;
+        //check_car_s += ((double) prev_path_size*time_step*check_speed);
+        //check_car_s = other_cars[i][5];
+        distance = check_car_s - car_s;
+        std::cout << " distance " << distance << " smallest dist " << smallest_distance << std::endl;
+      }
+      if ((distance > 0) && (distance < smallest_distance))
+        {
+          smallest_distance = distance;
+          car_id = i;
+        }
+  }
+
+  if (car_id != -1 ) {
+    std::cout << "closest car is " << car_id << "on my lane at " << smallest_distance << std::endl;
+    return car_id;
+  }
+  else {
+    std::cout << "no cars" << std::endl;
+    return -1;
+  }
+
+}
+
+
+vector <int> check_for_empty_lanes(vector <vector <float>> other_cars, int lane_quantity, float car_s)
+{
+// which lanes are empty ahead of ego car
+  std::cout << "my car at s " << car_s << std::endl;
+  int number_of_cars = other_cars.size();
+  int cars_in_front_by_lane[3] = {0,0,0};
+  vector <int> empty_lanes;
+
+  for (int i=0; i<lane_quantity; i++){
+    // check for empty
+    std::cout << "\n--------- testing for empty lane " << i << "---------" << std::endl;
+
+    for (int j=0; j<number_of_cars; j++){
+
+      int check_car_lane = other_cars[j][7];
+      double check_car_s = other_cars[j][5];
+
+     if (check_car_lane == i){
+
+       std::cout << "    checking car id " << j << " on lane " << check_car_lane << " dist to ego car " <<  check_car_s - car_s << " check_car_s " <<  check_car_s << " car_s " << car_s << std::endl;
+       if (((check_car_s - car_s) < 50)  && ((check_car_s - car_s) > -10))
+       {
+        //(check_car_s > car_s)  &&
+        std::cout << "\n Lane " << i <<" blocked by car id=" << j  <<" \n ";
+        cars_in_front_by_lane[check_car_lane]+=1;
+       }
+       std::cout << "\n";
+
+     }
+
+
+    }
+    std::cout << "\n lane " << i << " cars " << cars_in_front_by_lane[i] << std::endl;
+    if (cars_in_front_by_lane[i] == 0)
+    {
+      empty_lanes.push_back(i);
+    }
+  } //end of check all lanes
+
+
+    if (empty_lanes.size() > 0 ) {
+      std::cout<< "empty lanes  ";
+      for (int i=0; i<empty_lanes.size();i++)
+        {
+          std::cout <<" " << empty_lanes[i];
+        }
+      }
+      std::cout << "\n";
+    return empty_lanes;
+
+}
+
+
+bool enough_space(vector <vector <float>> other_cars, int target_lane, float car_s)
+{
+
+  // later i should add checking for incoming cars
+  bool man_possible=1;
+  int number_of_cars = other_cars.size();
+
+  for (int l=0; l<number_of_cars; l++){
+        float other_car_pos = other_cars[l][5];
+
+        if ( (other_cars[l][7] == target_lane) && (other_car_pos-car_s > -6) && (other_car_pos-car_s < 6)){
+        man_possible=0;
+      }
+      else {
+        man_possible=1;
+      }
+
+  }
+  return man_possible;
+}
+
+
+
+
 int main() {
   uWS::Hub h;
+  using namespace std::this_thread; // sleep_for, sleep_until
+  using namespace std::chrono; // nanoseconds, system_clock, seconds
+  sleep_for(seconds(8));
 
   // Load up map values for waypoint's x,y,s and d normalized normal vectors
   vector<double> map_waypoints_x;
@@ -204,9 +334,10 @@ int main() {
 
   double starting_velocity = 0.0;
   double target_velocity = starting_velocity; // iniate with 0 to avoid jerk at the start
+  double previous_target_velocity = 0.0;
   int current_lane =1; // ### FIX SCOPE ###
 
-  h.onMessage([&target_velocity, &current_lane, &map_waypoints_x,&map_waypoints_y,&map_waypoints_s,&map_waypoints_dx,&map_waypoints_dy](uWS::WebSocket<uWS::SERVER> ws, char *data, size_t length,
+  h.onMessage([&target_velocity, &previous_target_velocity, &current_lane, &map_waypoints_x,&map_waypoints_y,&map_waypoints_s,&map_waypoints_dx,&map_waypoints_dy](uWS::WebSocket<uWS::SERVER> ws, char *data, size_t length,
                      uWS::OpCode opCode) {
     // "42" at the start of the message means there's a websocket message event.
     // The 4 signifies a websocket message
@@ -226,6 +357,8 @@ int main() {
           // j[1] is the data JSON object
 
         	// Main car's localization Data
+            previous_target_velocity = target_velocity;
+
           	double car_x = j[1]["x"];
           	double car_y = j[1]["y"];
           	double car_s = j[1]["s"];
@@ -265,6 +398,11 @@ int main() {
               double speed_magnitude = sqrt(vx*vx+vy*vy);
               single_car.push_back(speed_magnitude);
 
+              double check_car_s = j[1]["sensor_fusion"][i][5];
+              float distance_to_ego_car = check_car_s - car_s;
+              std::cout << "    checking car id " << i << " on lane " << other_car_lane << " dist to ego car " <<  distance_to_ego_car << " check_car_s " <<  check_car_s << " car_s " << car_s << std::endl;
+
+              single_car.push_back(distance_to_ego_car);
 
               //show car data
                for(int i=0; i<single_car.size(); ++i)
@@ -296,7 +434,7 @@ int main() {
             for (int i=0; i<lane_quantity; i++){
               lane_middle.push_back(2+i*lane_width);
             }
-
+            //std:: cout << "############# Start ###########" << "\n";
             std:: cout << "current_lane " << current_lane << " lane middle " << lane_middle[current_lane]  <<  std::endl;
 
             double ref_car_x = car_x;
@@ -305,10 +443,8 @@ int main() {
             int prev_path_size = previous_path_x.size();
             int number_of_cars = other_cars.size();
             int minimum_distance = 20;
-            if (prev_path_size >0)
-            {
-              car_s = end_path_s;
-            }
+            int visible_distance = 100;
+
             bool too_close = false;
 
             int cars_in_front_by_lane[3] = {0,0,0};
@@ -332,148 +468,117 @@ int main() {
             std::cout << "\n";
 
 
-            for (int i=0; i<number_of_cars; i++){
+            int last = last_car_curr_lane(other_cars, current_lane, lane_middle, car_s);
+            float dist_to_last;
+            float last_car_speed;
 
-                float d_pos_other_car = other_cars[i][6];
-                int left_lane_edge = lane_middle[current_lane]-2;
-                int right_lane_edge =lane_middle[current_lane]+2;
+            if (last!=-1){
+            //check_for_empty_lanes(other_cars, lane_quantity, car_s);
+            dist_to_last = other_cars[last][5] - car_s;
+            last_car_speed = other_cars[last][8];
+            }
+            else{
+              dist_to_last=0;
+              last_car_speed=0;
+            }
+            int target_lane=-1;
 
-                if ( (d_pos_other_car > left_lane_edge) && (d_pos_other_car < right_lane_edge) )
-                {
-                  double vx = other_cars[i][3];
-                  double vy = other_cars[i][4];
-                  double check_speed = sqrt(vx*vx+vy*vy);  //magnitude of velocity vector
-                  double check_car_s = other_cars[i][5];
-                  check_car_s += ((double) prev_path_size*time_step*check_speed);
-                  if ( (check_car_s > car_s) && ((check_car_s-car_s) < minimum_distance) ){
+            // long dist check
+
+
+            if ( (dist_to_last > 0) && (dist_to_last > minimum_distance) && (dist_to_last < visible_distance)){
+                cout << "Long range check" << std::endl;
+                cout << "car ahead at dist " << dist_to_last  << std::endl;
+                vector <int> empty_lanes =  check_for_empty_lanes(other_cars, lane_quantity, car_s);
+
+                for (int k=0; k<potential_lanes.size(); k++){
+                    if (std::find(empty_lanes.begin(), empty_lanes.end(), potential_lanes[k]) !=empty_lanes.end() )
+                      {
+                        std::cout << "found empty potential lane " << potential_lanes[k] << "\n";
+                        target_lane = potential_lanes[k];
+                        smooth_point_dist = 60;
+                        break;
+                      }
+                    else
+                      {
+                        cout<< "potential lane" << potential_lanes[k] << " is FULL \n";
+                        target_lane == current_lane;
+                      }
+                }
+            }
+
+
+            // short dist check
+            else if ( (dist_to_last > 0) && (dist_to_last < minimum_distance )) {
                     //target_velocity = 29.5;
-                    std::cout << "too close \n";
-                    too_close = true;
+                cout << "Close range check" << std::endl;
+                std::cout << "too close \n";
+                too_close = true;
+
+                vector <int> empty_lanes =  check_for_empty_lanes(other_cars, lane_quantity, car_s);
+
+                for (int k=0; k<potential_lanes.size(); k++){
 
 
-
-                     for (int i=0; i<potential_lanes.size(); i++){
-                       // check for empty
-                       std::cout << "\n--------- testing for empty lane " << potential_lanes[i] << "---------" << std::endl;
-
-                       for (int j=0; j<number_of_cars; j++){
-
-                         int check_car_lane = other_cars[j][7];
-                         double check_car_s = other_cars[j][5];
-
-
-                        //  if ((check_car_lane == current_lane) && (check_car_s > car_s) && (check_car_s - car_s < 100))
-                        //  {
-                         //
-                        //    if (check_car_s - car_s <0){
-                        //       std::cout << " (same lane) behind" << std::endl;
-                        //    }
-                        //    else{
-                        //       std::cout << " (same lane) in front" << std::endl;
-                        //    }
-                        //   cars_in_front_by_lane[check_car_lane]+=1;
-                        //  }
-                        if (check_car_lane == potential_lanes[i]){
-
-                          std::cout << "checking car id " << j << " on lane " << check_car_lane << " dist to ego car " << check_car_s - car_s;
-                          if ((check_car_s > car_s)  && (check_car_s - car_s < 50)  && (check_car_s - car_s > -2))
-                          {
-                           std::cout << "\n lane " << potential_lanes[i] <<" blocked by this car \n ";
-                           cars_in_front_by_lane[check_car_lane]+=1;
-                          }
-                          std::cout << "\n";
-
-                        }
-
-
-                       }
-                       std::cout << "\n lane " << potential_lanes[i] << " cars " << cars_in_front_by_lane[potential_lanes[i]] << std::endl;
-                     } //end of check all lanes
-
-
-
-                     // check for faster
-
-                     for (int i=0; i<potential_lanes.size(); i++){
-                       // check for empty
-                       std::cout << "\n--------- testing for faster lane " << potential_lanes[i] << "---------" << std::endl;
-
-                       for (int i=0; i<number_of_cars; i++){
-
-                        //  int check_car_lane = other_cars[i][7];
-                        //  double check_car_s = other_cars[i][5];
-                        //   std::cout << "checking car id " << i << " on lane " << check_car_lane << " dist to ego car " << check_car_s - car_s;
-                         //
-                        //  if ((check_car_lane == current_lane) && && (check_car_s - car_s < 100))
-                        //  {
-                         //
-                        //    if (check_car_s - car_s <0){
-                        //       std::cout << " (same lane) behind" << std::endl;
-                        //    }
-                        //    else{
-                        //       std::cout << " (same lane) in front" << std::endl;
-                        //    }
-                        //   cars_in_front_by_lane[check_car_lane]+=1;
-                        //  }
-                         //
-                         //
-                        //  if ((check_car_lane == potential_lanes[i]) && (check_car_s > car_s) && (check_car_s - car_s < 100))
-                        //  {
-                        //    if (check_car_s - car_s <0){
-                        //       std::cout << " behind" << std::endl;
-                        //    }
-                        //    else{
-                        //       std::cout << " in front" << std::endl;
-                        //    }
-                        //   cars_in_front_by_lane[check_car_lane]+=1;
-                        //  }
-
-                       }
-
-                     }
-
-
-
-
-
-
-                    // if (current_lane>0)
-                    // {
-                    //   current_lane=0;
-                    // }
-                    // check if you can change lane
-                  }
-                  else {
-                    //KEEP THE LANE at max speed or gradually increase speed if not at max
-                  }
-
+                    if (std::find(empty_lanes.begin(), empty_lanes.end(), potential_lanes[k]) !=empty_lanes.end() )
+                      {
+                        std::cout << "--found empty potential lane " << potential_lanes[k] << "\n";
+                        target_lane = potential_lanes[k];
+                        smooth_point_dist = 40;
+                        break;
+                      }
+                    else
+                      {
+                        cout<< "--potential lane" << potential_lanes[k] << " is FULL \n";
+                        target_lane == current_lane;
+                      }
                 }
+              }
+
+
+            if ( (current_lane!=target_lane) && (target_lane!=-1) && enough_space(other_cars, target_lane, car_s) )
+              {
+                current_lane = target_lane;
+                std:: cout << "Changing LANE to " << target_lane << std::endl;
+              }
+
+            else{
+                current_lane=current_lane;
             }
-            if (too_close)
+
+
+            std::cout << " Speed control \n\n" ;
+            std::cout << "current vel " << car_speed << " target_velocity " << target_velocity << std::endl;
+
+            if (too_close==true)
                 {
-                  std:: cout << "potential lane size " << potential_lanes.size() << std::endl;
-                  for (int k=0; k < potential_lanes.size(); k++){
-                    std::cout << "pot lanes " << potential_lanes[k] << "\n";
-                  }
-                  std::cout << std::endl;
 
-                  for (int k=0; k < potential_lanes.size(); k++){
-                    std::cout <<"tested lane " << potential_lanes[k] << " how many cars " << cars_in_front_by_lane[potential_lanes[k]] << std::endl;
-                    if (cars_in_front_by_lane[potential_lanes[k]] == 0)
-                    {
-                      current_lane = potential_lanes[k];
-                       std::cout << "chosen lane "  << potential_lanes[k] << "\n";
-                      break;
-                    }
-                  }
-                  target_velocity -= 0.448; //slow down by 5meters
+                  // small PID controller for speedCTE = robot.y
 
+                  // float diff_SPEED = car_speed - previous_target_velocity;
+                  // float speed_error = target_velocity - last_car_speed;
+                  // std:: cout << "last car speed " << last_car_speed << " diff speed " << diff_SPEED << " speed_error " << speed_error << std::endl;
+                  // float tau_p = 0.11;
+                  // float tau_d = 1.5;
+                  //
+                  // float PID_speed = tau_p * speed_error + tau_d * diff_SPEED;
+                  // std:: cout << "pid speed " << PID_speed << std::endl;
+                  //
+                  //
+                  // target_velocity = target_velocity - PID_speed;
+                  target_velocity -= 0.448;
                 }
-            else if (target_velocity < 49.5){
-              target_velocity += 0.448;
+
+            else if ( (too_close==false) && (target_velocity < 49.5) ){
+              std:: cout << "Speed up" << std::endl;
+              target_velocity += 0.448; //448 is fine
             }
+
+
+            std::cout << " prev target velocity " << previous_target_velocity << std::endl;
             std::cout << "target velocity " << target_velocity << std::endl;
 
+            // std:: cout << "############# End ################" << "\n";
 
 
 
@@ -481,7 +586,12 @@ int main() {
 
             // "continuity points"
 
-            if (prev_path_size < 2)
+            if (prev_path_size >0)
+            {
+              car_s = end_path_s;
+            }
+
+            if ( (prev_path_size < 2) )  //  || (too_close==true)dont use old point when changing speed
             {
                 double prev_car_x = car_x - cos(car_yaw);
                 double prev_car_y = car_y - sin(car_yaw);
