@@ -423,11 +423,20 @@ int main() {
 		        std::cout << "carx " << car_x << "cary " << car_y << std::endl;
 
           	// Previous path data given to the Planner
-          	auto previous_path_x = j[1]["previous_path_x"];
-          	auto previous_path_y = j[1]["previous_path_y"];
+          	//auto previous_path_x = j[1]["previous_path_x"];
+          	//auto previous_path_y = j[1]["previous_path_y"];
+            vector <float> previous_path_x;
+            vector <float> previous_path_y;
+
+            for (int i=0; i<j[1]["previous_path_x"].size(); i++){
+                previous_path_x.push_back(j[1]["previous_path_x"][i]);
+                previous_path_y.push_back(j[1]["previous_path_y"][i]);
+            }
+            int prev_path_size = previous_path_x.size();
           	// Previous path's end s and d values
           	double end_path_s = j[1]["end_path_s"];
           	double end_path_d = j[1]["end_path_d"];
+
 
           	// Sensor Fusion Data, a list of all other cars on the same side of the road.
             std::cout <<"number of visible cars " << j[1]["sensor_fusion"].size() << std::endl;
@@ -494,7 +503,7 @@ int main() {
             double ref_car_x = car_x;
             double ref_car_y = car_y;
             double ref_car_yaw = deg2rad(car_yaw);
-            int prev_path_size = previous_path_x.size();
+
             int number_of_cars = other_cars.size();
             int minimum_distance = 30;
             int visible_distance = 100;
@@ -540,6 +549,8 @@ int main() {
 
             // long dist check
             bool change_for_empty=false;
+            bool change_for_faster=false;
+
             int selected_empty_lane;
 
             if ( (dist_to_last > 0) && (dist_to_last > minimum_distance) && (dist_to_last < visible_distance)){
@@ -555,7 +566,7 @@ int main() {
                         std::cout << "found empty potential lane " << potential_lanes[k] << "\n";
                         selected_empty_lane = potential_lanes[k];
                         smooth_point_dist = 60;
-                        change_for_empty=false; //should be true
+                        change_for_empty=true; //should be true
                         break;
                       }
                     else
@@ -569,7 +580,7 @@ int main() {
 
 
             // short dist check
-            else if ( (dist_to_last > 0) && (dist_to_last < minimum_distance )) {
+            else if ( (dist_to_last > 0) && (dist_to_last < 30 )) {
                     //target_velocity = 29.5;
                 cout << "Close range check" << std::endl;
                 std::cout << "too close \n";
@@ -586,7 +597,7 @@ int main() {
                         std::cout << "--found empty potential lane " << potential_lanes[k] << "\n";
                         selected_empty_lane = potential_lanes[k];
                         smooth_point_dist = 40;
-                        change_for_empty=false; // should be true
+                        change_for_empty=true; // should be true
                         break;
                       }
                     else
@@ -615,16 +626,18 @@ int main() {
                       {
                         std::cout << "--found faster potential lane " << potential_lanes[k] << "\n";
                         target_lane = potential_lanes[k];
-                        smooth_point_dist = 40;
+                        smooth_point_dist = 30;
+                        change_for_faster=true;
                         break;
                       }
                       else{
                         cout<< "--potential lane" << potential_lanes[k] << " is not that faster or even slower \n";
                         target_lane == current_lane;
+                        change_for_faster=false;
                       }
                 }
               }
-
+            //target_lane = current_lane;   // for testing PID - remove later
 
             if ( (current_lane!=target_lane) && (target_lane!=-1) && enough_space(other_cars, target_lane, car_s) )
               {
@@ -640,42 +653,64 @@ int main() {
             std::cout << " Speed control \n\n" ;
             std::cout << "current vel " << car_speed << " target_velocity " << target_velocity << std::endl;
             bool speed_change=false;
+            std:: cout << "dist to last" << dist_to_last << std::endl;
 
-            if (too_close==true)
+            if ( (dist_to_last >0 ) && (dist_to_last < 20) && ((car_speed-last_car_speed)>10) )
                 {
 
                   // small PID controller for speedCTE = robot.y
+                  //last car speed - speed of the car in front of me
+                  if (car_speed < target_velocity){
 
-                  // float diff_SPEED = car_speed - previous_target_velocity;
-                  // float speed_error = target_velocity - last_car_speed;
-                  // std:: cout << "last car speed " << last_car_speed << " diff speed " << diff_SPEED << " speed_error " << speed_error << std::endl;
-                  // float tau_p = 0.11;
-                  // float tau_d = 1.5;
-                  //
-                  // float PID_speed = tau_p * speed_error + tau_d * diff_SPEED;
-                  // std:: cout << "pid speed " << PID_speed << std::endl;
-                  //
-                  //
-                  // target_velocity = target_velocity - PID_speed;
-                  target_velocity -= 0.448;
+                  float p_speed_error = target_velocity - last_car_speed;
+                  float tau_p = 0.05;  // diff to last car speed
+
+                  float d_diff_SPEED = car_speed - previous_target_velocity;
+                  float tau_d = 0.45;  // rate of change
+
+                  std:: cout << "last car speed " << last_car_speed << " diff speed " << d_diff_SPEED << " speed_error " << p_speed_error << std::endl;
+
+                  float PID_speed = tau_p * p_speed_error + tau_d * d_diff_SPEED;
+                  std:: cout << "pid speed " << PID_speed << std::endl;
+
+
+                  target_velocity = target_velocity - PID_speed;
+                   //target_velocity -= 0.224;
                   speed_change = true;
+                  }
                 }
+            else if ( ( (dist_to_last==0) || ((dist_to_last > 20) && (dist_to_last < 70))) && (target_velocity < 49.5) || (car_speed <last_car_speed)   ){
 
-            else if ( (too_close==false) && (target_velocity < 49.5) ){
-              std:: cout << "Speed up" << std::endl;
-              target_velocity += 0.448; //448 is fine
-              speed_change = true;
+              //&& (target_velocity < last_car_speed)
+              std:: cout << "speed up gently";
+              target_velocity += 0.224;
             }
-            // remove old points when changing speed
-            // if (speed_change==true){
-            //   prev_path_size=0;
+            else if ( ((dist_to_last==0) || (dist_to_last > 70)) && (target_velocity < 49.5) ){
+              // speed up to max when on empty lane or when car ahead is at least 50m in front of me
+              std:: cout << "max speed up";
+              target_velocity += 0.448;
+            }
+
+            // manual speed up - works ok but a bit jerky
+            // else if ( (too_close==false) && (target_velocity < 49.5) ){
+            //   std:: cout << "Speed up" << std::endl;
+            //   target_velocity += 0.448; //448 is fine
+            //   std::cout << "debug";
+            //   speed_change = true;
+            //
             // }
 
             std::cout << " prev target velocity " << previous_target_velocity << std::endl;
             std::cout << "target velocity " << target_velocity << std::endl;
 
-            // std:: cout << "############# End ################" << "\n";
+            // how dynamically change the path when changing speed (drop old points)
+            // cannot be used when changing lanes (damages path) - probably will need to add "car status"
 
+            if ( (speed_change==true) && (prev_path_size>20) && (change_for_faster==false) && (change_for_empty==false) ){
+              previous_path_x.erase (previous_path_x.begin()+2,previous_path_x.begin()+prev_path_size);
+              previous_path_y.erase (previous_path_y.begin()+2,previous_path_y.begin()+prev_path_size);
+              prev_path_size=previous_path_x.size();
+            }
 
 
             /// ------ begin of spline points creation
@@ -772,11 +807,15 @@ int main() {
 
             // copy old points to the final points for continuity
             std:: cout << "prev path size " << prev_path_size << std::endl;
+            std:: cout << "old points ";
 
-            for (int i=0; i<prev_path_size; i++){
+            for (int i=0; i<(prev_path_size); i++){
               next_x_vals.push_back(previous_path_x[i]);
+              std::cout << previous_path_x[i] << " ";
               next_y_vals.push_back(previous_path_y[i]);
             }
+            std::cout << "\n";
+
 
 
             double target_x = 30; // probably will affect speed ####
@@ -787,8 +826,9 @@ int main() {
 
             double x_add_on = 0;
 
+            std:: cout << "new points :";
 
-            for (int i=1; i < trajectory_points_number-prev_path_size; i++){
+            for (int i=1; i < trajectory_points_number-(prev_path_size); i++){
               double converted_speed =  target_velocity/2.24;
 
               double N = (target_dist/(time_step*converted_speed)); // 2.24 is conversion to m/s from mph
@@ -810,9 +850,21 @@ int main() {
               x_point += ref_car_x;
               y_point += ref_car_y;
 
+
               next_x_vals.push_back(x_point);
+              std::cout << x_point << " ";
               next_y_vals.push_back(y_point);
             }
+            std::cout << "\n";
+
+            std::cout<< "whole path";
+
+            for (int i=0; i<(next_x_vals.size()); i++){
+              std::cout << next_x_vals[i] << " ";
+            }
+            std::cout << "\n";
+
+
 
             json msgJson;
           	// TODO: define a path made up of (x,y) points that the car will visit sequentially every .02 seconds
