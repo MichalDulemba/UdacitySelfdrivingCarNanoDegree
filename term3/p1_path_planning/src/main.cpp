@@ -339,10 +339,12 @@ vector <float> check_blocking_car_speeds(vector <vector <float>> other_cars, int
 }
 
 
-
-
-
-
+// TO BE DONE
+//vector <float> check_lane_space(vector <vector <float>> other_cars, int lane_quantity, float car_s, float car_speed)
+ // this could replace "find empty" - you would simply choose "most empty"
+// probably need to write better PID - slow down gently when approaching car
+// slow down sharper when closer and break harsh in "accident mode"
+// if lane clear or last car dist - far -> max speed
 
 
 int main() {
@@ -390,8 +392,9 @@ int main() {
   double target_velocity = starting_velocity; // iniate with 0 to avoid jerk at the start
   double previous_target_velocity = 0.0;
   int current_lane =1; // ### FIX SCOPE ###
+  float previous_last_dist=0;
 
-  h.onMessage([&target_velocity, &previous_target_velocity, &current_lane, &map_waypoints_x,&map_waypoints_y,&map_waypoints_s,&map_waypoints_dx,&map_waypoints_dy](uWS::WebSocket<uWS::SERVER> ws, char *data, size_t length,
+  h.onMessage([&previous_last_dist, &target_velocity, &previous_target_velocity, &current_lane, &map_waypoints_x,&map_waypoints_y,&map_waypoints_s,&map_waypoints_dx,&map_waypoints_dy](uWS::WebSocket<uWS::SERVER> ws, char *data, size_t length,
                      uWS::OpCode opCode) {
     // "42" at the start of the message means there's a websocket message event.
     // The 4 signifies a websocket message
@@ -547,11 +550,14 @@ int main() {
             }
             int target_lane=-1;
 
+            last_car_speed = last_car_speed * 2.24;
+
             // long dist check
             bool change_for_empty=false;
             bool change_for_faster=false;
 
             int selected_empty_lane;
+
 
             if ( (dist_to_last > 0) && (dist_to_last > minimum_distance) && (dist_to_last < visible_distance)){
                 cout << "Long range check" << std::endl;
@@ -637,7 +643,7 @@ int main() {
                       }
                 }
               }
-            //target_lane = current_lane;   // for testing PID - remove later
+          //  target_lane = current_lane;   // for testing PID - remove later
 
             if ( (current_lane!=target_lane) && (target_lane!=-1) && enough_space(other_cars, target_lane, car_s) )
               {
@@ -650,45 +656,112 @@ int main() {
             }
 
 
-            std::cout << " Speed control \n\n" ;
+	   std::cout << "\n \n ====== >   Speed control START \n" ;
             std::cout << "current vel " << car_speed << " target_velocity " << target_velocity << std::endl;
             bool speed_change=false;
-            std:: cout << "dist to last" << dist_to_last << std::endl;
+            std:: cout << "dist to last " << dist_to_last << std::endl;
+            std::cout << "last_car_speed " << last_car_speed << std::endl;
 
-            if ( (dist_to_last >0 ) && (dist_to_last < 20) && ((car_speed-last_car_speed)>10) )
+            float dist_change = previous_last_dist-dist_to_last;
+            float perfect_dist = 20;
+            float deviation_from_perfect_dist= perfect_dist - dist_to_last;
+
+            std::cout << "dist change " << dist_change << "dev from 20 " << deviation_from_perfect_dist;
+
+            if (dist_change > 0){
+              std::cout << " - getting closer" << std::endl;
+            }
+            else {
+              std::cout << " - getting further" << std::endl;
+            }
+
+            if ( (dist_to_last >0 ) && (dist_to_last < 40) && ((car_speed-last_car_speed)>10) )
                 {
 
                   // small PID controller for speedCTE = robot.y
                   //last car speed - speed of the car in front of me
-                  if (car_speed < target_velocity){
+                  //if (car_speed < target_velocity){
+                  //target_velocity -= 0.224;
 
                   float p_speed_error = target_velocity - last_car_speed;
-                  float tau_p = 0.05;  // diff to last car speed
+                  float tau_p = 0.01;  // diff to last car speed
 
                   float d_diff_SPEED = car_speed - previous_target_velocity;
-                  float tau_d = 0.45;  // rate of change
+                  float tau_d = 0;  // rate of change
 
                   std:: cout << "last car speed " << last_car_speed << " diff speed " << d_diff_SPEED << " speed_error " << p_speed_error << std::endl;
 
                   float PID_speed = tau_p * p_speed_error + tau_d * d_diff_SPEED;
-                  std:: cout << "pid speed " << PID_speed << std::endl;
+                  std:: cout << "\n pid 10 " << PID_speed << std::endl;
 
 
-                  target_velocity = target_velocity - PID_speed;
+                  target_velocity = car_speed - PID_speed;
                    //target_velocity -= 0.224;
                   speed_change = true;
-                  }
+
+                  previous_last_dist = dist_to_last;
+
+
+
+
+                        // float p_speed_error = target_velocity - last_car_speed;
+                        // float tau_p = 0.05;  // diff to last car speed
+                        //
+                        // float d_diff_SPEED = car_speed - previous_target_velocity;
+                        // float tau_d = 0.45;  // rate of change
+                        //
+                        // std:: cout << "last car speed " << last_car_speed << " diff speed " << d_diff_SPEED << " speed_error " << p_speed_error << std::endl;
+                        //
+                        // float PID_speed = tau_p * p_speed_error + tau_d * d_diff_SPEED;
+                        // std:: cout << "pid speed " << PID_speed << std::endl;
+                        //
+                        //
+                        // target_velocity = target_velocity - PID_speed;
+
+                  speed_change = true;
+                  //}
                 }
-            else if ( ( (dist_to_last==0) || ((dist_to_last > 20) && (dist_to_last < 70))) && (target_velocity < 49.5) || (car_speed <last_car_speed)   ){
+            else if ( (  ((dist_to_last > 10) && (dist_to_last < 40))) ){
 
               //&& (target_velocity < last_car_speed)
-              std:: cout << "speed up gently";
-              target_velocity += 0.224;
+              trajectory_points_number = 50;
+
+              //if (car_speed > target_velocity){
+                std:: cout << "car speed > target velocity so we need to slow down ";
+              //(dist_to_last==0) ||
+
+              float p_speed_error = car_speed - last_car_speed;
+              float tau_p = 0.003;  // diff to last car speed
+
+              float d_diff_SPEED = car_speed - previous_target_velocity;
+              float tau_d = 0;  // rate of change -0.02
+
+              float tau_distance=0; //-0.015-0.0185
+
+              std:: cout << "last car speed " << last_car_speed << " diff speed " << d_diff_SPEED << " speed_error " << p_speed_error << std::endl;
+              std::cout <<"distance correction " << tau_distance * deviation_from_perfect_dist;
+
+              float PID_speed = tau_p * p_speed_error + tau_d * d_diff_SPEED + tau_distance * deviation_from_perfect_dist;
+              std:: cout << "\n pid 20-70 speed " << PID_speed << std::endl;
+
+
+              target_velocity = car_speed - PID_speed; //car speed works OK
+               //target_velocity -= 0.224;
+              speed_change = true;
+
+              previous_last_dist = dist_to_last;
+              // }
+              // else{
+              //   target_velocity = previous_target_velocity;
+              // }
             }
-            else if ( ((dist_to_last==0) || (dist_to_last > 70)) && (target_velocity < 49.5) ){
+            else if ( ((dist_to_last==0) || (dist_to_last > 40) || (dist_to_last <0) ) && (target_velocity < 49.5) ){
               // speed up to max when on empty lane or when car ahead is at least 50m in front of me
-              std:: cout << "max speed up";
+              std:: cout << "\n max speed up";
               target_velocity += 0.448;
+            }
+            else {
+              cout << "\n keep the speed" << std::endl;
             }
 
             // manual speed up - works ok but a bit jerky
@@ -702,6 +775,10 @@ int main() {
 
             std::cout << " prev target velocity " << previous_target_velocity << std::endl;
             std::cout << "target velocity " << target_velocity << std::endl;
+            std::cout << " ====== >   Speed control END \n" ;
+
+
+
 
             // how dynamically change the path when changing speed (drop old points)
             // cannot be used when changing lanes (damages path) - probably will need to add "car status"
