@@ -1,0 +1,1 @@
+sudo nvidia-docker run -it -p 8888:8888 -v /media/michal/DawneF5/AI_NEURAL_NETWORKS_PYTHON_UDACITY/UDACITY_MY_CAR_NANO_DEGREE/UdacitySelfdrivingCarNanoDegree/term3/p2_semantic_segmentation:/newfolder -w /newfolder dulemba/tfcv2 bash

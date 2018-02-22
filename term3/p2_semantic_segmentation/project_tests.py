@@ -13,9 +13,20 @@ def test_safe(func):
     Isolate tests
     """
     def func_wrapper(*args):
+        red = "\033[0;31m"
+        reset_red = "\033[0m"
+        """
+            31m\          # Red
+            32m\]"        # Green
+            33m\]"       # Yellow
+            34m\]"         # Blue
+            35m\]"       # Purple
+            36m\]"         # Cyan
+            37m\]" # White
+        """
         with tf.Graph().as_default():
             result = func(*args)
-        print('Tests Passed')
+        print('Tests Passed ', red, func.__name__, reset_red)
         return result
 
     return func_wrapper

@@ -10,6 +10,8 @@ import tensorflow as tf
 from glob import glob
 from urllib.request import urlretrieve
 from tqdm import tqdm
+import pprint as pp
+import cv2
 
 
 class DLProgress(tqdm):
@@ -57,8 +59,42 @@ def maybe_download_pretrained_vgg(data_dir):
         # Remove zip file to save space
         os.remove(os.path.join(vgg_path, vgg_filename))
 
+def coin_drop():
+    return (1 if np.random.rand()>0.500 else 0 )
+
+def histogram_change(img):
+    out =[]
+    limg = np.array(img)
+    #plt.imshow(img)
+    #plt.show()
+    #print (type(img))
+    
+    lab= cv2.cvtColor(img, cv2.COLOR_BGR2LAB)
+    l  = lab[..., 0]
+    a, b = lab[...,1], lab[...,2]
+    
+    clahe = cv2.createCLAHE(clipLimit=1.0, tileGridSize=(8,8))
+    out = clahe.apply(l)
+ 
+    #plt.imshow(out)
+    #plt.show()
+    #print (type(out))
+    
+    limg[...,0] = out
+    limg[...,1] = a
+    limg[...,2] = b
+    
+    final_out = cv2.cvtColor(limg, cv2.COLOR_LAB2BGR)
+    
+    #plt.imshow(final_out)
+    #plt.show()
+    
+    return final_out
+
+
 
 def gen_batch_function(data_folder, image_shape):
+    print ("data folder", data_folder)
     """
     Generate function to create batches of training data
     :param data_folder: Path to folder that contains all the datasets
@@ -72,10 +108,15 @@ def gen_batch_function(data_folder, image_shape):
         :return: Batches of training data
         """
         image_paths = glob(os.path.join(data_folder, 'image_2', '*.png'))
+        print ("base images", len(image_paths))
+        #pp.pprint(image_paths)
+
         label_paths = {
             re.sub(r'_(lane|road)_', '_', os.path.basename(path)): path
             for path in glob(os.path.join(data_folder, 'gt_image_2', '*_road_*.png'))}
         background_color = np.array([255, 0, 0])
+        print ("ground truth images", len(label_paths))
+        #pp.pprint(label_paths)
 
         random.shuffle(image_paths)
         for batch_i in range(0, len(image_paths), batch_size):
@@ -86,10 +127,22 @@ def gen_batch_function(data_folder, image_shape):
 
                 image = scipy.misc.imresize(scipy.misc.imread(image_file), image_shape)
                 gt_image = scipy.misc.imresize(scipy.misc.imread(gt_image_file), image_shape)
+                
+                #add random horizonal flip
+                if coin_drop()==1:
+                   image = histogram_change(image)
 
                 gt_bg = np.all(gt_image == background_color, axis=2)
                 gt_bg = gt_bg.reshape(*gt_bg.shape, 1)
                 gt_image = np.concatenate((gt_bg, np.invert(gt_bg)), axis=2)
+
+                #image = np.array(image/255-0.5, dtype=np.float32)
+                #print("another image", image.shape)
+
+                if coin_drop()==1:
+                      image = np.fliplr(image)
+                      gt_image = np.fliplr(gt_image)
+
 
                 images.append(image)
                 gt_images.append(gt_image)
@@ -111,6 +164,8 @@ def gen_test_output(sess, logits, keep_prob, image_pl, data_folder, image_shape)
     """
     for image_file in glob(os.path.join(data_folder, 'image_2', '*.png')):
         image = scipy.misc.imresize(scipy.misc.imread(image_file), image_shape)
+        image = histogram_change(image)
+        #image = np.array(image/255-0.5, dtype=np.float32)
 
         im_softmax = sess.run(
             [tf.nn.softmax(logits)],
@@ -125,16 +180,18 @@ def gen_test_output(sess, logits, keep_prob, image_pl, data_folder, image_shape)
         yield os.path.basename(image_file), np.array(street_im)
 
 
-def save_inference_samples(runs_dir, data_dir, sess, image_shape, logits, keep_prob, input_image):
+def save_inference_samples(runs_dir, data_dir, examples_dir, sess, image_shape, logits, keep_prob, input_image):
     # Make folder for current run
-    output_dir = os.path.join(runs_dir, str(time.time()))
+    output_dir = os.path.join(runs_dir, str(time.time())) + "_"+ examples_dir.split("/")[1]
     if os.path.exists(output_dir):
         shutil.rmtree(output_dir)
     os.makedirs(output_dir)
 
     # Run NN on test images and save them to HD
     print('Training Finished. Saving test images to: {}'.format(output_dir))
+    source = os.path.join(data_dir, examples_dir)
+    #print(os.listdir(source))
     image_outputs = gen_test_output(
-        sess, logits, keep_prob, input_image, os.path.join(data_dir, 'data_road/testing'), image_shape)
+        sess, logits, keep_prob, input_image, source , image_shape)
     for name, image in image_outputs:
         scipy.misc.imsave(os.path.join(output_dir, name), image)

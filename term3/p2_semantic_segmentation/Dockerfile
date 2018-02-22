@@ -1,0 +1,53 @@
+FROM gcr.io/tensorflow/tensorflow:latest-gpu-py3
+
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends \
+        build-essential \
+        cmake \
+        pkg-config \
+        libjpeg8-dev \
+        libtiff5-dev \
+        libjasper-dev \
+        libpng12-dev \
+        libavcodec-dev \
+        libavformat-dev \
+        libswscale-dev \
+        libv4l-dev \
+        libxvidcore-dev \
+        libx264-dev \
+        libgtk-3-dev \
+        libatlas-base-dev \
+        gfortran \
+        python3-dev \
+        python3-numpy \
+	python3-skimage \
+	python3-matplotlib \
+	python3-pandas \
+	python3-sklearn \
+	python3-scipy \
+        wget \
+        && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
+
+RUN python3 -m pip install tqdm moviepy imageio
+
+RUN mkdir -p /tmp && \
+    cd /tmp && \
+    wget -O opencv.zip https://github.com/opencv/opencv/archive/3.2.0.zip && \
+    unzip opencv.zip && \
+    mkdir opencv-3.2.0/build && \
+    cd opencv-3.2.0/build && \
+    cmake -D CMAKE_BUILD_TYPE=RELEASE \
+        -D CMAKE_INSTALL_PREFIX=/usr/local \
+        -D PYTHON3_EXECUTABLE=/usr/bin/python3 \
+        -D WITH_CUDA=ON \
+        -D CUDA_FAST_MATH=1 \
+        -D WITH_CUBLAS=1 \
+        -D CMAKE_LIBRARY_PATH=/usr/local/cuda/lib64/stubs \
+        .. && \
+    make -j$(nproc) && \
+    make install && \
+    ldconfig && \
+    cd /tmp && \
+    rm -rf opencv-3.2.0 opencv.zip
