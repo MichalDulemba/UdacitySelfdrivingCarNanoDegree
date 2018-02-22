@@ -68,11 +68,7 @@ At first I only used changing (Keep/dropout rate) as a way of preventing overfit
 
 ### Sample images
 
-You can see images in three notebooks (clone repo to see them properly):  
-Inference images - part 1.ipynb   
-Inference images - part 2.ipynb   
-Inference images - part 3.ipynb  
-and in "Latest inference" folder.
+You can see output images in "Latest inference" folder.
 
 ![Sample image 1](latest_inference/um_000014.png)  
 ![Sample image 1](latest_inference/um_000032.png)  
