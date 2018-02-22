@@ -65,7 +65,7 @@ At first I only used changing (Keep/dropout rate) as a way of preventing overfit
 
 ### Sample images
 
-You can see images in three notebooks:
+You can see images in three notebooks:  
 Inference images - part 1.ipynb   
 Inference images - part 2.ipynb   
 Inference images - part 3.ipynb  
