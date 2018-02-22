@@ -5,9 +5,11 @@
 For this project my main task was creating Fully Connected Convolutional neural network. 
 Instead of last layers being fully connected like in classification cnns, here we want to "label" every pixel of the source image.
 
+### Unit tests
+In the first stage of working on this project - having unit tests, helped to check if everything works properly. But after a while, i had some ideas to change core of "main" file, and had to move/disable them. 
+
 ### Environment
-I used docker with tensorflow and opencv to avoid any dependency issues. You can build it from scratch using Dockerfile or pull from docker hub using 
-"docker pull dulemba/tfcv2"
+I used docker with tensorflow and opencv to avoid any dependency issues. You can build it from scratch using Dockerfile or pull from docker hub using "docker pull dulemba/tfcv2"
 
 ### Data 
 Data is based on Kitty dataset and it is a really small sample (200-300 examples depending on the split training/validation).
@@ -17,13 +19,15 @@ Images were normalized using standard x/255-0.5 formula. Later I removed this st
 
 ### Model
 First I load pretrained layers from VGG16, then passed them to "Layers" function. 
-Next i add 1x1 layer 
-  	conv1x1 = tf.layers.conv2d(inputs=vgg_layer7_out, filters=512, kernel_size=(1,1), strides=(1,1), padding="SAME")
+Next i add 1x1 layer    
+
+    conv1x1 = tf.layers.conv2d(inputs=vgg_layer7_out, filters=512, kernel_size=(1,1), strides=(1,1), padding="SAME")
 
 The main difference here was that I didn't kill all my data by going here into 2 categories, I decided to use 512 layers to help creating skip connections.
 
 
 And now comes the decoder part (with skip connections):
+
     up1 = tf.layers.conv2d_transpose(conv1x1, 512, kernel_size=(4,4), strides=(2,2), padding="SAME" )
     up1_and_vgg4 =tf.add(up1, 0.01*vgg_layer4_out)
 
@@ -33,13 +37,13 @@ And now comes the decoder part (with skip connections):
     last_layer = tf.layers.conv2d_transpose(up2_and_vgg3, num_classes, kernel_size=(16,16), strides=(8,8), padding="SAME" )
 
 To print layer sizes I also add tf.print nodes with the same names as layers.
-Later i also tested idea of adding L2 regularizer.
+Later i also tested idea of adding L2 regularizer but it made results worse, so I decided to use "pure" crossentropy loss.
 
 
 
 ### Hyperparameters
 #### Batch size
-Tested 16 and 8 - 8 worked better for me.
+Tested 16 and 8 and 8 worked better for me.
 
 #### Epochs
 I started with 20 and after adding a little bit of data augmentation I increased epochs to 40.
@@ -47,12 +51,14 @@ I started with 20 and after adding a little bit of data augmentation I increased
 #### Scalling
 In skip layer I tested multiple scalling factors and 0.01 for first skip connection and 0.001 for the second one were working best.
 
+#### Kernel Initialiser
+I used truncated_normal_initialiser with stddev=0.01
+
 
 ### Validation
 There wasn't any validation data, so i decided to write short script to "extract" some images with corresponding ground truth to be able to check my ideas for improvement. I moved random 48 images from training to validation. Now i probably shouldn't "cheat" and check validation in every run, because that could "skew" model to make it work on validation set. But it seemed like reasonable thing to do, when having so little data. 
-Later I also added printing validation set with green overlay. 
+Later I also added printing validation set with green overlay to see predicted classes. 
 
-!!!!!!! When I finished working on model/code I trained it on full training data, then run inference on testing data.
 
 ### Overfitting
 After initial model creation, I added showing loss calculations after each batch - this allowed me to see if my ideas are improving results or not. 
@@ -62,15 +68,17 @@ At first I only used changing (Keep/dropout rate) as a way of preventing overfit
 
 ### Sample images
 
-link to all images - 
+You can see images in three notebooks (clone repo to see them properly):  
+Inference images - part 1.ipynb   
+Inference images - part 2.ipynb   
+Inference images - part 3.ipynb  
+and in "Latest inference" folder.
 
-### Video samples
+![Sample image 1](latest_inference/um_000014.png)  
+![Sample image 1](latest_inference/um_000032.png)  
+![Sample image 1](latest_inference/umm_000003.png)  
 
-link to vimeo - 
 
 ### Ideas for improvement
 Main thing that could help here would be much larger dataset. Of course more data augmentations (shifts, small rotations could also help). Also I'm not sure if using VGG is the best way to go. Most of experiments are now run using Resnet variations because it gives better results and is usually faster than vgg (with dense layers). 
 
-
-
- 
