@@ -5,6 +5,9 @@
 For this project my main task was creating Fully Connected Convolutional neural network. 
 Instead of last layers being fully connected like in classification cnns, here we want to "label" every pixel of the source image.
 
+### Unit tests
+In the first stage of working on this project - having unit tests, helped to check if everything works properly. But after a while, i had some ideas to change core of "main" file, and had to move/disable them. 
+
 ### Environment
 I used docker with tensorflow and opencv to avoid any dependency issues. You can build it from scratch using Dockerfile or pull from docker hub using "docker pull dulemba/tfcv2"
 
@@ -65,16 +68,17 @@ At first I only used changing (Keep/dropout rate) as a way of preventing overfit
 
 ### Sample images
 
-You can see images in three notebooks:  
+You can see images in three notebooks (clone repo to see them properly):  
 Inference images - part 1.ipynb   
 Inference images - part 2.ipynb   
 Inference images - part 3.ipynb  
 and in "Latest inference" folder.
 
+![Sample image 1](latest_inference/um_000014.png)  
+![Sample image 1](latest_inference/um_000032.png)  
+![Sample image 1](latest_inference/umm_000003.png)  
+
 
 ### Ideas for improvement
 Main thing that could help here would be much larger dataset. Of course more data augmentations (shifts, small rotations could also help). Also I'm not sure if using VGG is the best way to go. Most of experiments are now run using Resnet variations because it gives better results and is usually faster than vgg (with dense layers). 
 
-
-
- 
