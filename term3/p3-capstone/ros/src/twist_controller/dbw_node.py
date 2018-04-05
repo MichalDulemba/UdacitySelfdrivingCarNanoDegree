@@ -109,7 +109,7 @@ class DBWNode(object):
                                                                     target_angular_velocity,
                                                                     current_linear_velocity, duration_in_seconds)
 
-                if not self.is_dbw_enabled or abs(self.current_velocity.twist.linear.x) < 1e-5 and abs(self.proposed_velocity.twist.linear.x) < 1e-5:
+                if not self.is_dbw_enabled:
                     # rospy.logwarn('reset controller (DBW {}, current veolocity {}, proposed velocity {})'.format(
                     #     self.is_dbw_enabled, self.current_velocity.twist.linear.x, self.proposed_velocity.twist.linear.x))
                     self.controller.reset()

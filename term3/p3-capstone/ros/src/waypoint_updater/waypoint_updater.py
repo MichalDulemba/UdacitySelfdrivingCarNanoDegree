@@ -7,6 +7,8 @@ from styx_msgs.msg import Lane, Waypoint
 import math
 import tf
 
+from std_msgs.msg import Int32
+
 '''
 This node will publish waypoints from the car's current position to some `x` distance ahead.
 
@@ -23,25 +25,29 @@ TODO (for Yousuf and Aaron): Stopline location for each traffic light.
 '''
 
 LOOKAHEAD_WPS = 200 # Number of waypoints we will publish. You can change this number
-
+MAX_DECEL = 1.0
+STOPLINE_CORRECTION = 2.0
 
 class WaypointUpdater(object):
     def __init__(self):
-        rospy.init_node('waypoint_updater') #, log_level=rospy.DEBUG)
+        rospy.init_node('waypoint_updater')
 
-        rospy.Subscriber('/current_pose', PoseStamped, self.pose_cb)
-        rospy.Subscriber('/base_waypoints', Lane, self.waypoints_cb)
+        sub1 = rospy.Subscriber('/current_pose', PoseStamped, self.pose_cb)
+        sub2 = rospy.Subscriber('/base_waypoints', Lane, self.waypoints_cb)
 
         # TODO: Add a subscriber for /traffic_waypoint and /obstacle_waypoint below
-
+        sub3 = rospy.Subscriber('/traffic_waypoint', Int32, self.traffic_cb)
+        sub5 = rospy.Subscriber('/obstacle_waypoint', Lane, self.obstacle_cb)
 
         self.final_waypoints_pub = rospy.Publisher('final_waypoints', Lane, queue_size=1)
 
         # Add other member variables you need below
         self.base_waypoints = None
         self.current_pose = None
+        self.tl_red_wp = -1
 
         rospy.loginfo("Starting WaypointUpdater...")
+
         # 10 Hz frequency
         rate = rospy.Rate(10)
         # Loop until ROS master is running
@@ -70,14 +76,15 @@ class WaypointUpdater(object):
         pose = self.current_pose.pose
         next_wp_idx = self.next_waypoint(pose)
         rospy.logdebug("Next WP Index {}".format(next_wp_idx))
+        farthest_idx = next_wp_idx + LOOKAHEAD_WPS
                        
         num_base_points = len(self.base_waypoints)
+        waypoints = [self.base_waypoints[p] for p in [idx % num_base_points for idx in range(next_wp_idx, farthest_idx)]]
         
-        final_waypoints = [self.base_waypoints[p] for p in [idx % num_base_points for idx in range(next_wp_idx, next_wp_idx + LOOKAHEAD_WPS)]]
-        # Temporary set constant speed
-        speed = 2.78 #ms -> 10kph
-        for idx in range(len(final_waypoints)):
-            self.set_waypoint_velocity(final_waypoints, idx, speed)
+        if (-1 == self.tl_red_wp) or (self.tl_red_wp >= farthest_idx):
+            final_waypoints = waypoints
+        else:
+            final_waypoints = self.decelerate_waypoints(waypoints, next_wp_idx)
             
         lane.waypoints = final_waypoints
         
@@ -86,6 +93,26 @@ class WaypointUpdater(object):
         # Publish 
         self.final_waypoints_pub.publish(lane)
     
+    
+    ''' 
+    Decelerate a speed before traffic light
+    '''
+    def decelerate_waypoints(self, waypoints, closest_idx):
+        result = []
+        stop_idx = max(self.tl_red_wp - closest_idx - 2, 0)
+        for i, wp in enumerate(waypoints):
+            p = Waypoint()
+            p.pose = wp.pose
+            
+            dist = max(0.0, self.distance(waypoints, i, stop_idx) - STOPLINE_CORRECTION)
+            velocity = math.sqrt(2 * MAX_DECEL * dist)
+            if velocity < 1.:
+                velocity = 0.
+            p.twist.twist.linear.x = min(velocity, wp.twist.twist.linear.x)
+            result.append(p)
+        
+        return result    
+
     ''' 
     Find the closest waypoint index to position
     '''
@@ -139,11 +166,15 @@ class WaypointUpdater(object):
 
     def traffic_cb(self, msg):
         # TODO: Callback for /traffic_waypoint message. Implement
-        pass
+        should_publish_updated_wps = (self.tl_red_wp != self.tl_red_wp)
+        self.tl_red_wp = msg.data
+        
+        if (should_publish_updated_wps): 
+            self.publish_next_waypoints()
 
     def obstacle_cb(self, msg):
         # TODO: Callback for /obstacle_waypoint message. We will implement it later
-        pass
+        self.publish_next_waypoints()
 
     def get_waypoint_velocity(self, waypoint):
         return waypoint.twist.twist.linear.x
